@@ -1,0 +1,11 @@
+How to (probably) Merge into Current Sprint Branch:
+
+0: git checkout sprint_# then git pull to keep everything updated
+
+1: git checkout to your development branch (if not already there)
+2: git add . (if any new files are present)
+3: git commit -a -m "some message"
+4: git push -u origin <dev branch name>
+5: git checkout sprint_#
+6: git merge <dev branch name> (to merge dev branch into sprint_#)
+7: git push -u origin spring_#
