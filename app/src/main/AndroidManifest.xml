@@ -17,7 +17,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".ManualInputActivity" />
+<<<<<<< HEAD
         <activity android:name=".BudgetDetailsBarGraph"></activity>
+=======
+        <activity android:name=".MainBudgetScreen"></activity>
+>>>>>>> Main_Budg_Sceen_UI
     </application>
 
 </manifest>
