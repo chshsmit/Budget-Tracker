@@ -14,6 +14,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import java.util.ArrayList;
 import java.util.Random;
 
+//test comment for git merge
 public class BudgetDetailsBarGraph extends AppCompatActivity {
     BarChart barChart;
     ArrayList<String> dates;
