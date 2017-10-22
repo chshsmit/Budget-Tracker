@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Budget Tracker</string>
+<<<<<<< HEAD
     <string name="finish">Finish</string>
     <string name="add">Add</string>
     <string name="zero">$0.00</string>
+=======
+    <string name="add">Add</string>
+    <string name="finish">Finish</string>
+    <string name="zero_dollars">$0.00</string>
+>>>>>>> manually_add_item_UI
 </resources>
