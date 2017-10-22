@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Budget Tracker</string>
+    <string name="Edit_button">Edit/Crop</string>
+    <string name="Take_Photo">Photo</string>
 </resources>
