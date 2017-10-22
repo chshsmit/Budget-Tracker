@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context="christophershae.budgettracker.BudgetDetailsBarGraph">
 
+    <com.github.mikephil.charting.charts.BarChart
+        android:layout_width="368dp"
+        android:layout_height="400dp"
+        android:id="@+id/bargraph"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:ignore="MissingConstraints"></com.github.mikephil.charting.charts.BarChart>
 </android.support.constraint.ConstraintLayout>
