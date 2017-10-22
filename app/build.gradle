@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+<<<<<<< HEAD
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -10,6 +11,18 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+=======
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+    defaultConfig {
+        applicationId "com.example.darwinli.mainscreensettings"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+>>>>>>> main+settingUI
     }
     buildTypes {
         release {
@@ -24,8 +37,15 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+<<<<<<< HEAD
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+=======
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:design:26.+'
+    compile 'com.android.support:support-v4:26.+'
+    compile 'com.android.support:support-vector-drawable:26.+'
+>>>>>>> main+settingUI
     testCompile 'junit:junit:4.12'
 }
