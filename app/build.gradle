@@ -1,7 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 286b1e3b8c71f8418890916999e7b30a88aebfd7
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -11,8 +14,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+<<<<<<< HEAD
     }
 
+=======
+>>>>>>> 286b1e3b8c71f8418890916999e7b30a88aebfd7
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
     defaultConfig {
@@ -44,6 +50,11 @@ dependencies {
     compile 'com.android.support:design:26.+'
     compile 'com.android.support:support-v4:26.+'
     compile 'com.android.support:support-vector-drawable:26.+'
+<<<<<<< HEAD
 
     testCompile 'junit:junit:4.12'
 }
+=======
+    testCompile 'junit:junit:4.12'
+}}
+>>>>>>> 286b1e3b8c71f8418890916999e7b30a88aebfd7
