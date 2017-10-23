@@ -15,10 +15,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-<<<<<<< HEAD
         maven { url "https://jitpack.io" }
-=======
->>>>>>> main+settingUI
+
     }
 }
 

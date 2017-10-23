@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< HEAD
+
     package="christophershae.budgettracker">
-=======
-    package="com.example.darwinli.mainscreensettings">
+
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
->>>>>>> main+settingUI
+
 
     <application
         android:allowBackup="true"
@@ -18,35 +17,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
-        <activity android:name=".MainActivity">
-=======
+
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name">
->>>>>>> main+settingUI
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
+
         <activity android:name=".ManualInputActivity" />
-<<<<<<< HEAD
+
         <activity android:name=".Camera_Interface"></activity>
-=======
-<<<<<<< HEAD
+
         <activity android:name=".BudgetDetailsBarGraph"></activity>
-=======
+
         <activity android:name=".MainBudgetScreen"></activity>
->>>>>>> Main_Budg_Sceen_UI
->>>>>>> 09bc82c0de9a5c7b9f093b65d076f999e5127b29
-=======
+
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
->>>>>>> main+settingUI
+
     </application>
 
 </manifest>

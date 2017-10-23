@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.darwinli.mainscreensettings.LoginActivity">
+    tools:context="christophershae.budgettracker.LoginActivity">
 
     <!-- Login progress -->
     <ProgressBar
@@ -19,7 +19,7 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <ScrollView
+
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -79,7 +79,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/email_sign_out_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,5 +88,4 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-    </ScrollView>
 </LinearLayout>

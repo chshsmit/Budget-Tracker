@@ -58,7 +58,7 @@
         android:layout_marginBottom="23dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/zero"
+        android:text="@string/zero_dollars"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/categoryListView"
         tools:layout_editor_absoluteX="242dp" />

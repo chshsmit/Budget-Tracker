@@ -1,4 +1,4 @@
-package com.example.darwinli.mainscreensettings;
+package christophershae.budgettracker;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

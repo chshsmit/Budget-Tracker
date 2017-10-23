@@ -1,28 +1,19 @@
 <resources>
-<<<<<<< HEAD
+
     <string name="app_name">Budget Tracker</string>
-<<<<<<< HEAD
+
     <string name="Edit_button">Edit/Crop</string>
     <string name="Take_Photo">Photo</string>
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <string name="finish">Finish</string>
-    <string name="add">Add</string>
-    <string name="zero">$0.00</string>
-=======
+
+
     <string name="add">Add</string>
     <string name="finish">Finish</string>
     <string name="zero_dollars">$0.00</string>
->>>>>>> manually_add_item_UI
-=======
+
     <string name="plus_sign">+</string>
     <string name="settings">Settings</string>
     <string name="picture">Scan</string>
->>>>>>> Main_Budg_Sceen_UI
->>>>>>> 09bc82c0de9a5c7b9f093b65d076f999e5127b29
-=======
-    <string name="app_name">main screen + settings</string>
+
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -109,5 +100,5 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
->>>>>>> main+settingUI
+
 </resources>
