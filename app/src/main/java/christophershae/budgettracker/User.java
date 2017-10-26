@@ -17,6 +17,7 @@ public class User {
     public String email;
     private String pass;
     private Map<String, ArrayList> items;
+    public ArrayList currentWeek;
     //maybe more
 
 
