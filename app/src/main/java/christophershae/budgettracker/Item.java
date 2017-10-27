@@ -47,4 +47,8 @@ public class Item {
     }
 
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/Firebase+UserClass
