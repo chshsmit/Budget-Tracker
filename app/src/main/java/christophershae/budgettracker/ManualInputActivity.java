@@ -103,6 +103,7 @@ public class ManualInputActivity extends AppCompatActivity {
     //Global variables
     private MyAdapter aa;
     private ArrayList<ListElement> currentItemsAddedToList;
+    User testUser = new User("Chris");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,9 +133,21 @@ public class ManualInputActivity extends AppCompatActivity {
         newItem.setPrice(Float.valueOf(newItemPrice));
         newItem.setCategory("Generic");
 
+        testUser.currentWeek.add(newItem);
+        printOutCurrentWeek(testUser);
+
         currentItemsAddedToList.add(new ListElement(newItemName, newItemPrice));
         aa.notifyDataSetChanged();
     }
+
+
+    public void printOutCurrentWeek(User user){
+        for(Item item: user.currentWeek){
+            System.out.println("You bought "+item.name+" and it cost" +item.price);
+        }
+    }
+
+
 
 
 

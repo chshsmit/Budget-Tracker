@@ -17,7 +17,7 @@ public class User {
     public String email;
     private String pass;
     private Map<String, ArrayList> items;
-    public ArrayList currentWeek;
+    public ArrayList<Item> currentWeek = new ArrayList<>();
     //maybe more
 
 
@@ -25,11 +25,13 @@ public class User {
     // Default constructor required for calls to
     // DataSnapshot.getValue(User.class)
     public User() {
+
     }
 
-    public User(String name, String email) {
+
+    public User(String name) {
         this.name = name;
-        this.email = email;
+        //this.email = email;
         items = new HashMap();
         ArrayList firstweek = new ArrayList();
     }

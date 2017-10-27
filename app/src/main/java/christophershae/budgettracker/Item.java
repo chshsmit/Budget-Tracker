@@ -23,7 +23,7 @@ public class Item {
     //---------------------------------------------------------------------------------------------
 
     public void setPrice(double price){
-        this.price = price;
+        this.price = Math.round(price *100D) / 100;
     }
 
     public void setCategory(String category){
@@ -47,8 +47,6 @@ public class Item {
     }
 
 
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> origin/Firebase+UserClass
+
