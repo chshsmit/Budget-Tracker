@@ -29,6 +29,7 @@ public class ManualInputActivity extends AppCompatActivity {
     //This code handles the generation of the list view
     //----------------------------------------------------------------------------------------
 
+    //Creating a class for a single list element
     private class ListElement {
         ListElement() {};
 
@@ -42,12 +43,13 @@ public class ManualInputActivity extends AppCompatActivity {
     }
 
 
-
+    //Private adapter class to adapt the listview to the arraylist
     private class MyAdapter extends ArrayAdapter<ListElement> {
 
         int resource;
         Context context;
 
+        //Constructor
         public MyAdapter(Context _context, int _resource, List<ListElement> items) {
             super(_context, _resource, items);
             resource = _resource;
@@ -98,6 +100,7 @@ public class ManualInputActivity extends AppCompatActivity {
         }
     }
 
+    //Global variables
     private MyAdapter aa;
     private ArrayList<ListElement> currentItemsAddedToList;
 
