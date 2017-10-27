@@ -23,6 +23,26 @@ import static java.security.AccessController.getContext;
 
 public class ManualInputActivity extends AppCompatActivity {
 
+    //----------------------------------------------------------------------------------------
+    //This is the onCreate method
+    //----------------------------------------------------------------------------------------
+
+    //Variables for the instantiation of the listview
+    private MyAdapter aa;
+    private ArrayList<ListElement> currentItemsAddedToList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_manual_input);
+
+        //Instantiating the adapter for the listview
+        currentItemsAddedToList = new ArrayList<ListElement>();
+        aa = new MyAdapter(this, R.layout.manually_input_list_element, currentItemsAddedToList);
+        ListView myListView = (ListView) findViewById(R.id.itemsAddedToBudgetAlready);
+        myListView.setAdapter(aa);
+        aa.notifyDataSetChanged();
+    }
 
 
     //----------------------------------------------------------------------------------------
@@ -100,21 +120,14 @@ public class ManualInputActivity extends AppCompatActivity {
         }
     }
 
+
+    //----------------------------------------------------------------------------------------
+    //This code creates a new item object and adds it to a user's current week arraylist
+    //----------------------------------------------------------------------------------------
+
     //Global variables
-    private MyAdapter aa;
-    private ArrayList<ListElement> currentItemsAddedToList;
     User testUser = new User("Chris");
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manual_input);
-        currentItemsAddedToList = new ArrayList<ListElement>();
-        aa = new MyAdapter(this, R.layout.manually_input_list_element, currentItemsAddedToList);
-        ListView myListView = (ListView) findViewById(R.id.itemsAddedToBudgetAlready);
-        myListView.setAdapter(aa);
-        aa.notifyDataSetChanged();
-    }
 
     //Global variables for the item price and name
     public String newItemName;
