@@ -116,31 +116,37 @@ public class ManualInputActivity extends AppCompatActivity {
         aa.notifyDataSetChanged();
     }
 
-
+    //Global variables for the item price and name
     public String newItemName;
     public String newItemPrice;
 
 
+    //This function executes when the user presses the add button
     public void createNewItem(View v){
+        //Instantiating the edit text views
         EditText nameEntry = (EditText) findViewById(R.id.itemNameEntry);
         EditText priceEntry = (EditText) findViewById(R.id.itemPriceEntry);
 
+        //Getting the user input from the edit texts
         newItemPrice = priceEntry.getText().toString();
         newItemName = nameEntry.getText().toString();
 
-
+        //Creating a new Item object and setting a generic category and it's price
         Item newItem = new Item(newItemName);
         newItem.setPrice(Float.valueOf(newItemPrice));
         newItem.setCategory("Generic");
 
+        //Adding the new item to the test user's current week array list
         testUser.currentWeek.add(newItem);
-        printOutCurrentWeek(testUser);
+        printOutCurrentWeek(testUser);          //This is just a debugging function
 
+        //This adds the item to the list view
         currentItemsAddedToList.add(new ListElement(newItemName, newItemPrice));
         aa.notifyDataSetChanged();
     }
 
 
+    //Debugging function to make sure the items were added to the users arraylist correctly
     public void printOutCurrentWeek(User user){
         for(Item item: user.currentWeek){
             System.out.println("You bought "+item.name+" and it cost" +item.price);
