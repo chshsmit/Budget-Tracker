@@ -2,11 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
     package="christophershae.budgettracker">
-<<<<<<< HEAD
-
-=======
     package="com.example.darwinli.mainscreensettings">
->>>>>>> 286b1e3b8c71f8418890916999e7b30a88aebfd7
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -21,11 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
 
-=======
-        <activity android:name=".MainActivity">
->>>>>>> 286b1e3b8c71f8418890916999e7b30a88aebfd7
+        <activity android:name=".MainActivity"/>
+
 
         <activity
             android:name=".LoginActivity"
@@ -40,16 +34,33 @@
 
         <activity android:name=".ManualInputActivity" />
 
-        <activity android:name=".Camera_Interface"></activity>
 
-        <activity android:name=".BudgetDetailsBarGraph"></activity>
+        <activity android:name=".Camera_Interface"
 
-        <activity android:name=".MainBudgetScreen"></activity>
+            android:parentActivityName=".MainBudgetScreen">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainBudgetScreen"/>
+        </activity>
+
+
+        <activity android:name=".BudgetDetailsBarGraph">
+
+        </activity>
+
+
+
+        <activity android:name=".MainBudgetScreen">
+
+        </activity>
 
         <activity
-            android:name=".SettingsActivity">
-            android:label="@string/title_activity_settings"></activity>
-
+            android:name=".SettingsActivity"
+            android:parentActivityName=".MainBudgetScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainBudgetScreen"/>
+        </activity>
     </application>
 
 </manifest>
