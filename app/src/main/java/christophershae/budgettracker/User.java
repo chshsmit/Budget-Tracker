@@ -47,11 +47,6 @@ public class User {
     {
         items.put(date, new ArrayList());
     }
-    
-    public void getWeek(String date)
-    {
-        items.put(date, new ArrayList());
-    }
 
     //need to throw error if week not found
     public ArrayList getWeek(String date)
@@ -62,7 +57,7 @@ public class User {
         }
         else
         {
-            for(int i = 1, i <= 7; i++)
+            for(int i = 1; i <= 7; i++)
             {
                date = decrementDate(date);
                if(items.get(date) != null )
@@ -87,12 +82,12 @@ public class User {
     {
         //check string comparison
         String day = date.substring(2,4);
-        if(day.eqauls("01"))
+        if(day.equals("01"))
         {
              String month = date.substring(0,2);
             String year = date.substring(4,8);
             day = "31";
-            month = (Integer.parseInt(month))--;
+            month = Integer.toString(Integer.parseInt(month)-1);
             String newDate = month + day + year;
             return newDate;
         }
@@ -100,7 +95,7 @@ public class User {
         {
             String month = date.substring(0,2);
             String year = date.substring(4,8);
-            day = (Integer.parseInt(day))--;
+            day = Integer.toString(Integer.parseInt(day)-1);
             String newDate = month + day + year;
             return newDate;
         }
