@@ -2,16 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
 
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-    defaultConfig {
-        applicationId "christophershae.budgettracker"
-        minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
 
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
@@ -40,10 +30,11 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
-    compile 'com.android.support:appcompat-v7:26.+'
+
     compile 'com.android.support:design:26.+'
     compile 'com.android.support:support-v4:26.+'
     compile 'com.android.support:support-vector-drawable:26.+'
+
 
     testCompile 'junit:junit:4.12'
 }
