@@ -64,6 +64,9 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         myListView.setAdapter(aa);
         aa.notifyDataSetChanged();
 
+        priceEntry = (EditText) findViewById(R.id.itemPriceEntry);
+        nameEntry = (EditText) findViewById(R.id.itemNameEntry);
+
         //create drop down menu to view the categories of expenses
         //Define spinner from xml file
         spinner = (Spinner) findViewById(R.id.Menu_C);
@@ -205,8 +208,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
 
     //Instantiating the edit text views
-    EditText nameEntry = (EditText) findViewById(R.id.itemNameEntry);
-    EditText priceEntry = (EditText) findViewById(R.id.itemPriceEntry);
+    EditText nameEntry;
+    EditText priceEntry;
 
 
     //This function executes when the user presses the add button
@@ -220,14 +223,17 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         Item newItem = new Item(newItemName);
         newItem.setPrice(Double.valueOf(newItemPrice));
         newItem.setCategory("Generic");
+
         newItemDate = sdf.format(new Date());
         newItem.setDate(newItemDate);
+
+        System.out.println("The current date is:" +newItemDate);
 
 
 
         //Adding the new item to the test user's current week array list
-        testUser.currentWeek.add(newItem);
-        printOutCurrentWeek(testUser);          //This is just a debugging function
+        testUser.addItem(newItem);
+
 
         //This adds the item to the list view
         currentItemsAddedToList.add(new ListElement(newItemName, newItemPrice));
@@ -236,11 +242,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
     //Debugging function to make sure the items were added to the users arraylist correctly
-    public void printOutCurrentWeek(User user){
-        for(Item item: user.currentWeek){
-            System.out.println("You bought "+item.name+" and it cost" +item.price);
-        }
-    }
+
 
 
 

@@ -1,9 +1,12 @@
 
 package christophershae.budgettracker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by Ravi Tamada on 07/10/16.
@@ -17,7 +20,8 @@ public class User {
     public String email;
     private String pass;
     private Map<String, ArrayList> items;
-    public ArrayList<Item> currentWeek = new ArrayList<>();
+
+
     //maybe more
 
 
@@ -29,7 +33,11 @@ public class User {
     }
 
 
+
+
+    //Preliminary constructor, might expand with firebase integration
     public User(String name) {
+
         this.name = name;
         //this.email = email;
         items = new HashMap();
@@ -45,34 +53,42 @@ public class User {
         return items;
     }
 
+    //adds a new week to hash but assumes the input date is a sunday
     public void addWeek(String date)
     {
         items.put(date, new ArrayList());
     }
 
-    //need to throw error if week not found
+    //returns null if a week for that date doesnt exists
     public ArrayList getWeek(String date)
     {
         if(items.get(date) != null )
         {
+            System.out.println("Its already sunday");
             return items.get(date);
         }
         else
         {
-            for(int i = 1; i <= 7; i++)
+            date = decrementDate(new Date());
+            if(items.get(date) != null )
             {
-               date = decrementDate(date);
-               if(items.get(date) != null )
-               {
-                    return items.get(date);
-                 }
-                //wont work. Need logic for putting in the right week. Weeks are indexed by First sunday
-                 items.put(date, new ArrayList());
+                return items.get(date);
             }
+
         }
-        
+
+        System.out.println("Creating a new list");
+        System.out.println("The current day is "+date);
+        ArrayList<Item> newList = new ArrayList<>();
+        items.put(date, newList);
+        return newList;
     }
-    
+
+
+    SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
+
+    //inputs item into right arraylist using the items week. Feature works if for example user
+    // wants to add item to past or future
     public void addItem(Item item)
     {
         String date = item.getDate();
@@ -80,27 +96,77 @@ public class User {
         inputWeek.add(item);
     }
     
-    public static String decrementDate(String date)
+    public String decrementDate(Date date)
     {
+
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+        switch(day){
+            case Calendar.MONDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -1);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.TUESDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -2);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.WEDNESDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -3);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.THURSDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -4);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.FRIDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -5);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.SATURDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -6);
+                date = calendar.getTime();
+                break;
+
+            default:
+                break;
+        }
+
+        return sdf.format(date);
+
+
+
+
         //check string comparison
-        String day = date.substring(2,4);
-        if(day.equals("01"))
-        {
-             String month = date.substring(0,2);
-            String year = date.substring(4,8);
-            day = "31";
-            month = Integer.toString(Integer.parseInt(month)-1);
-            String newDate = month + day + year;
-            return newDate;
-        }
-        else
-        {
-            String month = date.substring(0,2);
-            String year = date.substring(4,8);
-            day = Integer.toString(Integer.parseInt(day)-1);
-            String newDate = month + day + year;
-            return newDate;
-        }
+//        String day = date.substring(2,4);
+//        if(day.equals("01"))
+//        {
+//             String month = date.substring(0,2);
+//            String year = date.substring(4,8);
+//            day = "31";
+//            month = Integer.toString(Integer.parseInt(month)-1);
+//            String newDate = month + day + year;
+//            return newDate;
+//        }
+//        else
+//        {
+//            String month = date.substring(0,2);
+//            String year = date.substring(4,8);
+//            day = Integer.toString(Integer.parseInt(day)-1);
+//            String newDate = month + day + year;
+//            return newDate;
+//        }
     }
     
 }
