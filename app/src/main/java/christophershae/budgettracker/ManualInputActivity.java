@@ -17,6 +17,8 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.attr.category;
 import static christophershae.budgettracker.R.id.addItemToBudget;
 import static christophershae.budgettracker.R.id.item;
 import static christophershae.budgettracker.R.id.itemNameView;
@@ -125,13 +127,16 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     private class ListElement {
         ListElement() {};
 
-        ListElement(String nl, String cl) {
+        ListElement(String nl, String pl, String cat) {
             nameLabel = nl;
-            priceLabel = cl;
+            priceLabel = pl;
+            category = cat;
+
         }
 
         public String nameLabel;
         public String priceLabel;
+        public String category;
     }
 
 
@@ -172,7 +177,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
             itemName.setText(currentItem.nameLabel);
             itemPrice.setText(currentItem.priceLabel);
-            itemCategory.setText("Generic");
+            itemCategory.setText(currentItem.category);
 
 
 
@@ -205,6 +210,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     public String newItemName;
     public String newItemPrice;
     public String newItemDate;
+    public String newItemCategory;
     SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
 
     //Instantiating the edit text views
@@ -222,7 +228,14 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //Creating a new Item object and setting a generic category, price, and date
         Item newItem = new Item(newItemName);
         newItem.setPrice(Double.valueOf(newItemPrice));
-        newItem.setCategory("Generic");
+
+        newItemCategory = spinner.getSelectedItem().toString();
+        newItem.setCategory(newItemCategory);
+        System.out.println(newItemCategory);
+
+
+
+        //newItem.setCategory("Generic");
 
         newItemDate = sdf.format(new Date());
         newItem.setDate(newItemDate);
@@ -236,7 +249,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
         //This adds the item to the list view
-        currentItemsAddedToList.add(new ListElement(newItemName, newItemPrice));
+        currentItemsAddedToList.add(new ListElement(newItemName, newItemPrice, newItemCategory));
         aa.notifyDataSetChanged();
     }
 
