@@ -13,29 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import static christophershae.budgettracker.R.id.addItemToBudget;
 import static christophershae.budgettracker.R.id.item;
 import static christophershae.budgettracker.R.id.itemNameView;
 import static java.security.AccessController.getContext;
-
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+
 
 
 
@@ -46,9 +35,6 @@ import static christophershae.budgettracker.R.id.finishAddingItemsToBudget;
 
 
 public class ManualInputActivity extends AppCompatActivity implements View.OnClickListener {
-
-    ArrayList<ListElement> currentItemsAddedToList;
-    private MyAdapter aa;
 
     //Buttons for the interface
     Button Add;
@@ -61,6 +47,10 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     List<CharSequence> EditMyList;
     Spinner spinner;
     String get_text;
+
+    //----------------------------------------------------------------------------------------
+    //This code has all the functions that need to overridden
+    //----------------------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,10 +87,36 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         spinner.setAdapter(adapter);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case Edit_List:
+                //when edit is pressed list should update to include
+                //current category
+                //set get_Text to string
+                get_text = edit_list.getText().toString();
+                //then add it to my of strings and
+                //notify the spinner about the change
+                EditMyList.add(get_text);
+                adapter.notifyDataSetChanged();
+
+                //lets the user know his category was added
+                Toast.makeText(ManualInputActivity.this, "Category Added", Toast.LENGTH_LONG).show();
+                break;
+            case finishAddingItemsToBudget:
+                finish();
+                break;
+        }
+    }
+
 
     //----------------------------------------------------------------------------------------
     //This code handles the generation of the list view
     //----------------------------------------------------------------------------------------
+
+    ArrayList<ListElement> currentItemsAddedToList;
+    private MyAdapter aa;
 
     //Creating a class for a single list element
     private class ListElement {
@@ -182,25 +198,32 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     User testUser = new User("Chris");
 
 
-    //Global variables for the item price and name
+    //Global variables for the item price, name, and date
     public String newItemName;
     public String newItemPrice;
+    public String newItemDate;
+    SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
+
+    //Instantiating the edit text views
+    EditText nameEntry = (EditText) findViewById(R.id.itemNameEntry);
+    EditText priceEntry = (EditText) findViewById(R.id.itemPriceEntry);
 
 
     //This function executes when the user presses the add button
     public void createNewItem(View v){
-        //Instantiating the edit text views
-        EditText nameEntry = (EditText) findViewById(R.id.itemNameEntry);
-        EditText priceEntry = (EditText) findViewById(R.id.itemPriceEntry);
 
         //Getting the user input from the edit texts
         newItemPrice = priceEntry.getText().toString();
         newItemName = nameEntry.getText().toString();
 
-        //Creating a new Item object and setting a generic category and it's price
+        //Creating a new Item object and setting a generic category, price, and date
         Item newItem = new Item(newItemName);
         newItem.setPrice(Double.valueOf(newItemPrice));
         newItem.setCategory("Generic");
+        newItemDate = sdf.format(new Date());
+        newItem.setDate(newItemDate);
+
+
 
         //Adding the new item to the test user's current week array list
         testUser.currentWeek.add(newItem);
@@ -221,27 +244,5 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-
-            case Edit_List:
-                //when edit is pressed list should update to include
-                //current category
-                //set get_Text to string
-                get_text = edit_list.getText().toString();
-                //then add it to my of strings and
-                //notify the spinner about the change
-                EditMyList.add(get_text);
-                adapter.notifyDataSetChanged();
-
-                //lets the user know his category was added
-                Toast.makeText(ManualInputActivity.this, "Category Added", Toast.LENGTH_LONG).show();
-                break;
-            case finishAddingItemsToBudget:
-                 finish();
-                break;
-        }
-     }
 
 }

@@ -9,7 +9,7 @@ public class Item {
     public String name;
     public String category;
     public double price;
-
+    public String date;
     public String storeName;
 
 
@@ -30,6 +30,8 @@ public class Item {
         this.category = category;
     }
 
+    public void setDate(String date){ this.date = date;}
+
     public void setStoreName(String storeName){
         this.storeName = storeName;
     }
@@ -45,6 +47,8 @@ public class Item {
     public String getStoreName(){
         return this.storeName;
     }
+
+    public String getDate() { return this.date;}
 
 
 
