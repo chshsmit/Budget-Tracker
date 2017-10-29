@@ -33,7 +33,6 @@ public class User {
         this.name = name;
         //this.email = email;
         items = new HashMap();
-        ArrayList firstweek = new ArrayList();
     }
 
     private void changePassword(String pass)
@@ -51,17 +50,57 @@ public class User {
         items.put(date, new ArrayList());
     }
 
-    public void addItem(String item, String date)
+    //need to throw error if week not found
+    public ArrayList getWeek(String date)
     {
-        currentWeek = items.get(date);
+        if(items.get(date) != null )
+        {
+            return items.get(date);
+        }
+        else
+        {
+            for(int i = 1; i <= 7; i++)
+            {
+               date = decrementDate(date);
+               if(items.get(date) != null )
+               {
+                    return items.get(date);
+                 }
+                //wont work. Need logic for putting in the right week. Weeks are indexed by First sunday
+                 items.put(date, new ArrayList());
+            }
+        }
+        
     }
-
-
-
-
-
-
-
-
-
+    
+    public void addItem(Item item)
+    {
+        String date = item.getDate();
+        ArrayList inputWeek = getWeek(date);
+        inputWeek.add(item);
+    }
+    
+    public static String decrementDate(String date)
+    {
+        //check string comparison
+        String day = date.substring(2,4);
+        if(day.equals("01"))
+        {
+             String month = date.substring(0,2);
+            String year = date.substring(4,8);
+            day = "31";
+            month = Integer.toString(Integer.parseInt(month)-1);
+            String newDate = month + day + year;
+            return newDate;
+        }
+        else
+        {
+            String month = date.substring(0,2);
+            String year = date.substring(4,8);
+            day = Integer.toString(Integer.parseInt(day)-1);
+            String newDate = month + day + year;
+            return newDate;
+        }
+    }
+    
 }
