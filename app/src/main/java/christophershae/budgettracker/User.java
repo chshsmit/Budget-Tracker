@@ -53,11 +53,6 @@ public class User {
         return items;
     }
 
-    //adds a new week to hash but assumes the input date is a sunday
-    public void addWeek(String date)
-    {
-        items.put(date, new ArrayList());
-    }
 
     //returns null if a week for that date doesnt exists
     public ArrayList getWeek(String date)
