@@ -18,8 +18,6 @@ public class User {
     private String pass;
     private Map<String, ArrayList> items;
     public ArrayList currentWeek;
-    //maybe more
-
 
 
     // Default constructor required for calls to
@@ -27,6 +25,8 @@ public class User {
     public User() {
     }
 
+
+    //Preliminary constructor, might expand with firebase integration
     public User(String name, String email) {
         this.name = name;
         this.email = email;
@@ -43,12 +43,13 @@ public class User {
         return items;
     }
 
+    //adds a new week to hash but assumes the input date is a sunday
     public void addWeek(String date)
     {
         items.put(date, new ArrayList());
     }
 
-    //need to throw error if week not found
+    //returns null if a week for that date doesnt exists
     public ArrayList getWeek(String date)
     {
         if(items.get(date) != null )
@@ -57,20 +58,20 @@ public class User {
         }
         else
         {
-            for(int i = 1; i <= 7; i++)
+            for(int i = 1; i < 7; i++)//loops keeps decrementing the date to find sunday
             {
                date = decrementDate(date);
                if(items.get(date) != null )
                {
                     return items.get(date);
-                 }
-                //wont work. Need logic for putting in the right week. Weeks are indexed by First sunday
-                 items.put(date, new ArrayList());
+               }
             }
         }
-        
+        return null;
     }
-    
+
+    //inputs item into right arraylist using the items week. Feature works if for example user
+    // wants to add item to past or future
     public void addItem(Item item)
     {
         String date = item.getDate();
