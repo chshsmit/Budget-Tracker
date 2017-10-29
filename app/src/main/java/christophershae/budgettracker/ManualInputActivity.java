@@ -69,12 +69,12 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 //current category
                 //set get_Text to string
                 get_text = edit_list.getText().toString();
-                //then add it to my of strings and
+                //then add it to my array_list of strings and
                 //notify the spinner about the change
                 EditMyList.add(get_text);
                 adapter.notifyDataSetChanged();
 
-                //lets the user know his category was added
+                //lets the user know that their category was added
                 Toast.makeText(ManualInputActivity.this, "Category Added", Toast.LENGTH_LONG).show();
                 break;
             case finishAddingItemsToBudget:
