@@ -23,7 +23,7 @@ public class Item {
     //---------------------------------------------------------------------------------------------
 
     public void setPrice(double price){
-        this.price = Math.round(price *100D) / 100;
+        this.price = price;
     }
 
     public void setCategory(String category){
@@ -38,7 +38,7 @@ public class Item {
 
 
     public double getPrice(){
-        return this.price;
+        return Math.round(this.price * 100.0) /100.0;
     }
 
     public String getCategory(){

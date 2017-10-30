@@ -37,19 +37,22 @@ public class WeekLongBudget {
         return this.totalAmountSpent;
     }
 
-    public Map<String, Double> getAmountForEachCategory()
+    public void getAmountForEachCategory()
     {
-        double newPrice = 0.0;
+        double newPrice;
         for(Item item: allItems){
+            newPrice = 0.00;
             if(this.costOfAllCategories.containsKey(item.category)){
-                newPrice = item.getPrice() + this.costOfAllCategories.get(item.category);
+                newPrice = Math.round((item.getPrice() + this.costOfAllCategories.get(item.category)) * 100.0) / 100.0;
                 this.costOfAllCategories.put(item.category, newPrice);
+                System.out.println("You have a total of $"+newPrice+" spent in the category "+item.category);
             } else {
                 this.costOfAllCategories.put(item.category, item.getPrice());
+                System.out.println("You have a total of $"+item.getPrice()+" spent in the category "+item.category);
             }
         }
 
-        return this.costOfAllCategories;
+        //return this.costOfAllCategories;
     }
 
 

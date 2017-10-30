@@ -34,7 +34,6 @@ public class User {
 
 
 
-
     //Preliminary constructor, might expand with firebase integration
     public User(String name) {
 
@@ -73,7 +72,7 @@ public class User {
         }
 
         System.out.println("Creating a new list");
-        System.out.println("The current day is "+date);
+        System.out.println("The list is indexed by "+date);
         WeekLongBudget newWeek = new WeekLongBudget(date);
         items.put(date, newWeek);
         return newWeek;
@@ -90,13 +89,17 @@ public class User {
         WeekLongBudget inputWeek = getWeek(date);
         inputWeek.addItem(item);
     }
-    
+
+    //This function decrements the date so it adds it to the correct weeklong budget
     public String decrementDate(Date date)
     {
 
+        //Get an instance of the calenday and get the current day of the week
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
 
+        //Depending on what day it is, decrement the date to be the most recent sunday
+        //If it is Sunday, then it won't change the date at all
         switch(day){
             case Calendar.MONDAY:
                 calendar.setTime(date);
@@ -138,7 +141,8 @@ public class User {
                 break;
         }
 
-        return sdf.format(date);
+
+        return sdf.format(date);   //return the decremented date as a string
     }
     
 }
