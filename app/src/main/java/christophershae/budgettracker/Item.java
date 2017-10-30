@@ -38,7 +38,7 @@ public class Item {
 
 
     public double getPrice(){
-        return Math.round(this.price * 100.0) /100.0;
+        return (double) Math.round(this.price * 100.0) /100.0;
     }
 
     public String getCategory(){

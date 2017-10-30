@@ -66,6 +66,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         myListView.setAdapter(aa);
         aa.notifyDataSetChanged();
 
+        //Edit texts for the price and name entry
         priceEntry = (EditText) findViewById(R.id.itemPriceEntry);
         nameEntry = (EditText) findViewById(R.id.itemNameEntry);
 

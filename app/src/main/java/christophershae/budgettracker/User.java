@@ -33,7 +33,6 @@ public class User {
     }
 
 
-
     //Preliminary constructor, might expand with firebase integration
     public User(String name) {
 
@@ -53,9 +52,12 @@ public class User {
     }
 
 
+
+
     //returns null if a week for that date doesnt exists
     public WeekLongBudget getWeek(String date)
     {
+        //If the current date exists then it is currently sunday
         if(items.get(date) != null )
         {
             System.out.println("Its already sunday");
@@ -78,7 +80,7 @@ public class User {
         return newWeek;
     }
 
-
+    //This is the format for our date string
     SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
 
     //inputs item into right arraylist using the items week. Feature works if for example user
