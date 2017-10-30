@@ -244,7 +244,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
 
-        //Adding the new item to the test user's current week array list
+        //Adding the new item to the test user's current week budget
         testUser.addItem(newItem);
 
 

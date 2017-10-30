@@ -19,7 +19,7 @@ public class User {
     public String name;
     public String email;
     private String pass;
-    private Map<String, ArrayList> items;
+    private Map<String, WeekLongBudget> items;
 
 
     //maybe more
@@ -48,14 +48,14 @@ public class User {
         this.pass = pass;
     }
 
-    public Map<String, ArrayList> getMap()
+    public Map<String, WeekLongBudget> getMap()
     {
         return items;
     }
 
 
     //returns null if a week for that date doesnt exists
-    public ArrayList getWeek(String date)
+    public WeekLongBudget getWeek(String date)
     {
         if(items.get(date) != null )
         {
@@ -74,9 +74,9 @@ public class User {
 
         System.out.println("Creating a new list");
         System.out.println("The current day is "+date);
-        ArrayList<Item> newList = new ArrayList<>();
-        items.put(date, newList);
-        return newList;
+        WeekLongBudget newWeek = new WeekLongBudget(date);
+        items.put(date, newWeek);
+        return newWeek;
     }
 
 
@@ -87,8 +87,8 @@ public class User {
     public void addItem(Item item)
     {
         String date = item.getDate();
-        ArrayList inputWeek = getWeek(date);
-        inputWeek.add(item);
+        WeekLongBudget inputWeek = getWeek(date);
+        inputWeek.addItem(item);
     }
     
     public String decrementDate(Date date)
@@ -139,29 +139,6 @@ public class User {
         }
 
         return sdf.format(date);
-
-
-
-
-        //check string comparison
-//        String day = date.substring(2,4);
-//        if(day.equals("01"))
-//        {
-//             String month = date.substring(0,2);
-//            String year = date.substring(4,8);
-//            day = "31";
-//            month = Integer.toString(Integer.parseInt(month)-1);
-//            String newDate = month + day + year;
-//            return newDate;
-//        }
-//        else
-//        {
-//            String month = date.substring(0,2);
-//            String year = date.substring(4,8);
-//            day = Integer.toString(Integer.parseInt(day)-1);
-//            String newDate = month + day + year;
-//            return newDate;
-//        }
     }
     
 }
