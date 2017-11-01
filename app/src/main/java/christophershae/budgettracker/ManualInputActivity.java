@@ -112,8 +112,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 Toast.makeText(ManualInputActivity.this, "Category Added", Toast.LENGTH_LONG).show();
                 break;
             case finishAddingItemsToBudget:
-                testUser.getMap().get("10292017").getAmountForEachCategory();
-                System.out.println(testUser.getMap().get("10292017").getTotalAmountOfMoneySpent());
+                //testUser.getMap().get("10292017").getAmountForEachCategory();
+                //System.out.println(testUser.getMap().get("10292017").getTotalAmountOfMoneySpent());
                 finish();
                 break;
         }

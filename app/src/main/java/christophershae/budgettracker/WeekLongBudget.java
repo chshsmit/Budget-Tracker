@@ -37,7 +37,7 @@ public class WeekLongBudget {
         return this.totalAmountSpent;
     }
 
-    public void getAmountForEachCategory()
+    public Map<String, Double> getAmountForEachCategory()
     {
         double newPrice;
         for(Item item: allItems){
@@ -52,7 +52,7 @@ public class WeekLongBudget {
             }
         }
 
-        //return this.costOfAllCategories;
+        return this.costOfAllCategories;
     }
 
 
