@@ -23,6 +23,15 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         settings.setOnClickListener(this);
         Button photo = (Button) findViewById(Picture_Screen);
         photo.setOnClickListener(this);
+
+        Button b = (Button) findViewById(R.id.Recent_Purchases);
+
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainBudgetScreen.this, RecentPurchases.class));
+            }
+        });
     }
 
     @Override

@@ -22,6 +22,10 @@ public class Item {
     //These are all setter and getter functions
     //---------------------------------------------------------------------------------------------
 
+    public String getName(){
+        return this.name;
+    }
+
     public void setPrice(double price){
         this.price = price;
     }
