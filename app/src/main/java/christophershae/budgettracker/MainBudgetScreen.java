@@ -1,16 +1,31 @@
 package christophershae.budgettracker;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static christophershae.budgettracker.R.id.Enter_Man;
 import static christophershae.budgettracker.R.id.Picture_Screen;
 import static christophershae.budgettracker.R.id.Settings;
 
 public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener{
+
+    private float[] ydata = {800.00f, 100.00f, 75.00f, 300f};
+    private String[] xdata = {"Rent", "Drugs", "Util", "Food"};
+    PieChart pieChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +38,57 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         settings.setOnClickListener(this);
         Button photo = (Button) findViewById(Picture_Screen);
         photo.setOnClickListener(this);
+
+        pieChart = (PieChart) findViewById(R.id.idPieChart);
+
+        pieChart.setDescription("Sales by Category");
+        pieChart.setRotationEnabled(true);
+        pieChart.setUsePercentValues(true);
+        pieChart.setHoleRadius(0f);
+        //pieChart.setCenterText("Maybe a button");
+        //pieChart.setCenterTextSize(10);
+
+        addDataSet(pieChart);
+
+    }
+
+    private void addDataSet(PieChart chart){
+        ArrayList<Entry> pieEntries = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+
+        for(int i = 0; i < ydata.length; i++){
+            pieEntries.add(new Entry(ydata[i], i));
+        }
+
+        for(int i = 0; i < xdata.length; i++){
+            labels.add(xdata[i]);
+        }
+
+        //create the dataset
+        PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
+        dataSet.setSliceSpace(2);
+        dataSet.setValueTextSize(12);
+
+        //add colors
+        ArrayList<Integer> colors = new ArrayList<>();
+
+        colors.add(Color.GRAY);
+        colors.add(Color.BLUE);
+        colors.add(Color.RED);
+        colors.add(Color.CYAN);
+
+        dataSet.setColors(colors);
+
+        //make legend
+        Legend legend = pieChart.getLegend();
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
+
+        //create pie data object
+        PieData pieData = new PieData(labels, dataSet);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+
     }
 
     @Override
