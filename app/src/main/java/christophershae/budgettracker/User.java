@@ -58,20 +58,14 @@ public class User {
     public WeekLongBudget getWeek(String date)
     {
         //If the current date exists then it is currently sunday
-        if(items.get(date) != null )
-        {
-            System.out.println("Its already sunday");
-            return items.get(date);
-        }
-        else
-        {
+
             date = decrementDate(new Date());
             if(items.get(date) != null )
             {
                 return items.get(date);
             }
 
-        }
+
 
         System.out.println("Creating a new list");
         System.out.println("The list is indexed by "+date);
