@@ -3,10 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Budget-Tracker.iml" filepath="$PROJECT_DIR$/Budget-Tracker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BudgetTracker.iml" filepath="$PROJECT_DIR$/BudgetTracker.iml" />
+      <module fileurl="file://C:\Users\Darwin\Documents\GitHub\Budget-Tracker\BudgetTracker.iml" filepath="C:\Users\Darwin\Documents\GitHub\Budget-Tracker\BudgetTracker.iml" />
       <module fileurl="file://C:\GitHub\Budget-Tracker\BudgetTracker.iml" filepath="C:\GitHub\Budget-Tracker\BudgetTracker.iml" />
-      <module fileurl="file://C:\GitHub\Budget-Tracker\app\app.iml" filepath="C:\GitHub\Budget-Tracker\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\GitHub\Budget-Tracker\app\app.iml" filepath="C:\GitHub\Budget-Tracker\app\app.iml" />
     </modules>
   </component>
 </project>

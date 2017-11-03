@@ -1,5 +1,6 @@
 package christophershae.budgettracker;
 
+import com.google.firebase.auth.FirebaseAuth;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -48,7 +49,10 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
+     *
      */
+    private FirebaseAuth firebaseAuth;
+
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
@@ -66,9 +70,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-
+        firebaseAuth = FirebaseAuth.getInstance();
 
     }
     public void Simple_Nav(View view){
