@@ -44,7 +44,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements OnClickListener {
+public class LoginActivity extends AppCompatActivity {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonSignup;
+    private Button buttonSignIn;
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -84,13 +85,18 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         editTextPassword = (EditText) findViewById(R.id.password);
         buttonSignup = (Button) findViewById(R.id.signUp);
 
-        buttonSignup.setOnClickListener(this);
-
-        System.out.println(editTextEmail);
-        System.out.println(editTextPassword);
+        buttonSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerUser();
+            }
+        });
 
     }
     public void Simple_Nav(View view){
+        //buttonSignIn = (Button) findViewById(R.id.signIn);
+
+        firebaseAuth.signInWithEmailAndPassword(editTextEmail.getText().toString().trim(), editTextPassword.getText().toString().trim());
         Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
         startActivity(next_activity);
     }
@@ -102,18 +108,20 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         String email = editTextEmail.getText().toString().trim();
         String password  = editTextPassword.getText().toString().trim();
 
+        //checking if email and passwords are empty
+        if(TextUtils.isEmpty(email)){
+            Toast.makeText(this,"Please enter email",Toast.LENGTH_LONG).show();
+            return;
+        }
 
+        if(TextUtils.isEmpty(password)){
+            Toast.makeText(this,"Please enter password",Toast.LENGTH_LONG).show();
+            return;
+        }
 
         //creating a new user
         firebaseAuth.createUserWithEmailAndPassword(email, password);
 
-    }
-
-    @Override
-    public void onClick(View view)
-    {
-        //calling register method on click
-        registerUser();
     }
 
 }
