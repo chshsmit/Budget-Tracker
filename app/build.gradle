@@ -36,8 +36,8 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:26.+'
 
     //Firebase stuff
-    compile 'com.google.firebase:firebase-core:11.4.2'
-    compile 'com.google.firebase:firebase-database:11.4.2'
+    //compile 'com.google.firebase:firebase-core:11.4.2'
+    //compile 'com.google.firebase:firebase-database:11.4.2'
     compile 'com.google.firebase:firebase-auth:11.4.2'
 
 
