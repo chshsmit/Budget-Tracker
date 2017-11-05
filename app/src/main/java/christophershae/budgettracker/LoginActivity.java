@@ -39,6 +39,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -56,10 +57,12 @@ public class LoginActivity extends AppCompatActivity {
      * TODO: remove after connecting to a real authentication system.
      *
      */
-    private FirebaseAuth firebaseAuth;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonSignup;
+    private FirebaseAuth firebaseAuth;
+
+
     private Button buttonSignIn;
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
@@ -96,9 +99,30 @@ public class LoginActivity extends AppCompatActivity {
     public void Simple_Nav(View view){
         //buttonSignIn = (Button) findViewById(R.id.signIn);
 
-        firebaseAuth.signInWithEmailAndPassword(editTextEmail.getText().toString().trim(), editTextPassword.getText().toString().trim());
-        Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
-        startActivity(next_activity);
+        firebaseAuth.signInWithEmailAndPassword(editTextEmail.getText().toString().trim(), editTextPassword.getText().toString().trim())
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        // If sign in fails, Log a message to the LogCat. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            // there was an error
+                            Toast.makeText(LoginActivity.this, "Incorrect Email/Password", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            //Intent intent = new Intent(LoginActivity.this, UserActivity.class);
+                            //startActivity(intent);
+                            Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
+                            startActivity(next_activity);
+                            finish();
+                        }
+                    }
+                });
+
+
+        //Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
+        //startActivity(next_activity);
     }
 
     private void registerUser()
