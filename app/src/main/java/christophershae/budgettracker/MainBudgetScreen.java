@@ -42,7 +42,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         pieChart = (PieChart) findViewById(R.id.idPieChart);
 
-        
         pieChart.setDescription("Sales by Category");
         pieChart.setRotationEnabled(true);
         //pieChart.setUsePercentValues(true);
@@ -75,6 +74,9 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         ArrayList<Integer> colors = new ArrayList<>();
 
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS); // set the color<br />
+
+        //custom data display MonetaryDisplay
+        dataSet.setValueFormatter(new MonetaryDisplay());
 
         //make legend
         Legend legend = pieChart.getLegend();
