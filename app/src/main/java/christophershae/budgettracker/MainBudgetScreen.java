@@ -13,6 +13,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +42,10 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         pieChart = (PieChart) findViewById(R.id.idPieChart);
 
+        
         pieChart.setDescription("Sales by Category");
         pieChart.setRotationEnabled(true);
-        pieChart.setUsePercentValues(true);
+        //pieChart.setUsePercentValues(true);
         pieChart.setHoleRadius(0f);
         //pieChart.setCenterText("Maybe a button");
         //pieChart.setCenterTextSize(10);
@@ -72,12 +74,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         //add colors
         ArrayList<Integer> colors = new ArrayList<>();
 
-        colors.add(Color.GRAY);
-        colors.add(Color.BLUE);
-        colors.add(Color.RED);
-        colors.add(Color.CYAN);
-
-        dataSet.setColors(colors);
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS); // set the color<br />
 
         //make legend
         Legend legend = pieChart.getLegend();
