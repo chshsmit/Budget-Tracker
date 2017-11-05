@@ -99,7 +99,10 @@ public class LoginActivity extends AppCompatActivity {
     public void Simple_Nav(View view){
         //buttonSignIn = (Button) findViewById(R.id.signIn);
 
-        firebaseAuth.signInWithEmailAndPassword(editTextEmail.getText().toString().trim(), editTextPassword.getText().toString().trim())
+
+        String email = editTextEmail.getText().toString().trim();
+        String password  = editTextPassword.getText().toString().trim();
+        firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -111,15 +114,12 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Incorrect Email/Password", Toast.LENGTH_LONG).show();
 
                         } else {
-                            //Intent intent = new Intent(LoginActivity.this, UserActivity.class);
-                            //startActivity(intent);
                             Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
                             startActivity(next_activity);
                             finish();
                         }
                     }
                 });
-
 
         //Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
         //startActivity(next_activity);
