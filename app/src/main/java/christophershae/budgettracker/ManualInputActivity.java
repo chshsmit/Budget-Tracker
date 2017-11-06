@@ -54,6 +54,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
     private String userId;
 
+    public String myDate = "11052017";
+
 
     Map<String, WeekLongBudget> usersBudgets = new HashMap<>();
     private WeekLongBudget currentWeeeksBudget;
@@ -92,12 +94,27 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         //If the current date exists then it is currently sunday
 
-
+        System.out.println("You basically, are just stupid");
         mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("We are getting data from the database");
                 usersBudgets = (Map<String, WeekLongBudget>) dataSnapshot.child(userId).getValue();
-                currentWeeeksBudget = usersBudgets.get("11052017");
+
+                currentWeeeksBudget = dataSnapshot.child(userId).child(myDate).getValue(WeekLongBudget.class);
+
+                System.out.println("This is the current weeks start date: ");
+                System.out.println(currentWeeeksBudget.getStartDate());
+
+
+
+                for(String key: usersBudgets.keySet()){
+
+
+                    System.out.println(key);
+                    //System.out.println(usersBudgets.get(key).);
+                }
+                //currentWeeeksBudget = usersBudgets.get("11052017");
 
             }
 
@@ -108,7 +125,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         });
 
 
-        System.out.println("The current week is: " +currentWeeeksBudget.startDate);
+        //System.out.println("The current week is: " +currentWeeeksBudget.startDate);
 
 
 //        Map<String, WeekLongBudget> testMap = new HashMap<>();
@@ -342,11 +359,11 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //If the current date exists then it is currently sunday
         date = decrementDate(new Date());
 
-        System.out.println("this is the class name");
-        System.out.println(usersBudgets.get(date).getClass().getName());
+        //System.out.println("this is the class name");
+        //System.out.println(usersBudgets.get(date).getClass().getName());
 
 
-        currentWeeeksBudget = usersBudgets.get(date);
+        //currentWeeeksBudget = usersBudgets.get(date);
 
 
 
