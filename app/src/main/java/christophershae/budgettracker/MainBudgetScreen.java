@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -24,6 +25,8 @@ import static christophershae.budgettracker.R.id.Settings;
 
 public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener{
 
+    private ArrayList<Entry> pieEntries;
+    private double totalSpent;
     private float[] ydata = {800.00f, 100.00f, 75.00f, 300f};
     private String[] xdata = {"Rent", "Drugs", "Util", "Food"};
     PieChart pieChart;
@@ -50,14 +53,36 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         //pieChart.setCenterTextSize(10);
 
         addDataSet(pieChart);
+        //addTotal(pieEntries);
+
+        TextView textView = (TextView) findViewById(R.id.Total_Spent);
+        textView.setText("$"+(int)totalSpent);
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        addDataSet(pieChart);
+    }
+
+
+
+    //private void addTotal(ArrayList<Entry> pieEntries){
+      //  totalSpent = 0;
+        //for(int i = 1; i<pieEntries.size(); i++){
+          //  totalSpent += (double)(pieEntries.get(i).get());
+       //}
+    //}
+
     private void addDataSet(PieChart chart){
-        ArrayList<Entry> pieEntries = new ArrayList<>();
+        pieEntries = new ArrayList<>();
+        //ArrayList<Entry> pieEntries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
 
+        totalSpent = 0;
         for(int i = 0; i < ydata.length; i++){
+            totalSpent += ydata[i];
             pieEntries.add(new Entry(ydata[i], i));
         }
 

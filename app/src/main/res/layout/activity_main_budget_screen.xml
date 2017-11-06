@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="christophershae.budgettracker.MainBudgetScreen">
 
+    <TextView
+        android:id="@+id/Total_Spent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="test"
+        app:layout_constraintEnd_toStartOf="@+id/idPieChart"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toEndOf="@+id/idPieChart"
+        app:layout_constraintTop_toTopOf="@+id/idPieChart" />
+
     <Button
         android:id="@+id/Settings"
         android:layout_width="wrap_content"
@@ -44,6 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp"></com.github.mikephil.charting.charts.PieChart>
+        tools:layout_editor_absoluteX="0dp">
+
+    </com.github.mikephil.charting.charts.PieChart>
 
 </android.support.constraint.ConstraintLayout>
