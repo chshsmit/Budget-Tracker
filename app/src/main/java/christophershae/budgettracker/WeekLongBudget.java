@@ -17,7 +17,7 @@ public class WeekLongBudget {
 
     public String startDate;
 
-
+    public WeekLongBudget(){}
 
     public WeekLongBudget(String date){
         this.startDate = date;

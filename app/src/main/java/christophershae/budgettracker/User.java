@@ -17,9 +17,7 @@ import java.util.Calendar;
 public class User {
 
     public String name;
-    public String email;
-    private String pass;
-    private Map<String, WeekLongBudget> items;
+    public Map<String, WeekLongBudget> items;
 
 
     //maybe more
@@ -41,10 +39,6 @@ public class User {
         items = new HashMap();
     }
 
-    private void changePassword(String pass)
-    {
-        this.pass = pass;
-    }
 
     public Map<String, WeekLongBudget> getMap()
     {

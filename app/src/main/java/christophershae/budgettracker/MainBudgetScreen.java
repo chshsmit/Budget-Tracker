@@ -6,11 +6,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import static christophershae.budgettracker.R.id.Enter_Man;
 import static christophershae.budgettracker.R.id.Picture_Screen;
 import static christophershae.budgettracker.R.id.Settings;
 
+
+
+
 public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener{
+
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference mFireBaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+    private String userId;
+
+    private User currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +40,16 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         Button photo = (Button) findViewById(Picture_Screen);
         photo.setOnClickListener(this);
 
+        //Firebase stuff
+        firebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFireBaseDatabase = mFirebaseInstance.getReference("users");
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        userId = currentUser.getUid();
+
+        System.out.println("The current user ID is: " +userId);
+
         Button b = (Button) findViewById(R.id.Recent_Purchases);
 
         b.setOnClickListener(new View.OnClickListener() {
@@ -32,7 +58,30 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(MainBudgetScreen.this, RecentPurchases.class));
             }
         });
+
+
+        if(firebaseAuth.getCurrentUser() == null){
+            System.out.println("You are not signed in");
+        } else {
+            System.out.println("You are signed in on the main page: oncreate");
+        }
+
+
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(firebaseAuth.getCurrentUser() == null){
+            System.out.println("You are not signed in");
+        } else {
+            System.out.println("You are signed in on the main page: onresume");
+        }
+    }
+
+    @Override
+    public void onBackPressed(){}
+
 
     @Override
     public void onClick(View view) {

@@ -95,7 +95,30 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+        if(firebaseAuth.getCurrentUser() == null){
+            System.out.println("You are not signed in");
+        } else {
+            System.out.println("You are signed in");
+            changeToMainBudgetScreen();
+
+
+        }
+
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(firebaseAuth.getCurrentUser() == null){
+            System.out.println("You are not signed in");
+        } else {
+            System.out.println("You are signed in");
+        }
+    }
+
+
+
     public void Simple_Nav(View view){
         //buttonSignIn = (Button) findViewById(R.id.signIn);
 
@@ -114,9 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Incorrect Email/Password", Toast.LENGTH_LONG).show();
 
                         } else {
-                            Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
-                            startActivity(next_activity);
-                            finish();
+                            changeToMainBudgetScreen();
                         }
                     }
                 });
@@ -146,6 +167,13 @@ public class LoginActivity extends AppCompatActivity {
         //creating a new user
         firebaseAuth.createUserWithEmailAndPassword(email, password);
 
+    }
+
+
+    public void changeToMainBudgetScreen(){
+        Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
+        startActivity(next_activity);
+        finish();
     }
 
 }

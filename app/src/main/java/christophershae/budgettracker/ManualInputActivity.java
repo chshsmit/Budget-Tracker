@@ -13,9 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.R.attr.category;
@@ -25,11 +28,17 @@ import static christophershae.budgettracker.R.id.itemNameView;
 import static java.security.AccessController.getContext;
 import android.content.Intent;
 import android.widget.Spinner;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Arrays;
-
-
-
-
+import java.util.Map;
 
 
 import static christophershae.budgettracker.R.id.Edit_List;
@@ -37,6 +46,19 @@ import static christophershae.budgettracker.R.id.finishAddingItemsToBudget;
 
 
 public class ManualInputActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference mFireBaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+
+    private String userId;
+
+
+    Map<String, WeekLongBudget> usersBudgets = new HashMap<>();
+    private WeekLongBudget currentWeeeksBudget;
+
+
 
     //Buttons for the interface
     Button Add;
@@ -58,6 +80,51 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manual_input);
+
+        //Firebase stuff
+        firebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFireBaseDatabase = mFirebaseInstance.getReference("users");
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        userId = currentUser.getUid();
+
+
+        //If the current date exists then it is currently sunday
+
+
+        mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                usersBudgets = (Map<String, WeekLongBudget>) dataSnapshot.child(userId).getValue();
+                currentWeeeksBudget = usersBudgets.get("11052017");
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("You arent reDING CORRECTLTY");
+            }
+        });
+
+
+        System.out.println("The current week is: " +currentWeeeksBudget.startDate);
+
+
+//        Map<String, WeekLongBudget> testMap = new HashMap<>();
+//        WeekLongBudget testBudg = new WeekLongBudget("11052017");
+//
+//        testMap.put("Test", testBudg);
+//
+//
+//
+//        mFireBaseDatabase.child(userId).setValue(testMap);
+
+        System.out.println("The current user ID is: " +userId);
+
+
+
+
 
         //Instantiating the adapter for the listview
         currentItemsAddedToList = new ArrayList<ListElement>();
@@ -92,6 +159,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //apply the adapter create list to the Spinner(drop down list)
         spinner.setAdapter(adapter);
     }
+
+
 
     @Override
     public void onClick(View v)
@@ -217,6 +286,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     User testUser = new User("Chris");
 
 
+
     //Global variables for the item price, name, and date
     public String newItemName;
     public String newItemPrice;
@@ -256,10 +326,115 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //Adding the new item to the test user's current week budget
         testUser.addItem(newItem);
 
+        addItemToWeek(newItem);
+
         //This adds the item to the list view
         currentItemsAddedToList.add(new ListElement(newItemName, newItemPrice, newItemCategory));
         aa.notifyDataSetChanged();
+
     }
+
+
+
+    //returns null if a week for that date doesnt exists
+    public WeekLongBudget getWeek(String date)
+    {
+        //If the current date exists then it is currently sunday
+        date = decrementDate(new Date());
+
+        System.out.println("this is the class name");
+        System.out.println(usersBudgets.get(date).getClass().getName());
+
+
+        currentWeeeksBudget = usersBudgets.get(date);
+
+
+
+        //System.out.println("Creating a new list");
+        System.out.println("The list is indexed by "+date);
+
+        if(currentWeeeksBudget == null){
+            System.out.println("Creating new week");
+            currentWeeeksBudget = new WeekLongBudget(date);
+
+        }
+
+        //WeekLongBudget newWeek = new WeekLongBudget(newDate);
+        return currentWeeeksBudget;
+    }
+
+    //This is the format for our date string
+
+
+    //inputs item into right arraylist using the items week. Feature works if for example user
+    // wants to add item to past or future
+    public void addItemToWeek(Item item)
+    {
+        String date = item.getDate();
+        WeekLongBudget inputWeek = getWeek(date);
+        inputWeek.addItem(item);
+
+        usersBudgets.put(decrementDate(new Date()), inputWeek);
+        mFireBaseDatabase.child(userId).setValue(usersBudgets);
+
+
+    }
+
+    //This function decrements the date so it adds it to the correct weeklong budget
+    public String decrementDate(Date date)
+    {
+
+        //Get an instance of the calenday and get the current day of the week
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+        //Depending on what day it is, decrement the date to be the most recent sunday
+        //If it is Sunday, then it won't change the date at all
+        switch(day){
+            case Calendar.MONDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -1);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.TUESDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -2);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.WEDNESDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -3);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.THURSDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -4);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.FRIDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -5);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.SATURDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -6);
+                date = calendar.getTime();
+                break;
+
+            default:
+                break;
+        }
+
+
+        return sdf.format(date);   //return the decremented date as a string
+    }
+
 
 
 
