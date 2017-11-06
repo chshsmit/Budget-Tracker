@@ -25,7 +25,6 @@ import static christophershae.budgettracker.R.id.Settings;
 
 public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener{
 
-    private ArrayList<Entry> pieEntries;
     private double totalSpent;
     private float[] ydata = {800.00f, 100.00f, 75.00f, 300f};
     private String[] xdata = {"Rent", "Drugs", "Util", "Food"};
@@ -35,7 +34,8 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_budget_screen);
-//define Buttons from main screen
+
+        //define Buttons from main screen
         Button enter = (Button) findViewById(Enter_Man);
         enter.setOnClickListener(this);
         Button settings = (Button) findViewById(Settings);
@@ -53,7 +53,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         //pieChart.setCenterTextSize(10);
 
         addDataSet(pieChart);
-        //addTotal(pieEntries);
 
         TextView textView = (TextView) findViewById(R.id.Total_Spent);
         textView.setText("$"+(int)totalSpent);
@@ -64,20 +63,15 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     public void onResume() {
         super.onResume();
         addDataSet(pieChart);
+
+        TextView textView = (TextView) findViewById(R.id.Total_Spent);
+        textView.setText("$"+(int)totalSpent);
     }
 
 
 
-    //private void addTotal(ArrayList<Entry> pieEntries){
-      //  totalSpent = 0;
-        //for(int i = 1; i<pieEntries.size(); i++){
-          //  totalSpent += (double)(pieEntries.get(i).get());
-       //}
-    //}
-
     private void addDataSet(PieChart chart){
-        pieEntries = new ArrayList<>();
-        //ArrayList<Entry> pieEntries = new ArrayList<>();
+        ArrayList<Entry> pieEntries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
 
         totalSpent = 0;
