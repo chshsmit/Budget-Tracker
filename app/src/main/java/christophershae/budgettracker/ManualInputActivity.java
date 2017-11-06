@@ -44,18 +44,18 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     EditText edit_list;
 
     //ArrayAdapter to fill in spinner
-
     ArrayAdapter<CharSequence> adapter;
     List<CharSequence> EditMyList;
     Spinner spinner;
     String get_text;
 
     //----------------------------------------------------------------------------------------
-    //This code has all the functions that need to overridden
+    //This code has all the functions that need to be overridden
     //----------------------------------------------------------------------------------------
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manual_input);
 
@@ -66,6 +66,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         myListView.setAdapter(aa);
         aa.notifyDataSetChanged();
 
+        //Edit texts for the price and name entry
         priceEntry = (EditText) findViewById(R.id.itemPriceEntry);
         nameEntry = (EditText) findViewById(R.id.itemNameEntry);
 
@@ -93,9 +94,10 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case Edit_List:
                 //when edit is pressed list should update to include
                 //current category
@@ -110,6 +112,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 Toast.makeText(ManualInputActivity.this, "Category Added", Toast.LENGTH_LONG).show();
                 break;
             case finishAddingItemsToBudget:
+                //testUser.getMap().get("10292017").getAmountForEachCategory();
+                //System.out.println(testUser.getMap().get("10292017").getTotalAmountOfMoneySpent());
                 finish();
                 break;
         }
@@ -120,13 +124,16 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //This code handles the generation of the list view
     //----------------------------------------------------------------------------------------
 
+    //Instantiating the list and its adapter
     ArrayList<ListElement> currentItemsAddedToList;
     private MyAdapter aa;
 
     //Creating a class for a single list element
-    private class ListElement {
+    private class ListElement
+    {
         ListElement() {};
 
+        //Constructor for the list element
         ListElement(String nl, String pl, String cat) {
             nameLabel = nl;
             priceLabel = pl;
@@ -134,6 +141,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         }
 
+        //Variables that the list element needs to generate itself
         public String nameLabel;
         public String priceLabel;
         public String category;
@@ -141,20 +149,23 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
     //Private adapter class to adapt the listview to the arraylist
-    private class MyAdapter extends ArrayAdapter<ListElement> {
+    private class MyAdapter extends ArrayAdapter<ListElement>
+    {
 
         int resource;
         Context context;
 
         //Constructor
-        public MyAdapter(Context _context, int _resource, List<ListElement> items) {
+        public MyAdapter(Context _context, int _resource, List<ListElement> items)
+        {
             super(_context, _resource, items);
             resource = _resource;
             context = _context;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
             LinearLayout newView;
 
             ListElement currentItem = getItem(position);
@@ -174,7 +185,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             TextView itemCategory = (TextView) newView.findViewById(R.id.itemCategory);
             TextView itemPrice = (TextView) newView.findViewById(R.id.itemPriceView);
 
-
+            //This sets the text views in the list element
             itemName.setText(currentItem.nameLabel);
             itemPrice.setText(currentItem.priceLabel);
             itemCategory.setText(currentItem.category);
@@ -199,7 +210,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
     //----------------------------------------------------------------------------------------
-    //This code creates a new item object and adds it to a user's current week arraylist
+    //This code creates a new item object and adds it to a user's current weeklong budget object
     //----------------------------------------------------------------------------------------
 
     //Global variables
@@ -211,7 +222,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     public String newItemPrice;
     public String newItemDate;
     public String newItemCategory;
-    SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");    //This is the format we want our date string to be in
 
     //Instantiating the edit text views
     EditText nameEntry;
@@ -219,44 +230,36 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
     //This function executes when the user presses the add button
-    public void createNewItem(View v){
+    public void createNewItem(View v)
+    {
 
         //Getting the user input from the edit texts
         newItemPrice = priceEntry.getText().toString();
         newItemName = nameEntry.getText().toString();
+        System.out.println("The user inputted the price as: "+newItemPrice);
 
-        //Creating a new Item object and setting a generic category, price, and date
+        //Creating a new Item object and setting the price and name
         Item newItem = new Item(newItemName);
         newItem.setPrice(Double.valueOf(newItemPrice));
+        System.out.println("This item costs: "+newItem.getPrice());
 
+        //Getting the category from the spinner
         newItemCategory = spinner.getSelectedItem().toString();
         newItem.setCategory(newItemCategory);
-        System.out.println(newItemCategory);
+        System.out.println(newItemCategory);   //debugging function
 
-
-
-        //newItem.setCategory("Generic");
-
+        //Setting the date the object was purchased to the current date
         newItemDate = sdf.format(new Date());
         newItem.setDate(newItemDate);
+        System.out.println("The current date is:" +newItemDate);    //debugging function
 
-        System.out.println("The current date is:" +newItemDate);
-
-
-
-        //Adding the new item to the test user's current week array list
+        //Adding the new item to the test user's current week budget
         testUser.addItem(newItem);
-
 
         //This adds the item to the list view
         currentItemsAddedToList.add(new ListElement(newItemName, newItemPrice, newItemCategory));
         aa.notifyDataSetChanged();
     }
-
-
-    //Debugging function to make sure the items were added to the users arraylist correctly
-
-
 
 
 
