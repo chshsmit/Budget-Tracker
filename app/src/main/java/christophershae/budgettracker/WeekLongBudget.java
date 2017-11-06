@@ -1,0 +1,65 @@
+package christophershae.budgettracker;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by chrissmith on 10/29/17.
+ */
+
+public class WeekLongBudget {
+
+    public ArrayList<Item> allItems = new ArrayList<>();
+    public Map<String, Double> costOfAllCategories;
+
+    public double totalAmountSpent;
+
+    public String startDate;
+
+
+
+    public WeekLongBudget(String date){
+        this.startDate = date;
+        this.totalAmountSpent = 0.00;
+        this.costOfAllCategories = new HashMap<>();
+    }
+
+
+    public void addItem(Item item)
+    {
+        this.allItems.add(item);
+        this.totalAmountSpent += item.getPrice();
+    }
+
+    public Double getTotalAmountOfMoneySpent()
+    {
+        return this.totalAmountSpent;
+    }
+
+    public Map<String, Double> getAmountForEachCategory()
+    {
+        double newPrice;
+        for(Item item: allItems){
+            newPrice = 0.00;
+            if(this.costOfAllCategories.containsKey(item.category)){
+                newPrice = Math.round((item.getPrice() + this.costOfAllCategories.get(item.category)) * 100.0) / 100.0;
+                this.costOfAllCategories.put(item.category, newPrice);
+                System.out.println("You have a total of $"+newPrice+" spent in the category "+item.category);
+            } else {
+                this.costOfAllCategories.put(item.category, item.getPrice());
+                System.out.println("You have a total of $"+item.getPrice()+" spent in the category "+item.category);
+            }
+        }
+
+        return this.costOfAllCategories;
+    }
+
+
+    public String getStartDate(){return this.startDate;}
+
+
+
+
+
+}

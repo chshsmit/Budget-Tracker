@@ -22,8 +22,12 @@ public class Item {
     //These are all setter and getter functions
     //---------------------------------------------------------------------------------------------
 
+    public String getName(){
+        return this.name;
+    }
+
     public void setPrice(double price){
-        this.price = Math.round(price *100D) / 100;
+        this.price = price;
     }
 
     public void setCategory(String category){
@@ -38,7 +42,7 @@ public class Item {
 
 
     public double getPrice(){
-        return this.price;
+        return (double) Math.round(this.price * 100.0) /100.0;
     }
 
     public String getCategory(){

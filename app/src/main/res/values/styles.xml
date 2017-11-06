@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- For popup window activities. -->
+    <style name="AppTheme.CustomTheme" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
 </resources>
