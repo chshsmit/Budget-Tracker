@@ -6,12 +6,29 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class RecentPurchases extends AppCompatActivity {
 
-    private static final String TAG = "Popup";
+// Testing User and Date classes
+//-------------------------------------------------------------------------
+    //Global variables
+    User testUser = new User("CrashTestDummy0.1");
+
+
+    //Global variables for the item price, name, and date
+    public String newItemName;
+    public String newItemPrice;
+    public String newItemDate;
+    public String newItemCategory;
+    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy, EEEE");
+//-------------------------------------------------------------------------
+
+
+    private static final String TAG = "*** Popup Debugger ***";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +46,15 @@ public class RecentPurchases extends AppCompatActivity {
         Log.d(TAG, "onCreate: Started.");
         ListView mListView = (ListView) findViewById(R.id.listView);
 
+        // -------------------------------------------------------------------
+        Item newItem = new Item("CrashDummyItem");
+        newItemDate = sdf.format(new Date());
+        newItem.setPrice(Double.valueOf("344.99"));
+        testUser.addItem(newItem);
+
+        newItem.setDate(newItemDate);
+        // -------------------------------------------------------------------
+
         //Create the Item objects
         Item curry = new Item("Instant curry");
         curry.setDate("12/07/35, Friday");
@@ -42,9 +68,9 @@ public class RecentPurchases extends AppCompatActivity {
         television.setDate("12/05/35, Wednesday");
         television.setPrice(3199.99);
 
-        Item hamas = new Item("Hamas");
-        hamas.setDate("12/05/35, Wednesday");
-        hamas.setPrice(6.99);
+        Item hummus = new Item("Hummus");
+        hummus.setDate("12/05/35, Wednesday");
+        hummus.setPrice(6.99);
 
         Item naan = new Item("Naan bread");
         naan.setDate("12/03/35, Monday");
@@ -80,10 +106,12 @@ public class RecentPurchases extends AppCompatActivity {
 
         //Add the Transaction objects to an ArrayList
         ArrayList<Item> recentItemList = new ArrayList<>();
+        recentItemList.add(newItem);
+
         recentItemList.add(curry);
         recentItemList.add(pasta);
         recentItemList.add(television);
-        recentItemList.add(hamas);
+        recentItemList.add(hummus);
         recentItemList.add(naan);
         recentItemList.add(ramen);
         recentItemList.add(chair);
