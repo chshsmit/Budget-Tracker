@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -38,6 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -54,7 +57,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
     private String userId;
 
-    public String myDate = "11052017";
+    public String myDate;
 
 
     Map<String, WeekLongBudget> usersBudgets = new HashMap<>();
@@ -90,11 +93,12 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         userId = currentUser.getUid();
+        myDate = decrementDate(new Date());
+        System.out.println(myDate);
 
 
         //If the current date exists then it is currently sunday
 
-        System.out.println("You basically, are just stupid");
         mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -107,15 +111,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 System.out.println(currentWeeeksBudget.getStartDate());
 
 
-
-                for(String key: usersBudgets.keySet()){
-
-
-                    System.out.println(key);
-                    //System.out.println(usersBudgets.get(key).);
-                }
-                //currentWeeeksBudget = usersBudgets.get("11052017");
-
             }
 
             @Override
@@ -125,21 +120,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         });
 
 
-        //System.out.println("The current week is: " +currentWeeeksBudget.startDate);
-
-
-//        Map<String, WeekLongBudget> testMap = new HashMap<>();
-//        WeekLongBudget testBudg = new WeekLongBudget("11052017");
-//
-//        testMap.put("Test", testBudg);
-//
-//
-//
-//        mFireBaseDatabase.child(userId).setValue(testMap);
 
         System.out.println("The current user ID is: " +userId);
-
-
 
 
 
@@ -337,13 +319,15 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         //Setting the date the object was purchased to the current date
         newItemDate = sdf.format(new Date());
-        newItem.setDate(newItemDate);
-        System.out.println("The current date is:" +newItemDate);    //debugging function
+        newItem.setDate("11042017");
+        System.out.println("The current date is:" +newItem.getDate());    //debugging function
 
         //Adding the new item to the test user's current week budget
         testUser.addItem(newItem);
 
         addItemToWeek(newItem);
+
+
 
         //This adds the item to the list view
         currentItemsAddedToList.add(new ListElement(newItemName, newItemPrice, newItemCategory));
@@ -353,31 +337,44 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
 
-    //returns null if a week for that date doesnt exists
+
+
+    //Retrieving the correct weeklong budget object to store the new item in
     public WeekLongBudget getWeek(String date)
     {
-        //If the current date exists then it is currently sunday
-        date = decrementDate(new Date());
+        //DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
+        //Decrement the date to be the most recent sunday
 
-        //System.out.println("this is the class name");
-        //System.out.println(usersBudgets.get(date).getClass().getName());
-
-
-        //currentWeeeksBudget = usersBudgets.get(date);
-
-
-
-        //System.out.println("Creating a new list");
-        System.out.println("The list is indexed by "+date);
-
-        if(currentWeeeksBudget == null){
-            System.out.println("Creating new week");
-            currentWeeeksBudget = new WeekLongBudget(date);
-
+        try
+        {
+            date = decrementDate(sdf.parse(date));
+        } catch (ParseException e)
+        {
+            e.printStackTrace();
         }
 
-        //WeekLongBudget newWeek = new WeekLongBudget(newDate);
-        return currentWeeeksBudget;
+
+        System.out.println("The list is indexed by "+date);
+
+        if(usersBudgets.get(date) == null){
+            System.out.println("Creating new week");
+            WeekLongBudget newWeek = new WeekLongBudget(date);
+            return newWeek;
+        } else{
+            return usersBudgets.get(date);
+        }
+
+
+        //If the current weeks budget is null, then we create a new week
+//        if(currentWeeeksBudget == null){
+//            System.out.println("Creating new week");
+//            currentWeeeksBudget = new WeekLongBudget(date);
+//
+//        }
+//
+//
+//        //We return the current weeks budget
+//        return currentWeeeksBudget;
     }
 
     //This is the format for our date string
@@ -387,11 +384,20 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     // wants to add item to past or future
     public void addItemToWeek(Item item)
     {
-        String date = item.getDate();
-        WeekLongBudget inputWeek = getWeek(date);
+        String date = item.getDate();                   //Get the date of the item
+        System.out.println("the date is:" +date);
+        WeekLongBudget inputWeek = getWeek(date);       //Get the current weeks budget or the budget for the corresponding date
         inputWeek.addItem(item);
 
-        usersBudgets.put(decrementDate(new Date()), inputWeek);
+        try
+        {
+            usersBudgets.put(decrementDate(sdf.parse(date)), inputWeek);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
         mFireBaseDatabase.child(userId).setValue(usersBudgets);
 
 
@@ -403,6 +409,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         //Get an instance of the calenday and get the current day of the week
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
         int day = calendar.get(Calendar.DAY_OF_WEEK);
 
         //Depending on what day it is, decrement the date to be the most recent sunday
