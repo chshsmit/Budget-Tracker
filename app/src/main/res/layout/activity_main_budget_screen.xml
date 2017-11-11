@@ -10,6 +10,7 @@
         android:id="@+id/Total_Spent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -20,6 +21,7 @@
         app:layout_constraintStart_toEndOf="@+id/Recent_Purchases"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <Button
         android:id="@+id/Settings"
         android:layout_width="wrap_content"
@@ -28,7 +30,7 @@
         android:text="@string/settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="262dp" />
+        tools:layout_editor_absoluteX="294dp" />
 
     <Button
         android:id="@+id/Enter_Man"
@@ -48,8 +50,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
         android:text="@string/picture"
         app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -72,7 +76,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </com.github.mikephil.charting.charts.PieChart>
 
 </android.support.constraint.ConstraintLayout>
