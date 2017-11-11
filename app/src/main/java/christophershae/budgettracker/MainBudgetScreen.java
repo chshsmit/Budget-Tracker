@@ -34,6 +34,7 @@ import java.util.Map;
 
 import static christophershae.budgettracker.R.id.Enter_Man;
 import static christophershae.budgettracker.R.id.Picture_Screen;
+import static christophershae.budgettracker.R.id.Recent_Purchases;
 import static christophershae.budgettracker.R.id.Settings;
 
 
@@ -108,9 +109,10 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         System.out.println("The current user ID is: " +userId);
 
-        Button b = (Button) findViewById(R.id.Recent_Purchases);
+        Button purchases = (Button) findViewById(R.id.Recent_Purchases);
 
-        b.setOnClickListener(new View.OnClickListener() {
+        purchases.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainBudgetScreen.this, RecentPurchases.class));
