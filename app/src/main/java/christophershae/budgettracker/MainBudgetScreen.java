@@ -96,7 +96,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
 
                 System.out.println("This is the current weeks start date: ");
-                System.out.println(currentWeeksBudget.getStartDate());
+                //System.out.println(currentWeeksBudget.getStartDate());
 
 
             }

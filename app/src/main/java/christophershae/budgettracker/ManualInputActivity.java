@@ -115,7 +115,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 currentWeeeksBudget = dataSnapshot.child(userId).child(myDate).getValue(WeekLongBudget.class);
 
                 System.out.println("This is the current weeks start date: ");
-                System.out.println(currentWeeeksBudget.getStartDate());
+                //System.out.println(currentWeeeksBudget.getStartDate());
 
 
             }
@@ -383,7 +383,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 //        //We return the current weeks budget
 //        return currentWeeeksBudget;
     }
-  
+
     //This is the format for our date string
 
 

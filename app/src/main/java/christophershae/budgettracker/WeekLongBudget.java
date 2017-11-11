@@ -12,6 +12,8 @@ public class WeekLongBudget {
 
     public ArrayList<Item> allItems = new ArrayList<>();
     public Map<String, Double> costOfAllCategories;
+    //public Map<String, Double> amountForEachCategory;
+    //public double totalAmountOfMoneySpent;
 
     public double totalAmountSpent;
 
@@ -32,13 +34,14 @@ public class WeekLongBudget {
         this.totalAmountSpent += item.getPrice();
     }
 
-    public Double getTotalAmountOfMoneySpent()
+    public Double getTotalAmountSpent()
     {
         return this.totalAmountSpent;
     }
 
-    public Map<String, Double> getAmountForEachCategory()
+    public Map<String, Double> getCostOfAllCategories()
     {
+        this.costOfAllCategories.clear();
         double newPrice;
         for(Item item: allItems){
             newPrice = 0.00;
