@@ -62,8 +62,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
     Map<String, WeekLongBudget> usersBudgets = new HashMap<>();
-    private WeekLongBudget currentWeeeksBudget;
-
 
 
     //Buttons for the interface
@@ -98,26 +96,19 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         System.out.println(myDate);
 
 
-        //If the current date exists then it is currently sunday
 
         mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                //Clearing the current user budgets
                 usersBudgets.clear();
+
+                //Looping through all children within the users node and adding each child
+                //to the users budgets
                 for(DataSnapshot snapshot: dataSnapshot.child(userId).getChildren()){
                     System.out.println(snapshot.getKey());
                     usersBudgets.put(snapshot.getKey(),snapshot.getValue(WeekLongBudget.class));
                 }
-                System.out.println("We are getting data from the database");
-                //usersBudgets = (Map<String, WeekLongBudget>)  dataSnapshot.child(userId).getValue(Map.class);
-
-                currentWeeeksBudget = dataSnapshot.child(userId).child(myDate).getValue(WeekLongBudget.class);
-
-                System.out.println("This is the current weeks start date: ");
-                //System.out.println(currentWeeeksBudget.getStartDate());
-
-
             }
 
             @Override
@@ -255,7 +246,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 newView = (LinearLayout) convertView;
             }
 
-            // Fills in the view.
+            // Fills in the view of a manually inputted item.
             TextView itemName = (TextView) newView.findViewById(itemNameView);
             TextView itemCategory = (TextView) newView.findViewById(R.id.itemCategory);
             TextView itemPrice = (TextView) newView.findViewById(R.id.itemPriceView);
@@ -293,7 +284,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
 
-    //Global variables for the item price, name, and date
+    //Global variables for the item price, name, date, adnd category
     public String newItemName;
     public String newItemPrice;
     public String newItemDate;
@@ -332,6 +323,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //Adding the new item to the test user's current week budget
         testUser.addItem(newItem);
 
+        //Add the item to the correct weeks budget
         addItemToWeek(newItem);
 
 
@@ -363,28 +355,17 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         System.out.println("The list is indexed by "+date);
 
+        //If the budget week for the current item is null, then we create a new WeekLongbudget
         if(usersBudgets.get(date) == null){
             System.out.println("Creating new week");
             WeekLongBudget newWeek = new WeekLongBudget(date);
             return newWeek;
         } else{
-            return usersBudgets.get(date);
+            return usersBudgets.get(date);        //Return the WeekLongBudget for the date if it isn't null
         }
 
-
-        //If the current weeks budget is null, then we create a new week
-//        if(currentWeeeksBudget == null){
-//            System.out.println("Creating new week");
-//            currentWeeeksBudget = new WeekLongBudget(date);
-//
-//        }
-//
-//
-//        //We return the current weeks budget
-//        return currentWeeeksBudget;
     }
 
-    //This is the format for our date string
 
 
     //inputs item into right arraylist using the items week. Feature works if for example user
@@ -398,9 +379,10 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         try
         {
+            //Adding the WeekLongBudget to all of the users budgets
             usersBudgets.put(decrementDate(sdf.parse(date)), inputWeek);
         }
-        catch (ParseException e)
+        catch (ParseException e)    //This exception catches the parsing of the date
         {
             e.printStackTrace();
         }
@@ -414,10 +396,10 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     public String decrementDate(Date date)
     {
 
-        //Get an instance of the calenday and get the current day of the week
+        //Get an instance of the calendar and set the time to the date the item was purchased
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        int day = calendar.get(Calendar.DAY_OF_WEEK);    //Get which day of the week that was
 
         //Depending on what day it is, decrement the date to be the most recent sunday
         //If it is Sunday, then it won't change the date at all
