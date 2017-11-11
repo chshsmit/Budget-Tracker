@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Budget-Tracker.iml" filepath="$PROJECT_DIR$/Budget-Tracker.iml" />
-<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/BudgetTracker.iml" filepath="$PROJECT_DIR$/BudgetTracker.iml" />
-      <module fileurl="file://C:\GitHub\Budget-Tracker\BudgetTracker.iml" filepath="C:\GitHub\Budget-Tracker\BudgetTracker.iml" />
-      <module fileurl="file://C:\GitHub\Budget-Tracker\app\app.iml" filepath="C:\GitHub\Budget-Tracker\app\app.iml" />
-      <module fileurl="file://C:\Users\Darwin\Documents\GitHub\Budget-Tracker\BudgetTracker.iml" filepath="C:\Users\Darwin\Documents\GitHub\Budget-Tracker\BudgetTracker.iml" />
-=======
->>>>>>> 6a6a1f2b7a82812ce8c7b5bc894f607ea634b408
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

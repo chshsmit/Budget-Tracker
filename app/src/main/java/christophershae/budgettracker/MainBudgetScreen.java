@@ -41,7 +41,6 @@ import static christophershae.budgettracker.R.id.Settings;
 
 public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener{
 
-<<<<<<< HEAD
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mFireBaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
@@ -56,12 +55,12 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
 
 
-=======
+
     private double totalSpent;
     private float[] ydata = {800.00f, 100.00f, 75.00f, 300f};
     private String[] xdata = {"Rent", "Drugs", "Util", "Food"};
     PieChart pieChart;
->>>>>>> 6a6a1f2b7a82812ce8c7b5bc894f607ea634b408
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         Button photo = (Button) findViewById(Picture_Screen);
         photo.setOnClickListener(this);
 
-<<<<<<< HEAD
+
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -131,12 +130,13 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onResume(){
         super.onResume();
+
         if(firebaseAuth.getCurrentUser() == null){
             System.out.println("You are not signed in");
         } else {
             System.out.println("You are signed in on the main page: onresume");
         }
-=======
+
         pieChart = (PieChart) findViewById(R.id.idPieChart);
 
         pieChart.setDescription("Sales by Category");
@@ -153,14 +153,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        addDataSet(pieChart);
 
-        TextView textView = (TextView) findViewById(R.id.Total_Spent);
-        textView.setText("$"+(int)totalSpent);
-    }
 
 
 
@@ -201,7 +194,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         pieChart.setData(pieData);
         pieChart.invalidate();
 
->>>>>>> 6a6a1f2b7a82812ce8c7b5bc894f607ea634b408
     }
 
     @Override
