@@ -1,10 +1,23 @@
 package christophershae.budgettracker;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,6 +41,7 @@ import static christophershae.budgettracker.R.id.Settings;
 
 public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener{
 
+<<<<<<< HEAD
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mFireBaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
@@ -42,12 +56,19 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
 
 
+=======
+    private double totalSpent;
+    private float[] ydata = {800.00f, 100.00f, 75.00f, 300f};
+    private String[] xdata = {"Rent", "Drugs", "Util", "Food"};
+    PieChart pieChart;
+>>>>>>> 6a6a1f2b7a82812ce8c7b5bc894f607ea634b408
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_budget_screen);
-//define Buttons from main screen
+
+        //define Buttons from main screen
         Button enter = (Button) findViewById(Enter_Man);
         enter.setOnClickListener(this);
         Button settings = (Button) findViewById(Settings);
@@ -55,6 +76,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         Button photo = (Button) findViewById(Picture_Screen);
         photo.setOnClickListener(this);
 
+<<<<<<< HEAD
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -114,6 +136,72 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         } else {
             System.out.println("You are signed in on the main page: onresume");
         }
+=======
+        pieChart = (PieChart) findViewById(R.id.idPieChart);
+
+        pieChart.setDescription("Sales by Category");
+        pieChart.setRotationEnabled(true);
+        //pieChart.setUsePercentValues(true);
+        pieChart.setHoleRadius(0f);
+        //pieChart.setCenterText("Maybe a button");
+        //pieChart.setCenterTextSize(10);
+
+        addDataSet(pieChart);
+
+        TextView textView = (TextView) findViewById(R.id.Total_Spent);
+        textView.setText("$"+(int)totalSpent);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        addDataSet(pieChart);
+
+        TextView textView = (TextView) findViewById(R.id.Total_Spent);
+        textView.setText("$"+(int)totalSpent);
+    }
+
+
+
+    private void addDataSet(PieChart chart){
+        ArrayList<Entry> pieEntries = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+
+        totalSpent = 0;
+        for(int i = 0; i < ydata.length; i++){
+            totalSpent += ydata[i];
+            pieEntries.add(new Entry(ydata[i], i));
+        }
+
+        for(int i = 0; i < xdata.length; i++){
+            labels.add(xdata[i]);
+        }
+
+        //create the dataset
+        PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
+        dataSet.setSliceSpace(2);
+        dataSet.setValueTextSize(12);
+
+        //add colors
+        ArrayList<Integer> colors = new ArrayList<>();
+
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS); // set the color<br />
+
+        //custom data display MonetaryDisplay
+        dataSet.setValueFormatter(new MonetaryDisplay());
+
+        //make legend
+        Legend legend = pieChart.getLegend();
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
+
+        //create pie data object
+        PieData pieData = new PieData(labels, dataSet);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+
+>>>>>>> 6a6a1f2b7a82812ce8c7b5bc894f607ea634b408
     }
 
     @Override
