@@ -27,6 +27,7 @@ import static android.R.attr.category;
 import static christophershae.budgettracker.R.id.addItemToBudget;
 import static christophershae.budgettracker.R.id.item;
 import static christophershae.budgettracker.R.id.itemNameView;
+import static christophershae.budgettracker.R.id.snap;
 import static java.security.AccessController.getContext;
 import android.content.Intent;
 import android.widget.Spinner;
@@ -102,8 +103,14 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                usersBudgets.clear();
+                for(DataSnapshot snapshot: dataSnapshot.child(userId).getChildren()){
+                    System.out.println(snapshot.getKey());
+                    usersBudgets.put(snapshot.getKey(),snapshot.getValue(WeekLongBudget.class));
+                }
                 System.out.println("We are getting data from the database");
-                usersBudgets = (Map<String, WeekLongBudget>) dataSnapshot.child(userId).getValue();
+                //usersBudgets = (Map<String, WeekLongBudget>)  dataSnapshot.child(userId).getValue(Map.class);
 
                 currentWeeeksBudget = dataSnapshot.child(userId).child(myDate).getValue(WeekLongBudget.class);
 
@@ -376,7 +383,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 //        //We return the current weeks budget
 //        return currentWeeeksBudget;
     }
-
+  
     //This is the format for our date string
 
 
