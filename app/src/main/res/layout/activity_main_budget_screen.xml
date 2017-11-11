@@ -10,13 +10,15 @@
         android:id="@+id/Total_Spent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="test"
-        app:layout_constraintEnd_toStartOf="@+id/idPieChart"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toEndOf="@+id/idPieChart"
-        app:layout_constraintTop_toTopOf="@+id/idPieChart"
-        tools:layout_editor_absoluteX="168dp" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Total Spent:"
+        app:layout_constraintBottom_toTopOf="@+id/idPieChart"
+        app:layout_constraintEnd_toStartOf="@+id/Settings"
+        app:layout_constraintStart_toEndOf="@+id/Recent_Purchases"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/Settings"
@@ -34,7 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginRight="24dp"
-        android:onClick="Add"
         android:text="@string/plus_sign"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -46,17 +47,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginStart="72dp"
         android:text="@string/picture"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="8dp" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/Recent_Purchases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recent Purchases"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Settings"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/idPieChart"
-        android:layout_width="0dp"
-        android:layout_height="439dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="8dp">
+        android:layout_width="348dp"
+        android:layout_height="377dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </com.github.mikephil.charting.charts.PieChart>
 
