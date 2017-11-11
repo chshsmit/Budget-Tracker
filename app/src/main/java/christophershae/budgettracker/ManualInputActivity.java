@@ -319,7 +319,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         //Setting the date the object was purchased to the current date
         newItemDate = sdf.format(new Date());
-        newItem.setDate("11042017");
+        newItem.setDate(newItemDate);
         System.out.println("The current date is:" +newItem.getDate());    //debugging function
 
         //Adding the new item to the test user's current week budget
