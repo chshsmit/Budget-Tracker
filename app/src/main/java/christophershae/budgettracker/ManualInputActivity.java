@@ -134,6 +134,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         priceEntry = (EditText) findViewById(R.id.itemPriceEntry);
         nameEntry = (EditText) findViewById(R.id.itemNameEntry);
         dateEntry = (EditText) findViewById(R.id.setDate);
+        dateEntry.setText(slashedDate.format(new Date()));
         //create drop down menu to view the categories of expenses
         //Define spinner from xml file
         spinner = (Spinner) findViewById(R.id.Menu_C);
@@ -291,6 +292,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     public String newItemCategory;
     //public String newDate;
     SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");    //This is the format we want our date string to be in
+    SimpleDateFormat slashedDate = new SimpleDateFormat("MM/dd/yyyy");
 
     //Instantiating the edit text views
     EditText nameEntry;
@@ -305,6 +307,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         newItemPrice = priceEntry.getText().toString();
         newItemName = nameEntry.getText().toString();
         newItemDate = dateEntry.getText().toString();
+        newItemDate = newItemDate.replace("/","");
+
         System.out.println("The user inputted the price as: "+newItemPrice);
 
         //Creating a new Item object and setting the price and name
@@ -318,7 +322,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         System.out.println(newItemCategory);   //debugging function
 
         //Setting the date the object was purchased to the current date
-        newItemDate = sdf.format(new Date());
+        //newItemDate = sdf.format(new Date());
         newItem.setDate(newItemDate);
         System.out.println("The current date is:" +newItem.getDate());    //debugging function
 

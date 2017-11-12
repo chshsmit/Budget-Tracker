@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static christophershae.budgettracker.R.string.finish;
+
 /**
  * Created by chrissmith on 10/29/17.
  */
@@ -46,7 +48,7 @@ public class WeekLongBudget {
     }
 
     public void addMoneyToIncome(double income){
-        this.totalIncomeAccumulated += Math.round(income * 100.0) / 100.0
+        this.totalIncomeAccumulated += Math.round(income * 100.0) / 100.0;
     }
 
 
@@ -65,9 +67,13 @@ public class WeekLongBudget {
 
     public Map<String, Double> getCostOfAllCategories()
     {
+        if(this.costOfAllCategories == null) {return null;}
+
         this.costOfAllCategories.clear();
+        System.out.println(this.costOfAllCategories.containsKey("Food"));
         double newPrice;
         for(Item item: allItems){
+            if(item == null) break;
             newPrice = 0.00;
             if(this.costOfAllCategories.containsKey(item.category)){
                 newPrice = Math.round((item.getPrice() + this.costOfAllCategories.get(item.category)) * 100.0) / 100.0;
