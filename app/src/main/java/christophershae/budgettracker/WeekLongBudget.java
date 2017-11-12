@@ -81,7 +81,7 @@ public class WeekLongBudget {
 
         return this.costOfAllCategories;
     }
-    
+
     public String getStartDate(){return this.startDate;}
 
 
