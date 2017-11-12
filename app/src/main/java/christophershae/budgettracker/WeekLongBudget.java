@@ -16,6 +16,7 @@ public class WeekLongBudget {
     //public double totalAmountOfMoneySpent;
 
     public double totalAmountSpent;
+    public double goalTotal;
 
     public String startDate;
 
@@ -38,6 +39,14 @@ public class WeekLongBudget {
     {
         return this.totalAmountSpent;
     }
+
+    public void setGoalTotal(double goalTotal){
+        this.goalTotal = Math.round(goalTotal * 100.0) / 100.0;
+    }
+    
+
+    public Double getGoalTotal(){ return this.goalTotal; }
+
 
     public Map<String, Double> getCostOfAllCategories()
     {
