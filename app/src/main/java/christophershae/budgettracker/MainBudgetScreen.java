@@ -86,7 +86,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         userId = currentUser.getUid();
 
-        //Getting the current weeks index
+        /*//Getting the current weeks index
         currentWeeksDate = decrementDate(new Date());
         mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -124,7 +124,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             System.out.println("You are not signed in");
         } else {
             System.out.println("You are signed in on the main page: oncreate");
-        }
+        }*/
 
 
     }

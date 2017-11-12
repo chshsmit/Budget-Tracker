@@ -3,33 +3,23 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Switch" />
 
-    <Switch
-        android:id="@+id/switch1"
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Push Notifications" />
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Enter New Weekly Budget" />
 
-    <Switch
-        android:id="@+id/switch1"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save Password" />
+        android:layout_height="43dp"
+        android:text="Current Weekly Budget" />
 
-    <Switch
-        android:id="@+id/switch1"
+    <Button
+        android:id="@+id/signout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Alerts" />
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dark Colors" />
+        android:onClick="signOut"
+        android:text="Sign Out" />
 </LinearLayout>
