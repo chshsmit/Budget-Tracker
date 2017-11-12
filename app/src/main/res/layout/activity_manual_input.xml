@@ -7,22 +7,19 @@
     tools:context="christophershae.budgettracker.ManualInputActivity">
 
 
-
     <EditText
 
         android:id="@+id/itemNameEntry"
         android:layout_width="193dp"
         android:layout_height="45dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="33dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Item Name"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="33dp" />
-
-
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
@@ -30,65 +27,55 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="23dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="32dp"
         android:onClick="createNewItem"
         android:text="@string/add"
-        app:layout_constraintTop_toBottomOf="@+id/itemsAddedToBudgetAlready"
-        android:layout_marginLeft="59dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="59dp" />
-
+        app:layout_constraintTop_toBottomOf="@+id/itemsAddedToBudgetAlready" />
 
 
     <Button
         android:id="@+id/finishAddingItemsToBudget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
 
-        android:layout_marginRight="32dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="32dp"
 
         android:onClick="Finish"
         android:text="@string/finish"
-
-        android:layout_marginTop="23dp"
-        app:layout_constraintTop_toBottomOf="@+id/itemsAddedToBudgetAlready"
         app:layout_constraintLeft_toRightOf="@+id/addItemToBudget"
-        android:layout_marginLeft="61dp"
-        android:layout_marginStart="61dp" />
+        app:layout_constraintTop_toBottomOf="@+id/itemsAddedToBudgetAlready" />
 
     <EditText
         android:id="@+id/itemPriceEntry"
-        android:layout_width="91dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="54dp"
-        android:layout_marginLeft="19dp"
+        android:layout_width="83dp"
+        android:layout_height="45dp"
 
 
-        android:layout_marginRight="54dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginLeft="24dp"
         android:ems="10"
-        android:inputType="textPersonName"
 
+        android:inputType="textPersonName"
         android:text="@string/zero_dollars"
         android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/itemNameEntry"
         app:layout_constraintTop_toTopOf="@+id/itemNameEntry" />
-
-
 
 
     <Spinner
         android:id="@+id/Menu_C"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="4dp"
         android:dropDownWidth="match_parent"
-        app:layout_constraintHorizontal_bias="0.098"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        app:layout_constraintHorizontal_bias="0.21"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_editlist" />
@@ -98,19 +85,18 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="91dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="22dp"
         android:text="@string/Edit_List"
         app:layout_constraintBottom_toTopOf="@+id/Menu_C"
-        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintHorizontal_bias="0.614"
         app:layout_constraintLeft_toRightOf="@+id/text_editlist"
         app:layout_constraintRight_toRightOf="parent" />
 
     <EditText
         android:id="@+id/text_editlist"
-        android:layout_width="159dp"
-        android:layout_height="55dp"
-        android:layout_marginLeft="26dp"
-        android:layout_marginStart="26dp"
+        android:layout_width="195dp"
+        android:layout_height="43dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Create Category"
@@ -121,15 +107,29 @@
         android:id="@+id/itemsAddedToBudgetAlready"
         android:layout_width="288dp"
         android:layout_height="160dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintHorizontal_bias="0.312"
+        android:layout_marginTop="68dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/Menu_C" />
+
+    <EditText
+        android:id="@+id/setDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/set_date"
+        app:layout_constraintBottom_toTopOf="@+id/itemsAddedToBudgetAlready"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
+        tools:text="@string/set_date" />
 
 
 </android.support.constraint.ConstraintLayout>

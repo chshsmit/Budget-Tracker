@@ -4,7 +4,7 @@
 <!-- Strings related to camera activity-->
     <string name="app_name">Budget Tracker</string>
 
-
+    <string name ="set_date">Enter date MM/DD/YYYY</string>
     <string name="Edit_button">Edit/Crop</string>
     <string name="Take_Photo">Photo</string>
 

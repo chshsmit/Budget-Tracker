@@ -135,7 +135,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //Edit texts for the price and name entry
         priceEntry = (EditText) findViewById(R.id.itemPriceEntry);
         nameEntry = (EditText) findViewById(R.id.itemNameEntry);
-
+        dateEntry = (EditText) findViewById(R.id.setDate);
         //create drop down menu to view the categories of expenses
         //Define spinner from xml file
         spinner = (Spinner) findViewById(R.id.Menu_C);
@@ -291,12 +291,13 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     public String newItemPrice;
     public String newItemDate;
     public String newItemCategory;
+    //public String newDate;
     SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");    //This is the format we want our date string to be in
 
     //Instantiating the edit text views
     EditText nameEntry;
     EditText priceEntry;
-
+    EditText dateEntry;
 
     //This function executes when the user presses the add button
     public void createNewItem(View v)
@@ -305,6 +306,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //Getting the user input from the edit texts
         newItemPrice = priceEntry.getText().toString();
         newItemName = nameEntry.getText().toString();
+        newItemDate = dateEntry.getText().toString();
         System.out.println("The user inputted the price as: "+newItemPrice);
 
         //Creating a new Item object and setting the price and name
