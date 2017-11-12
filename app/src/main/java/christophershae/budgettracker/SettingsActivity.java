@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,7 +43,7 @@ import java.util.List;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends AppCompatPreferenceActivity implements View.OnClickListener{
+public class SettingsActivity extends AppCompatActivity{
     private Button buttonSignOut;
     private FirebaseAuth firebaseAuth;
 
@@ -58,14 +59,28 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Vie
 
     }
 
-    @Override
-    public void onClick(View view) {
-        switch(view.getId()) {
-            case signout:
-                firebaseAuth.signOut();
-                break;
+    public void signOut(View v){
+        System.out.println("You did it");
+        firebaseAuth.signOut();
+        changeToLoginScreen();
+    }
 
-        }
+//    @Override
+//    public void onClick(View view) {
+//        switch(view.getId()) {
+//            case signout:
+//                System.out.println("You did it");
+//                firebaseAuth.signOut();
+//                changeToLoginScreen();
+//                break;
+//
+//        }
+//
+//    }
 
+    private void changeToLoginScreen(){
+        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(login);
     }
 }
