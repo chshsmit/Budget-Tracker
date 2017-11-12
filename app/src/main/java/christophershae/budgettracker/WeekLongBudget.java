@@ -17,6 +17,7 @@ public class WeekLongBudget {
 
     public double totalAmountSpent;
     public double goalTotal;
+    public double totalIncomeAccumulated;
 
     public String startDate;
 
@@ -25,6 +26,7 @@ public class WeekLongBudget {
     public WeekLongBudget(String date){
         this.startDate = date;
         this.totalAmountSpent = 0.00;
+        this.totalIncomeAccumulated = 0.00;
         this.costOfAllCategories = new HashMap<>();
     }
 
@@ -35,18 +37,31 @@ public class WeekLongBudget {
         this.totalAmountSpent += item.getPrice();
     }
 
+    //---------------------------------------------------------------------------------------------
+    // Setter functions
+    //---------------------------------------------------------------------------------------------
+
+    public void setGoalTotal(double goalTotal){
+        this.goalTotal = Math.round(goalTotal * 100.0) / 100.0;
+    }
+
+    public void addMoneyToIncome(double income){
+        this.totalIncomeAccumulated += Math.round(income * 100.0) / 100.0
+    }
+
+
+
+    //---------------------------------------------------------------------------------------------
+    // Getter functions
+    //---------------------------------------------------------------------------------------------
     public Double getTotalAmountSpent()
     {
         return this.totalAmountSpent;
     }
 
-    public void setGoalTotal(double goalTotal){
-        this.goalTotal = Math.round(goalTotal * 100.0) / 100.0;
-    }
-    
+    public Double getTotalIncomeAccumulated(){ return this.totalIncomeAccumulated; }
 
     public Double getGoalTotal(){ return this.goalTotal; }
-
 
     public Map<String, Double> getCostOfAllCategories()
     {
@@ -66,8 +81,7 @@ public class WeekLongBudget {
 
         return this.costOfAllCategories;
     }
-
-
+    
     public String getStartDate(){return this.startDate;}
 
 
