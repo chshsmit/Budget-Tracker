@@ -12,8 +12,12 @@ public class WeekLongBudget {
 
     public ArrayList<Item> allItems = new ArrayList<>();
     public Map<String, Double> costOfAllCategories;
+    //public Map<String, Double> amountForEachCategory;
+    //public double totalAmountOfMoneySpent;
 
     public double totalAmountSpent;
+    public double goalTotal;
+    public double totalIncomeAccumulated;
 
     public String startDate;
 
@@ -22,6 +26,7 @@ public class WeekLongBudget {
     public WeekLongBudget(String date){
         this.startDate = date;
         this.totalAmountSpent = 0.00;
+        this.totalIncomeAccumulated = 0.00;
         this.costOfAllCategories = new HashMap<>();
     }
 
@@ -32,13 +37,35 @@ public class WeekLongBudget {
         this.totalAmountSpent += item.getPrice();
     }
 
-    public Double getTotalAmountOfMoneySpent()
+    //---------------------------------------------------------------------------------------------
+    // Setter functions
+    //---------------------------------------------------------------------------------------------
+
+    public void setGoalTotal(double goalTotal){
+        this.goalTotal = Math.round(goalTotal * 100.0) / 100.0;
+    }
+
+    public void addMoneyToIncome(double income){
+        this.totalIncomeAccumulated += Math.round(income * 100.0) / 100.0
+    }
+
+
+
+    //---------------------------------------------------------------------------------------------
+    // Getter functions
+    //---------------------------------------------------------------------------------------------
+    public Double getTotalAmountSpent()
     {
         return this.totalAmountSpent;
     }
 
-    public Map<String, Double> getAmountForEachCategory()
+    public Double getTotalIncomeAccumulated(){ return this.totalIncomeAccumulated; }
+
+    public Double getGoalTotal(){ return this.goalTotal; }
+
+    public Map<String, Double> getCostOfAllCategories()
     {
+        this.costOfAllCategories.clear();
         double newPrice;
         for(Item item: allItems){
             newPrice = 0.00;
@@ -54,7 +81,6 @@ public class WeekLongBudget {
 
         return this.costOfAllCategories;
     }
-
 
     public String getStartDate(){return this.startDate;}
 
