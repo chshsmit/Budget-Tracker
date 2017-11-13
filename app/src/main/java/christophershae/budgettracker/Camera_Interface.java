@@ -32,6 +32,7 @@ public class Camera_Interface extends AppCompatActivity {
         item.setOnLongClickListener(longClickListener);
         item2.setOnLongClickListener(longClickListener);
         item3.setOnLongClickListener(longClickListener);
+        item4.setOnLongClickListener(longClickListener);
         //making listView respond to drag
         category_target.setOnDragListener(dragListener);
 

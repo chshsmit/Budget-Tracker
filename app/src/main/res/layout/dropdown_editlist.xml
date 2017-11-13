@@ -7,6 +7,6 @@
         android:layout_height="wrap_content"
         android:textColor="#000"
         android:padding="10dp"
-        android:textSize="18dp"
-        android:fontStyle="italic"
+        android:textSize="18sp"
+        android:fontFamily="dancing_script"
         android:background="@layout/spinner_divider"/>
