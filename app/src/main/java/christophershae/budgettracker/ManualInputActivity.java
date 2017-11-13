@@ -106,7 +106,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 //Looping through all children within the users node and adding each child
                 //to the users budgets
                 for(DataSnapshot snapshot: dataSnapshot.child(userId).getChildren()){
-                    System.out.println(snapshot.getKey());
+                    //System.out.println(snapshot.getKey());
                     usersBudgets.put(snapshot.getKey(),snapshot.getValue(WeekLongBudget.class));
                 }
             }
