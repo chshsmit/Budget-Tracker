@@ -1,5 +1,7 @@
 package christophershae.budgettracker;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,6 +11,18 @@ import java.util.Date;
  */
 
 public class Utils {
+
+    private static FirebaseDatabase mDataBase;
+
+
+    public static FirebaseDatabase getDatabase() {
+        if (mDataBase == null) {
+            mDataBase = FirebaseDatabase.getInstance();
+            mDataBase.setPersistenceEnabled(true);
+        }
+        return mDataBase;
+    }
+
 
 
 

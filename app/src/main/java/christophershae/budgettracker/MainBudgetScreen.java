@@ -79,7 +79,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseInstance = Utils.getDatabase();
         mFireBaseDatabase = mFirebaseInstance.getReference("users");
 
 

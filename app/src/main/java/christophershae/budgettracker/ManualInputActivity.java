@@ -85,7 +85,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseInstance = Utils.getDatabase();
         mFireBaseDatabase = mFirebaseInstance.getReference("users");
 
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();

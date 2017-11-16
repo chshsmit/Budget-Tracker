@@ -61,7 +61,7 @@ public class SettingsActivity extends AppCompatActivity{
 
 
         firebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseInstance = Utils.getDatabase();
         mFireBaseDatabase = mFirebaseInstance.getReference("users");
         buttonSignOut = (Button) findViewById(R.id.signout);
 
