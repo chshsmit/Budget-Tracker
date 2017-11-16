@@ -36,8 +36,7 @@ import static christophershae.budgettracker.R.id.Enter_Man;
 import static christophershae.budgettracker.R.id.Picture_Screen;
 import static christophershae.budgettracker.R.id.Recent_Purchases;
 import static christophershae.budgettracker.R.id.Settings;
-
-
+import static christophershae.budgettracker.R.id.textView;
 
 
 public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener{
@@ -67,6 +66,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_budget_screen);
+        final TextView totalIncomeTextView = (TextView) findViewById(R.id.Total_Spent);
 
         //define Buttons from main screen
         Button enter = (Button) findViewById(Enter_Man);
@@ -94,6 +94,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 System.out.println("We are getting data from the database");
 
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
+                totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
 
                 System.out.println("This is the current weeks start date: ");
                 //System.out.println(currentWeeksBudget.getStartDate());
@@ -150,8 +151,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         addDataSet(pieChart);
 
-        TextView textView = (TextView) findViewById(R.id.Total_Spent);
-        textView.setText("$"+(int)totalSpent);
 
     }
 

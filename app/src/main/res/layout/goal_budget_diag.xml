@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/goalInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:hint="Weekly Goal" />
+
+    <!--<Button
+        android:id="@+id/setGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="changeWeeklyGoal"
+        android:text="setGoal" />
+
+    <Button
+        android:id="@+id/cancelGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="closeDiag"
+        android:text="Cancel" />-->
+
+</LinearLayout>

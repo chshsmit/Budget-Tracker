@@ -3,33 +3,31 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Switch" />
 
-    <Switch
-        android:id="@+id/switch1"
+    <TextView
+        android:id="@+id/weekbudget"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Push Notifications" />
+        android:layout_height="43dp"
+        android:text="Current Weekly Budget"/>
 
-    <Switch
-        android:id="@+id/switch1"
+    <Button
+        android:id="@+id/changeWeeklyGoalBut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Password" />
+        android:onClick="changeWeeklyGoal"
+        android:text="Set Weekly Budget" />
 
-    <Switch
-        android:id="@+id/switch1"
+    <Button
+        android:id="@+id/changeIncome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Alerts" />
+        android:onClick="changeIncome"
+        android:text="Set Income" />
 
-    <Switch
-        android:id="@+id/switch1"
+    <Button
+        android:id="@+id/signout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dark Colors" />
+        android:onClick="signOut"
+        android:text="Sign Out" />
 </LinearLayout>

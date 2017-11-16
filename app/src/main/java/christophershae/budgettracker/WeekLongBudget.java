@@ -46,7 +46,9 @@ public class WeekLongBudget {
     }
 
     public void addMoneyToIncome(double income){
-        this.totalIncomeAccumulated += Math.round(income * 100.0) / 100.0
+
+        this.totalIncomeAccumulated += Math.round(income * 100.0) / 100.0;
+
     }
 
 
@@ -56,7 +58,7 @@ public class WeekLongBudget {
     //---------------------------------------------------------------------------------------------
     public Double getTotalAmountSpent()
     {
-        return this.totalAmountSpent;
+        return Math.round(this.totalAmountSpent *100.0) / 100.0;
     }
 
     public Double getTotalIncomeAccumulated(){ return this.totalIncomeAccumulated; }
