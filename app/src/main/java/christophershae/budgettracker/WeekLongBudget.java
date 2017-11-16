@@ -67,6 +67,7 @@ public class WeekLongBudget {
 
     public Map<String, Double> getCostOfAllCategories()
     {
+        if(this.costOfAllCategories == null) return null;
         this.costOfAllCategories.clear();
         double newPrice;
         for(Item item: allItems){

@@ -15,7 +15,7 @@
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Item Name"
+        android:hint="Item Name"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -70,7 +70,7 @@
         android:ems="10"
         android:inputType="textPersonName"
 
-        android:text="@string/zero_dollars"
+        android:hint="@string/zero_dollars"
         android:textAlignment="center"
         app:layout_constraintLeft_toRightOf="@+id/itemNameEntry"
         app:layout_constraintTop_toTopOf="@+id/itemNameEntry" />
@@ -113,7 +113,7 @@
         android:layout_marginStart="26dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Create Category"
+        android:hint="Create Category"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemNameEntry" />
 
