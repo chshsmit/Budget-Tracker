@@ -39,6 +39,8 @@ public class WeekLongBudget {
         this.totalAmountSpent += item.getPrice();
     }
 
+
+
     //---------------------------------------------------------------------------------------------
     // Setter functions
     //---------------------------------------------------------------------------------------------
@@ -92,6 +94,8 @@ public class WeekLongBudget {
     }
 
     public String getStartDate(){return this.startDate;}
+
+    public ArrayList<Item> getAllItems(){return this.allItems;}
 
 
 

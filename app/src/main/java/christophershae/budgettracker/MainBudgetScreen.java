@@ -16,6 +16,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,7 +119,11 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainBudgetScreen.this, RecentPurchases.class));
+                Intent intent = new Intent(MainBudgetScreen.this, RecentPurchases.class);
+                Bundle args = new Bundle();
+                args.putSerializable("ARRAYLIST", (Serializable) currentWeeksBudget.getAllItems());
+                intent.putExtra("BUNDLE", args);
+                startActivity(intent);
             }
         });
 
