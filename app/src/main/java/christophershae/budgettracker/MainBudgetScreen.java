@@ -36,8 +36,7 @@ import static christophershae.budgettracker.R.id.Enter_Man;
 import static christophershae.budgettracker.R.id.Picture_Screen;
 import static christophershae.budgettracker.R.id.Recent_Purchases;
 import static christophershae.budgettracker.R.id.Settings;
-
-
+import static christophershae.budgettracker.R.id.textView;
 
 
 public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener{
@@ -67,6 +66,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_budget_screen);
+        final TextView totalIncomeTextView = (TextView) findViewById(R.id.Total_Spent);
 
         //define Buttons from main screen
         Button enter = (Button) findViewById(Enter_Man);
@@ -79,7 +79,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseInstance = Utils.getDatabase();
         mFireBaseDatabase = mFirebaseInstance.getReference("users");
 
 
@@ -87,13 +87,16 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         userId = currentUser.getUid();
 
 
-        currentWeeksDate = decrementDate(new Date());
+        //Getting the current weeks index
+        currentWeeksDate = Utils.decrementDate(new Date());
+
         mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 System.out.println("We are getting data from the database");
 
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
+                totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
 
                 System.out.println("This is the current weeks start date: ");
                 //System.out.println(currentWeeksBudget.getStartDate());
@@ -150,8 +153,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         addDataSet(pieChart);
 
-        TextView textView = (TextView) findViewById(R.id.Total_Spent);
-        textView.setText("$"+(int)totalSpent);
 
     }
 
@@ -220,59 +221,5 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
     }
 
-    //This function decrements the date so it adds it to the correct weeklong budget
-    public String decrementDate(Date date)
-    {
 
-        //Get an instance of the calenday and get the current day of the week
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
-
-        //Depending on what day it is, decrement the date to be the most recent sunday
-        //If it is Sunday, then it won't change the date at all
-        switch(day){
-            case Calendar.MONDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -1);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.TUESDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -2);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.WEDNESDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -3);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.THURSDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -4);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.FRIDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -5);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.SATURDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -6);
-                date = calendar.getTime();
-                break;
-
-            default:
-                break;
-        }
-
-
-        return sdf.format(date);   //return the decremented date as a string
-    }
 }

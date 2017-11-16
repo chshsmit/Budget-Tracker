@@ -58,8 +58,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
     private String userId;
 
-    public String myDate;
-
 
     Map<String, WeekLongBudget> usersBudgets = new HashMap<>();
 
@@ -87,15 +85,11 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseInstance = Utils.getDatabase();
         mFireBaseDatabase = mFirebaseInstance.getReference("users");
 
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         userId = currentUser.getUid();
-        myDate = decrementDate(new Date());
-        System.out.println(myDate);
-
-
 
         mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -352,7 +346,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         try
         {
-            date = decrementDate(sdf.parse(date));
+            date = Utils.decrementDate(sdf.parse(date));
         } catch (ParseException e)
         {
             e.printStackTrace();
@@ -386,7 +380,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         try
         {
             //Adding the WeekLongBudget to all of the users budgets
-            usersBudgets.put(decrementDate(sdf.parse(date)), inputWeek);
+            usersBudgets.put(Utils.decrementDate(sdf.parse(date)), inputWeek);
         }
         catch (ParseException e)    //This exception catches the parsing of the date
         {

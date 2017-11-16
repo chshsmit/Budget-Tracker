@@ -4,17 +4,28 @@
     android:layout_height="match_parent">
 
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Enter New Weekly Budget" />
+
 
     <TextView
+        android:id="@+id/weekbudget"
         android:layout_width="match_parent"
         android:layout_height="43dp"
-        android:text="Current Weekly Budget" />
+        android:text="Current Weekly Budget"/>
+
+    <Button
+        android:id="@+id/changeWeeklyGoalBut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="changeWeeklyGoal"
+        android:text="Set Weekly Budget" />
+
+    <Button
+        android:id="@+id/changeIncome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="changeIncome"
+        android:text="Set Income" />
+
 
     <Button
         android:id="@+id/signout"
