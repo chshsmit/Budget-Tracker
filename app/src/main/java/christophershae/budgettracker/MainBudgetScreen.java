@@ -17,7 +17,9 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -134,6 +136,16 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             System.out.println("You are signed in on the main page: oncreate");
         }
 
+        pieChart = (PieChart) findViewById(R.id.idPieChart);
+
+        pieChart.setDescription("Sales by Category");
+        pieChart.setRotationEnabled(true);
+        //pieChart.setUsePercentValues(true);
+        pieChart.setHoleRadius(0f);
+        //pieChart.setCenterText("Maybe a button");
+        //pieChart.setCenterTextSize(10);
+
+        addDataSet(pieChart);
 
     }
 
@@ -158,6 +170,8 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         addDataSet(pieChart);
 
+        TextView textView = (TextView) findViewById(R.id.Total_Spent);
+        textView.setText("$"+(int)totalSpent);
 
     }
 
@@ -166,10 +180,47 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
 
     private void addDataSet(PieChart chart){
+        //checks to see if there's data to add
+        //if(currentWeeksBudget.costOfAllCategories == null)
+        //{
+            //return;
+        //}
+
         ArrayList<Entry> pieEntries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
 
         totalSpent = 0;
+
+        ArrayList<Item> mArrayList = currentWeeksBudget.getAllItems();
+
+        //for (Map.Entry<Item> entry : currentWeeksBudget.costOfAllCategories.entrySet()) {
+            //System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        //}
+
+        /*int l = 0;
+        Iterator<Map.Entry<String, Double>> entries = currentWeeksBudget.costOfAllCategories.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<String, Double> entry = entries.next();
+            BigDecimal number = new BigDecimal(entry.getValue());
+            float myFloat = number.floatValue();
+            pieEntries.add(new Entry(myFloat, l));
+            labels.add(entry.getKey());
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+            l++;
+        }*/
+        /*int l = 0;
+        for (Map.Entry<String, Double> entry : currentWeeksBudget.costOfAllCategories.entrySet())
+        {
+            BigDecimal number = new BigDecimal(entry.getValue());
+
+            int myInt = number.intValue();
+            float myFloat = number.floatValue();
+            pieEntries.add(new Entry(myFloat, l));
+            labels.add(entry.getKey());
+            l++;
+        }*/
+
+
         for(int i = 0; i < ydata.length; i++){
             totalSpent += ydata[i];
             pieEntries.add(new Entry(ydata[i], i));
@@ -178,6 +229,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         for(int i = 0; i < xdata.length; i++){
             labels.add(xdata[i]);
         }
+
 
         //create the dataset
         PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
@@ -226,5 +278,59 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
     }
 
+    //This function decrements the date so it adds it to the correct weeklong budget
+    public String decrementDate(Date date)
+    {
 
+        //Get an instance of the calenday and get the current day of the week
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+        //Depending on what day it is, decrement the date to be the most recent sunday
+        //If it is Sunday, then it won't change the date at all
+        switch(day){
+            case Calendar.MONDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -1);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.TUESDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -2);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.WEDNESDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -3);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.THURSDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -4);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.FRIDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -5);
+                date = calendar.getTime();
+                break;
+
+            case Calendar.SATURDAY:
+                calendar.setTime(date);
+                calendar.add(Calendar.DATE, -6);
+                date = calendar.getTime();
+                break;
+
+            default:
+                break;
+        }
+
+
+        return sdf.format(date);   //return the decremented date as a string
+    }
 }
