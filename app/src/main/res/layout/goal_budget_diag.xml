@@ -13,18 +13,4 @@
         android:layout_marginBottom="4dp"
         android:hint="Weekly Goal" />
 
-    <!--<Button
-        android:id="@+id/setGoal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="changeWeeklyGoal"
-        android:text="setGoal" />
-
-    <Button
-        android:id="@+id/cancelGoal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="closeDiag"
-        android:text="Cancel" />-->
-
 </LinearLayout>

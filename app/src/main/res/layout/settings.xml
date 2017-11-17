@@ -4,13 +4,26 @@
     android:layout_height="match_parent">
 
 
-
-
     <TextView
         android:id="@+id/weekbudget"
         android:layout_width="match_parent"
         android:layout_height="43dp"
-        android:text="Current Weekly Budget"/>
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:id="@+id/weekGoal"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:id="@+id/weekIncome"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:textSize="20sp"
+        />
 
     <Button
         android:id="@+id/changeWeeklyGoalBut"

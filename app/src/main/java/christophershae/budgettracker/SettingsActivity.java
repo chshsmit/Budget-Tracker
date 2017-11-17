@@ -80,7 +80,10 @@ public class SettingsActivity extends AppCompatActivity{
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        final TextView textView = (TextView) findViewById(R.id.weekbudget);
+        final TextView currentspent = (TextView) findViewById(R.id.weekbudget);
+        final TextView currentgoal = (TextView) findViewById(R.id.weekGoal);
+        final TextView currentincome = (TextView) findViewById(R.id.weekIncome);
+
 
 
         mFirebaseInstance = Utils.getDatabase();
@@ -96,7 +99,10 @@ public class SettingsActivity extends AppCompatActivity{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentDate).getValue(WeekLongBudget.class);
-                textView.setText("$"+currentWeeksBudget.getTotalAmountSpent());//change to display real time
+                currentspent.setText("Weekly Spent      : $"+currentWeeksBudget.getTotalAmountSpent());//change to display real time
+                currentgoal.setText("Weekly Goal Budget: $"+currentWeeksBudget.getGoalTotal());
+                currentincome.setText("Weekly Income     : $"+currentWeeksBudget.getTotalIncomeAccumulated());
+
                 System.out.println(currentWeeksBudget.getStartDate());
             }
 
@@ -116,31 +122,25 @@ public class SettingsActivity extends AppCompatActivity{
         changeToLoginScreen();
     }
 
-//    @Override
-//    public void onClick(View view) {
-//        switch(view.getId()) {
-//            case signout:
-//                System.out.println("You did it");
-//                firebaseAuth.signOut();
-//                changeToLoginScreen();
-//                break;
-//
-//        }
-//
-//    }
-
-
     private void changeToLoginScreen(){
         Intent login = new Intent(getApplicationContext(), LoginActivity.class);
         login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(login);
     }
 
-    public void changeIncome(View v)
+    public void fakechangeIncome(View v)
     {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+
+            }
+        });
 
         alertDialogBuilder.setPositiveButton("yes",
                 new DialogInterface.OnClickListener() {
@@ -151,13 +151,6 @@ public class SettingsActivity extends AppCompatActivity{
                     }
                 });
 
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1)
-            {
-
-            }
-        });
 
 
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -177,7 +170,7 @@ public class SettingsActivity extends AppCompatActivity{
         alertDialogBuilder.setView(goalInput);
 
         alertDialogBuilder.setTitle("Set this week's goal!");
-        alertDialogBuilder.setPositiveButton("yes",
+        alertDialogBuilder.setPositiveButton("Set",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1)
@@ -192,7 +185,7 @@ public class SettingsActivity extends AppCompatActivity{
                     }
                 });
 
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1)
             {
@@ -205,15 +198,43 @@ public class SettingsActivity extends AppCompatActivity{
         alertDialog.show();
     }
 
+    private String newIncome;
 
-    public void setGoal(View v)
+    public void changeIncome(View v)
     {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        //LayoutInflater inflater = this.getLayoutInflater();
+        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
+        final EditText incomeInput = new EditText(this);
+        incomeInput.setHint("Weekly Income");
+        alertDialogBuilder.setView(incomeInput);
 
+        alertDialogBuilder.setTitle("Set this week's income!");
+        alertDialogBuilder.setPositiveButton("Set",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                        newIncome = incomeInput.getText().toString();
+                        currentWeeksBudget.addMoneyToIncome(Double.valueOf(newIncome));
+
+                        mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
+
+                        Toast.makeText(SettingsActivity.this, "Added Income to Week", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+
+            }
+        });
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
-
-    public void closeDiag(View v)
-    {
-
-    }
-
 }
