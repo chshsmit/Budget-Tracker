@@ -206,7 +206,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 //    }
 
 
-    
+
     private void addDataSet(PieChart chart){
         //checks to see if there's data to add
         //if(currentWeeksBudget.costOfAllCategories == null)
