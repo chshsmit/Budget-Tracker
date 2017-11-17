@@ -54,14 +54,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     //These are variables for the current weeks date, and the budget for the current week
     private String currentWeeksDate;
     private WeekLongBudget currentWeeksBudget;
-
-
-
-
-
-    private double totalSpent;
-    private float[] ydata = {800.00f, 100.00f, 75.00f, 300f};
-    private String[] xdata = {"Rent", "Drugs", "Util", "Food"};
     PieChart pieChart;
 
 
@@ -107,6 +99,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 pieChart.setRotationEnabled(true);
                 //pieChart.setUsePercentValues(true);
                 pieChart.setHoleRadius(0f);
+                pieChart.setTransparentCircleRadius(0);
                 //pieChart.setCenterText("Maybe a button");
                 //pieChart.setCenterTextSize(10);
 
@@ -154,17 +147,9 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
     private void addDataSet(PieChart chart){
         //checks to see if there's data to add
-        //if(currentWeeksBudget.costOfAllCategories == null)
-        //{
-            //return;
-        //}
 
         ArrayList<Entry> pieEntries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
-
-        totalSpent = 0;
-
-        ArrayList<Item> mArrayList = currentWeeksBudget.getAllItems();
 
         int l = 0;
         for (Map.Entry<String, Double> entry : currentWeeksBudget.costOfAllCategories.entrySet())
