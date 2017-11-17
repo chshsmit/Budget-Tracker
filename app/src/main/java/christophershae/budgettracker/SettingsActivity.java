@@ -1,14 +1,8 @@
 package christophershae.budgettracker;
 
-
-import android.annotation.TargetApi;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -28,32 +22,95 @@ import static christophershae.budgettracker.R.id.signout;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import static android.R.id.input;
+import static christophershae.budgettracker.R.id.goalInput;
+import static christophershae.budgettracker.R.id.signout;
+import static christophershae.budgettracker.R.id.textView;
+
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+
 import java.util.List;
+import java.util.Map;
 
 //import static christophershae.budgettracker.R.id.signout;
 
-/**
- * A {@link PreferenceActivity} that presents a set of application settings. On
- * handset devices, settings are presented as a single list. On tablets,
- * settings are split by category, with category headers shown to the left of
- * the list of settings.
- * <p>
- * See <a href="http://developer.android.com/design/patterns/settings.html">
- * Android Design: Settings</a> for design guidelines and the <a
- * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
- * API Guide</a> for more information on developing a Settings UI.
- */
 public class SettingsActivity extends AppCompatActivity{
+
+    private DatabaseReference mFireBaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+    private String userId;
+    private String currentDate;
+
+    private WeekLongBudget currentWeeksBudget;
+    Map<String, WeekLongBudget> usersBudgets = new HashMap<>();
+
+
     private Button buttonSignOut;
     private FirebaseAuth firebaseAuth;
 
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
 
+
         firebaseAuth = FirebaseAuth.getInstance();
+
+        final TextView currentspent = (TextView) findViewById(R.id.weekbudget);
+        final TextView currentgoal = (TextView) findViewById(R.id.weekGoal);
+        final TextView currentincome = (TextView) findViewById(R.id.weekIncome);
+
+
+
+        mFirebaseInstance = Utils.getDatabase();
+        mFireBaseDatabase = mFirebaseInstance.getReference("users");
+        buttonSignOut = (Button) findViewById(R.id.signout);
+
+        currentDate = Utils.decrementDate(new Date());
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        userId = currentUser.getUid();
+
+        mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                currentWeeksBudget = dataSnapshot.child(userId).child(currentDate).getValue(WeekLongBudget.class);
+                currentspent.setText("Weekly Spent      : $"+currentWeeksBudget.getTotalAmountSpent());//change to display real time
+                currentgoal.setText("Weekly Goal Budget: $"+currentWeeksBudget.getGoalTotal());
+                currentincome.setText("Weekly Income     : $"+currentWeeksBudget.getTotalIncomeAccumulated());
+
+                System.out.println(currentWeeksBudget.getStartDate());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("You arent reDING CORRECTLTY");
+            }
+        });
 
         buttonSignOut = (Button) findViewById(R.id.signout);
 
@@ -65,22 +122,119 @@ public class SettingsActivity extends AppCompatActivity{
         changeToLoginScreen();
     }
 
-//    @Override
-//    public void onClick(View view) {
-//        switch(view.getId()) {
-//            case signout:
-//                System.out.println("You did it");
-//                firebaseAuth.signOut();
-//                changeToLoginScreen();
-//                break;
-//
-//        }
-//
-//    }
-
     private void changeToLoginScreen(){
         Intent login = new Intent(getApplicationContext(), LoginActivity.class);
         login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(login);
+    }
+
+    public void fakechangeIncome(View v)
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+
+            }
+        });
+
+        alertDialogBuilder.setPositiveButton("yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+
+                    }
+                });
+
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+
+    private String newGoalBudget;
+
+    public void changeWeeklyGoal(View v)
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        //LayoutInflater inflater = this.getLayoutInflater();
+        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
+        final EditText goalInput = new EditText(this);
+        goalInput.setHint("Weekly Goal");
+        alertDialogBuilder.setView(goalInput);
+
+        alertDialogBuilder.setTitle("Set this week's goal!");
+        alertDialogBuilder.setPositiveButton("Set",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                        newGoalBudget = goalInput.getText().toString();
+                        currentWeeksBudget.setGoalTotal(Double.valueOf(newGoalBudget));
+
+                        mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
+
+                        Toast.makeText(SettingsActivity.this, "Updated Weekly Goal", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+
+            }
+        });
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private String newIncome;
+
+    public void changeIncome(View v)
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        //LayoutInflater inflater = this.getLayoutInflater();
+        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
+        final EditText incomeInput = new EditText(this);
+        incomeInput.setHint("Weekly Income");
+        alertDialogBuilder.setView(incomeInput);
+
+        alertDialogBuilder.setTitle("Set this week's income!");
+        alertDialogBuilder.setPositiveButton("Set",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                        newIncome = incomeInput.getText().toString();
+                        currentWeeksBudget.addMoneyToIncome(Double.valueOf(newIncome));
+
+                        mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
+
+                        Toast.makeText(SettingsActivity.this, "Added Income to Week", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+
+            }
+        });
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }

@@ -39,6 +39,8 @@ public class WeekLongBudget {
         this.totalAmountSpent += item.getPrice();
     }
 
+
+
     //---------------------------------------------------------------------------------------------
     // Setter functions
     //---------------------------------------------------------------------------------------------
@@ -48,7 +50,9 @@ public class WeekLongBudget {
     }
 
     public void addMoneyToIncome(double income){
+
         this.totalIncomeAccumulated += Math.round(income * 100.0) / 100.0;
+
     }
 
 
@@ -58,7 +62,7 @@ public class WeekLongBudget {
     //---------------------------------------------------------------------------------------------
     public Double getTotalAmountSpent()
     {
-        return this.totalAmountSpent;
+        return Math.round(this.totalAmountSpent *100.0) / 100.0;
     }
 
     public Double getTotalIncomeAccumulated(){ return this.totalIncomeAccumulated; }
@@ -67,6 +71,7 @@ public class WeekLongBudget {
 
     public Map<String, Double> getCostOfAllCategories()
     {
+
         if(this.costOfAllCategories == null) {return null;}
 
         this.costOfAllCategories.clear();
@@ -89,6 +94,8 @@ public class WeekLongBudget {
     }
 
     public String getStartDate(){return this.startDate;}
+
+    public ArrayList<Item> getAllItems(){return this.allItems;}
 
 
 

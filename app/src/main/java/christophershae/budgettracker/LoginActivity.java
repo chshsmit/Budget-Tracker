@@ -4,8 +4,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -88,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.password);
         buttonSignup = (Button) findViewById(R.id.signUp);
 
+
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,8 +105,6 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             System.out.println("You are signed in");
             changeToMainBudgetScreen();
-
-
         }
 
     }
@@ -120,11 +122,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void Simple_Nav(View view){
-        //buttonSignIn = (Button) findViewById(R.id.signIn);
-
-
         String email = editTextEmail.getText().toString().trim();
         String password  = editTextPassword.getText().toString().trim();
+
+        //returns out of function if no credentials or connection
+        if(checkConnectionAndInput(email,password)==false)
+        {
+            return;
+        }
+
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -136,34 +142,25 @@ public class LoginActivity extends AppCompatActivity {
                             // there was an error
                             Toast.makeText(LoginActivity.this, "Incorrect Email/Password", Toast.LENGTH_LONG).show();
 
-                        } else {
+                        }
+                        else {
                             changeToMainBudgetScreen();
                         }
                     }
                 });
-
-        //Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
-        //startActivity(next_activity);
     }
 
     private void registerUser()
     {
-
         //getting email and password from edit texts
         String email = editTextEmail.getText().toString().trim();
         String password  = editTextPassword.getText().toString().trim();
 
-        //checking if email and passwords are empty
-        if(TextUtils.isEmpty(email)){
-            Toast.makeText(this,"Please enter email",Toast.LENGTH_LONG).show();
+        //returns out of function if no credentials or connection
+        if(checkConnectionAndInput(email,password)==false)
+        {
             return;
         }
-
-        if(TextUtils.isEmpty(password)){
-            Toast.makeText(this,"Please enter password",Toast.LENGTH_LONG).show();
-            return;
-        }
-
         //creating a new user
         firebaseAuth.createUserWithEmailAndPassword(email, password);
 
@@ -176,4 +173,35 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    private boolean checkConnectionAndInput(String email, String password)
+    {
+        //checks if fields are empty
+        if(TextUtils.isEmpty(email)){
+            Toast.makeText(this,"Please enter email",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if(TextUtils.isEmpty(password)){
+            Toast.makeText(this,"Please enter password",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        //check if there is internet connection
+
+        return checkConnection();
+    }
+
+    public boolean checkConnection()
+    {
+        ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        if(!isConnected){
+            Toast.makeText(this,"Check Internet Connection",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 }

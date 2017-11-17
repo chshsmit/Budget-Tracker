@@ -1,10 +1,12 @@
 package christophershae.budgettracker;
 
+import java.io.Serializable;
+
 /**
  * Created by chrissmith on 10/26/17.
  */
 
-public class Item {
+public class Item implements Serializable {
 
     public String name;
     public String category;
