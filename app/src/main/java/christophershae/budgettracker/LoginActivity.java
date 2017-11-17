@@ -185,6 +185,12 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
         //check if there is internet connection
+
+        return checkConnection();
+    }
+
+    public boolean checkConnection()
+    {
         ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -193,6 +199,9 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this,"Check Internet Connection",Toast.LENGTH_LONG).show();
             return false;
         }
-        return true;
+        else
+        {
+            return true;
+        }
     }
 }
