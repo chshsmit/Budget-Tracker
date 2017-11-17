@@ -101,6 +101,17 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
                 totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
 
+                pieChart = (PieChart) findViewById(R.id.idPieChart);
+
+                pieChart.setDescription("Sales by Category");
+                pieChart.setRotationEnabled(true);
+                //pieChart.setUsePercentValues(true);
+                pieChart.setHoleRadius(0f);
+                //pieChart.setCenterText("Maybe a button");
+                //pieChart.setCenterTextSize(10);
+
+                addDataSet(pieChart);
+
                 System.out.println("This is the current weeks start date: ");
                 //System.out.println(currentWeeksBudget.getStartDate());
 
@@ -136,49 +147,66 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             System.out.println("You are signed in on the main page: oncreate");
         }
 
-        pieChart = (PieChart) findViewById(R.id.idPieChart);
 
-        pieChart.setDescription("Sales by Category");
-        pieChart.setRotationEnabled(true);
-        //pieChart.setUsePercentValues(true);
-        pieChart.setHoleRadius(0f);
-        //pieChart.setCenterText("Maybe a button");
-        //pieChart.setCenterTextSize(10);
-
-        addDataSet(pieChart);
 
     }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
+//    @Override
+//    protected void onResume(){
+//        super.onResume();
+//        final TextView totalIncomeTextView = (TextView) findViewById(R.id.Total_Spent);
+//
+//        if(firebaseAuth.getCurrentUser() == null){
+//            System.out.println("You are not signed in");
+//        } else {
+//            System.out.println("You are signed in on the main page: onresume");
+//        }
+//
+//
+//        //Firebase stuff
+//        firebaseAuth = FirebaseAuth.getInstance();
+//        mFirebaseInstance = Utils.getDatabase();
+//        mFireBaseDatabase = mFirebaseInstance.getReference("users");
+//
+//
+//        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+//        userId = currentUser.getUid();
+//
+//
+//        //Getting the current weeks index
+//        currentWeeksDate = Utils.decrementDate(new Date());
+//
+//        mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                System.out.println("We are getting data from the database");
+//
+//                currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
+//                totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
+//
+//                pieChart = (PieChart) findViewById(R.id.idPieChart);
+//
+//                pieChart.setDescription("Sales by Category");
+//                pieChart.setRotationEnabled(true);
+//                //pieChart.setUsePercentValues(true);
+//                pieChart.setHoleRadius(0f);
+//                //pieChart.setCenterText("Maybe a button");
+//                //pieChart.setCenterTextSize(10);
+//
+//                addDataSet(pieChart);
+//
+//                System.out.println("This is the current weeks start date: ");
+//                //System.out.println(currentWeeksBudget.getStartDate());
+//
+//
+//            }
+//
+//
+//
+//    }
 
-        if(firebaseAuth.getCurrentUser() == null){
-            System.out.println("You are not signed in");
-        } else {
-            System.out.println("You are signed in on the main page: onresume");
-        }
 
-        pieChart = (PieChart) findViewById(R.id.idPieChart);
-
-        pieChart.setDescription("Sales by Category");
-        pieChart.setRotationEnabled(true);
-        //pieChart.setUsePercentValues(true);
-        pieChart.setHoleRadius(0f);
-        //pieChart.setCenterText("Maybe a button");
-        //pieChart.setCenterTextSize(10);
-
-        addDataSet(pieChart);
-
-        TextView textView = (TextView) findViewById(R.id.Total_Spent);
-        textView.setText("$"+(int)totalSpent);
-
-    }
-
-
-
-
-
+    
     private void addDataSet(PieChart chart){
         //checks to see if there's data to add
         //if(currentWeeksBudget.costOfAllCategories == null)
