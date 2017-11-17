@@ -17,7 +17,9 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -99,6 +101,17 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
                 totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
 
+                pieChart = (PieChart) findViewById(R.id.idPieChart);
+
+                pieChart.setDescription("Sales by Category");
+                pieChart.setRotationEnabled(true);
+                //pieChart.setUsePercentValues(true);
+                pieChart.setHoleRadius(0f);
+                //pieChart.setCenterText("Maybe a button");
+                //pieChart.setCenterTextSize(10);
+
+                addDataSet(pieChart);
+
                 System.out.println("This is the current weeks start date: ");
                 //System.out.println(currentWeeksBudget.getStartDate());
 
@@ -135,49 +148,38 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         }
 
 
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-
-        if(firebaseAuth.getCurrentUser() == null){
-            System.out.println("You are not signed in");
-        } else {
-            System.out.println("You are signed in on the main page: onresume");
-        }
-
-        pieChart = (PieChart) findViewById(R.id.idPieChart);
-
-        pieChart.setDescription("Sales by Category");
-        pieChart.setRotationEnabled(true);
-        //pieChart.setUsePercentValues(true);
-        pieChart.setHoleRadius(0f);
-        //pieChart.setCenterText("Maybe a button");
-        //pieChart.setCenterTextSize(10);
-
-        addDataSet(pieChart);
-
 
     }
-
-
-
 
 
     private void addDataSet(PieChart chart){
+        //checks to see if there's data to add
+        //if(currentWeeksBudget.costOfAllCategories == null)
+        //{
+            //return;
+        //}
+
         ArrayList<Entry> pieEntries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
 
         totalSpent = 0;
-        for(int i = 0; i < ydata.length; i++){
-            totalSpent += ydata[i];
-            pieEntries.add(new Entry(ydata[i], i));
+
+        ArrayList<Item> mArrayList = currentWeeksBudget.getAllItems();
+
+        int l = 0;
+        for (Map.Entry<String, Double> entry : currentWeeksBudget.costOfAllCategories.entrySet())
+        {
+            BigDecimal number = new BigDecimal(entry.getValue());
+
+            int myInt = number.intValue();
+            float myFloat = number.floatValue();
+            if(myFloat != 0.00) {
+                pieEntries.add(new Entry(myFloat, l));
+                labels.add(entry.getKey());
+                l++;
+            }
         }
 
-        for(int i = 0; i < xdata.length; i++){
-            labels.add(xdata[i]);
-        }
 
         //create the dataset
         PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
@@ -225,6 +227,4 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         }
 
     }
-
-
 }
