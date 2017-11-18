@@ -39,7 +39,7 @@ import static christophershae.budgettracker.R.id.Enter_Man;
 import static christophershae.budgettracker.R.id.Picture_Screen;
 import static christophershae.budgettracker.R.id.Recent_Purchases;
 import static christophershae.budgettracker.R.id.Settings;
-import static christophershae.budgettracker.R.id.textView;
+//import static christophershae.budgettracker.R.id.textView;
 
 
 public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener{

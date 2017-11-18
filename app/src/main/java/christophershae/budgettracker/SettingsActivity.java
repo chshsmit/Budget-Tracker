@@ -31,10 +31,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.R.id.input;
-import static christophershae.budgettracker.R.id.goalInput;
-import static christophershae.budgettracker.R.id.signout;
-import static christophershae.budgettracker.R.id.textView;
+//import static android.R.id.input;
+//import static christophershae.budgettracker.R.id.goalInput;
+//import static christophershae.budgettracker.R.id.signout;
+//import static christophershae.budgettracker.R.id.textView;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -128,34 +128,7 @@ public class SettingsActivity extends AppCompatActivity{
         startActivity(login);
     }
 
-    public void fakechangeIncome(View v)
-    {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
 
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1)
-            {
-
-            }
-        });
-
-        alertDialogBuilder.setPositiveButton("yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1)
-                    {
-
-                    }
-                });
-
-
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
 
 
     private String newGoalBudget;
