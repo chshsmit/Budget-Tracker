@@ -3,10 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Budget-Tracker.iml" filepath="$PROJECT_DIR$/Budget-Tracker.iml" />
-<<<<<<< HEAD
-      <module fileurl="file://C:\Users\jonny\AndroidStudioProjects\Budget-Tracker\BudgetTracker.iml" filepath="C:\Users\jonny\AndroidStudioProjects\Budget-Tracker\BudgetTracker.iml" />
-=======
->>>>>>> 500c7749148a9182892f94291a079a833f281937
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
