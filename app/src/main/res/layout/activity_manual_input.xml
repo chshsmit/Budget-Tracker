@@ -14,21 +14,13 @@
         style="@android:style/Widget.Holo.Light.EditText"
         android:layout_width="193dp"
         android:layout_height="45dp"
-<<<<<<< HEAD
+
         android:layout_marginLeft="28dp"
         android:layout_marginTop="8dp"
-=======
-        android:layout_marginTop="33dp"
->>>>>>> 500c7749148a9182892f94291a079a833f281937
         android:ems="10"
         android:hint="Item Name"
         android:inputType="textPersonName"
-<<<<<<< HEAD
-=======
-        android:hint="Item Name"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
->>>>>>> 500c7749148a9182892f94291a079a833f281937
+
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,25 +47,20 @@
         android:id="@+id/itemPriceEntry"
         android:layout_width="83dp"
         android:layout_height="45dp"
-<<<<<<< HEAD
+
 
 
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
 
-=======
->>>>>>> 500c7749148a9182892f94291a079a833f281937
+
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-<<<<<<< HEAD
+
         android:hint="@string/zero_dollars"
         android:inputType="textPersonName"
-=======
-        android:inputType="textPersonName"
-        android:text="@string/zero_dollars"
-        android:hint="@string/zero_dollars"
->>>>>>> 500c7749148a9182892f94291a079a833f281937
+
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/text_editlist"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,10 +110,8 @@
         android:ems="10"
         android:hint="Create Category"
         android:inputType="textPersonName"
-<<<<<<< HEAD
-=======
-        android:hint="Create Category"
->>>>>>> 500c7749148a9182892f94291a079a833f281937
+
+
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemNameEntry" />
 
