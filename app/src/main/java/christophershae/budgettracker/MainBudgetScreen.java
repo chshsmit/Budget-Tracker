@@ -91,22 +91,22 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 System.out.println("We are getting data from the database");
 
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
-                totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
-
-                pieChart = (PieChart) findViewById(R.id.idPieChart);
-
-                pieChart.setDescription("Sales by Category");
-                pieChart.setRotationEnabled(true);
-                //pieChart.setUsePercentValues(true);
-                pieChart.setHoleRadius(0f);
-                pieChart.setTransparentCircleRadius(0);
-                //pieChart.setCenterText("Maybe a button");
-                //pieChart.setCenterTextSize(10);
-
-                addDataSet(pieChart);
-
-                System.out.println("This is the current weeks start date: ");
-                //System.out.println(currentWeeksBudget.getStartDate());
+//                totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
+//
+//                pieChart = (PieChart) findViewById(R.id.idPieChart);
+//
+//                pieChart.setDescription("Sales by Category");
+//                pieChart.setRotationEnabled(true);
+//                //pieChart.setUsePercentValues(true);
+//                pieChart.setHoleRadius(0f);
+//                pieChart.setTransparentCircleRadius(0);
+//                //pieChart.setCenterText("Maybe a button");
+//                //pieChart.setCenterTextSize(10);
+//
+//                addDataSet(pieChart);
+//
+//                System.out.println("This is the current weeks start date: ");
+//                //System.out.println(currentWeeksBudget.getStartDate());
 
 
             }
@@ -166,28 +166,28 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         }
 
 
-        //create the dataset
-        PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
-        dataSet.setSliceSpace(2);
-        dataSet.setValueTextSize(12);
-
-        //add colors
-        ArrayList<Integer> colors = new ArrayList<>();
-
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS); // set the color<br />
-
-        //custom data display MonetaryDisplay
-        dataSet.setValueFormatter(new MonetaryDisplay());
-
-        //make legend
-        Legend legend = pieChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
-
-        //create pie data object
-        PieData pieData = new PieData(labels, dataSet);
-        pieChart.setData(pieData);
-        pieChart.invalidate();
+//        //create the dataset
+//        PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
+//        dataSet.setSliceSpace(2);
+//        dataSet.setValueTextSize(12);
+//
+//        //add colors
+//        ArrayList<Integer> colors = new ArrayList<>();
+//
+//        dataSet.setColors(ColorTemplate.COLORFUL_COLORS); // set the color<br />
+//
+//        //custom data display MonetaryDisplay
+//        dataSet.setValueFormatter(new MonetaryDisplay());
+//
+//        //make legend
+//        Legend legend = pieChart.getLegend();
+//        legend.setForm(Legend.LegendForm.CIRCLE);
+//        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
+//
+//        //create pie data object
+//        PieData pieData = new PieData(labels, dataSet);
+//        pieChart.setData(pieData);
+//        pieChart.invalidate();
 
     }
 
