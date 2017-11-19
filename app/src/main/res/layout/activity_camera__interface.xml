@@ -55,6 +55,12 @@
         app:layout_constraintLeft_toLeftOf="parent"
         tools:text="@string/Take_Photo" />
 
+    <FrameLayout
+        android:id="@+id/camera_preview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        />
     <TextView
         android:id="@+id/item"
         android:layout_width="wrap_content"

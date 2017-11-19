@@ -2,9 +2,12 @@
 <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/textView1"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
-        android:textColor="#fefcfe"
+        android:textColor="#000"
+        android:text="Select"
         android:padding="10dp"
-        android:textSize="18dp"
-        android:background="#026bcd" />
+        android:textSize="18sp"
+        android:fontFamily="dancing_script"
+        android:background="@layout/spinner_divider"/>

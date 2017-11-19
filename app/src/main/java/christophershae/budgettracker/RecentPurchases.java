@@ -1,5 +1,6 @@
 package christophershae.budgettracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -43,8 +44,13 @@ public class RecentPurchases extends AppCompatActivity {
 
         getWindow().setLayout((int)(width*.915), (int)(height*.725));
 
+        Intent intent = getIntent();
+        Bundle recentItemBundle = intent.getBundleExtra("BUNDLE");
+        ArrayList<Item> recentItemList = (ArrayList<Item>) recentItemBundle.getSerializable("ARRAYLIST");
+
         Log.d(TAG, "onCreate: Started.");
         ListView mListView = (ListView) findViewById(R.id.listView);
+
 
         // -------------------------------------------------------------------
         Item newItem = new Item("CrashDummyItem");
@@ -105,7 +111,7 @@ public class RecentPurchases extends AppCompatActivity {
 
 
         //Add the Transaction objects to an ArrayList
-        ArrayList<Item> recentItemList = new ArrayList<>();
+        // recentItemList = new ArrayList<>();
         recentItemList.add(newItem);
 
         recentItemList.add(curry);
@@ -123,7 +129,9 @@ public class RecentPurchases extends AppCompatActivity {
         recentItemList.add(lamp);
 
 
+
         ItemListAdapter adapter = new ItemListAdapter(this, R.layout.adapter_view_layout, recentItemList);
         mListView.setAdapter(adapter);
+
     }
 }

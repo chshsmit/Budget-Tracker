@@ -1,91 +1,40 @@
-
 package christophershae.budgettracker;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
- * Created by Ravi Tamada on 07/10/16.
- * www.androidhive.info
+ * Created by chrissmith on 11/16/17.
  */
 
+public class Utils {
 
-public class User {
-
-    public String name;
-    public Map<String, WeekLongBudget> items;
+    private static FirebaseDatabase mDataBase;
 
 
-    //maybe more
-
-
-
-    // Default constructor required for calls to
-    // DataSnapshot.getValue(User.class)
-    public User() {
-
-    }
-
-
-    //Preliminary constructor, might expand with firebase integration
-    public User(String name) {
-
-        this.name = name;
-        //this.email = email;
-        items = new HashMap();
-    }
-
-
-    public Map<String, WeekLongBudget> getMap()
-    {
-        return items;
+    public static FirebaseDatabase getDatabase() {
+        if (mDataBase == null) {
+            mDataBase = FirebaseDatabase.getInstance();
+            mDataBase.setPersistenceEnabled(true);
+        }
+        return mDataBase;
     }
 
 
 
 
-    //returns null if a week for that date doesnt exists
-    public WeekLongBudget getWeek(String date)
-    {
-        //If the current date exists then it is currently sunday
-
-            date = decrementDate(new Date());
-            if(items.get(date) != null )
-            {
-                return items.get(date);
-            }
-
-
-
-        System.out.println("Creating a new list");
-        System.out.println("The list is indexed by "+date);
-        WeekLongBudget newWeek = new WeekLongBudget(date);
-        items.put(date, newWeek);
-        return newWeek;
-    }
-
-    //This is the format for our date string
-    SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
-
-    //inputs item into right arraylist using the items week. Feature works if for example user
-    // wants to add item to past or future
-    public void addItem(Item item)
-    {
-        String date = item.getDate();
-        WeekLongBudget inputWeek = getWeek(date);
-        inputWeek.addItem(item);
-    }
+    static SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");    //This is the format we want our date string to be in
 
     //This function decrements the date so it adds it to the correct weeklong budget
-    public String decrementDate(Date date)
+    public static String decrementDate(Date date)
     {
 
         //Get an instance of the calenday and get the current day of the week
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
         int day = calendar.get(Calendar.DAY_OF_WEEK);
 
         //Depending on what day it is, decrement the date to be the most recent sunday
@@ -134,5 +83,5 @@ public class User {
 
         return sdf.format(date);   //return the decremented date as a string
     }
-    
+
 }
