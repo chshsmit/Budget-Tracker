@@ -90,7 +90,11 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             public void onDataChange(DataSnapshot dataSnapshot) {
                 System.out.println("We are getting data from the database");
 
+
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
+
+                if(currentWeeksBudget == null) {currentWeeksBudget = Utils.createNewWeek();}
+
                 totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
 
                 pieChart = (PieChart) findViewById(R.id.idPieChart);

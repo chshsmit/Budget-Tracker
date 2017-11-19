@@ -2,9 +2,11 @@ package christophershae.budgettracker;
 
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by chrissmith on 11/16/17.
@@ -21,6 +23,24 @@ public class Utils {
             mDataBase.setPersistenceEnabled(true);
         }
         return mDataBase;
+    }
+
+
+    public String newDate;
+
+
+    //Retrieving the correct weeklong budget object to store the new item in
+    public static WeekLongBudget createNewWeek()
+    {
+        //DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
+        //Decrement the date to be the most recent sunday
+        Date currentDate = new Date();
+        String newWeekIndex = decrementDate(currentDate);
+        WeekLongBudget newWeek = new WeekLongBudget(newWeekIndex);
+
+
+        return newWeek;
+
     }
 
 
