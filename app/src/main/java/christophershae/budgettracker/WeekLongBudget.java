@@ -6,9 +6,6 @@ import java.util.Map;
 
 import static christophershae.budgettracker.R.string.finish;
 
-/**
- * Created by chrissmith on 10/29/17.
- */
 
 public class WeekLongBudget {
 

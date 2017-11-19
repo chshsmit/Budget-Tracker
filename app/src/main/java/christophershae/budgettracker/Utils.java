@@ -28,7 +28,6 @@ public class Utils {
 
     public String newDate;
 
-
     //Retrieving the correct weeklong budget object to store the new item in
     public static WeekLongBudget createNewWeek()
     {

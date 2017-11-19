@@ -67,7 +67,7 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
         {
             e.printStackTrace();
         }
-        
+
 
         //Create the transaction object with the information
         Item item = new Item(name);
