@@ -1,12 +1,16 @@
 package christophershae.budgettracker;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,13 +21,16 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import static android.R.attr.category;
+import static christophershae.budgettracker.R.id.DeleteB;
 import static christophershae.budgettracker.R.id.addItemToBudget;
 import static christophershae.budgettracker.R.id.item;
 import static christophershae.budgettracker.R.id.itemNameView;
@@ -43,6 +50,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 
 import static christophershae.budgettracker.R.id.Edit_List;
@@ -65,6 +73,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //Buttons for the interface
     Button Add;
     Button Finish;
+    Button deleteCategory;
     EditText edit_list;
 
     //ArrayAdapter to fill in spinner
@@ -72,7 +81,10 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     List<CharSequence> EditMyList;
     Spinner spinner;
     String get_text;
-
+    SharedPreferences store;
+    //make an array
+    public String [] Categories_list = {"Food" ,"Rent", "Gas", "Personal Items", "Household Items",
+            "Groceries", "Entertainment"};
     //----------------------------------------------------------------------------------------
     //This code has all the functions that need to be overridden
     //----------------------------------------------------------------------------------------
@@ -116,7 +128,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         System.out.println("The current user ID is: " +userId);
 
 
-
         //Instantiating the adapter for the listview
         currentItemsAddedToList = new ArrayList<ListElement>();
         aa = new MyAdapter(this, R.layout.manually_input_list_element, currentItemsAddedToList);
@@ -138,20 +149,109 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //define button for Finish
         Finish =(Button) findViewById(finishAddingItemsToBudget);
         Finish.setOnClickListener(this);
+        //delete button
+        deleteCategory = (Button) findViewById(R.id.DeleteB);
+        deleteCategory.setOnClickListener(this);
         //define edittext
         edit_list = (EditText) findViewById(R.id.text_editlist);
         //define list
-        EditMyList = new ArrayList<CharSequence>(Arrays.<CharSequence>asList(
-                getResources().getStringArray(R.array.list_Categories)));
+        EditMyList = new ArrayList<CharSequence>(Arrays.<CharSequence>asList(Categories_list));
 
-        adapter = new ArrayAdapter<CharSequence>(ManualInputActivity.this,R.layout.dropdown_editlist,
+
+        adapter =  new ArrayAdapter<CharSequence>(ManualInputActivity.this,R.layout.dropdown_editlist,
                 EditMyList);
         //specify layout for now basic later on design it better
         adapter.setDropDownViewResource(R.layout.dropdown_editlist);
         //apply the adapter create list to the Spinner(drop down list)
         spinner.setAdapter(adapter);
+        LoadPreferences();
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                //set selectem items
+                //int spinnerPosition= spinner.getSelectedItemPosition();
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });
+
+    }
+    //save listview data
+    protected void SavePreferences(String key, String value) {
+        //
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String s=data.getString(key,""); //to fetch previous stored values
+
+        s=s+"!"+value;   //to add new value to previous one
+
+        data.edit().putString(key,s).commit();
     }
 
+
+    //load listview data
+    protected void LoadPreferences(){
+        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+        String dataSet = data.getString("List", "Add a Category ......");
+            adapter.remove("");
+            adapter.remove("");
+        if(dataSet.contains("!")){ //to check if previous items are there or not
+
+            String rows[]=dataSet.split("!"); //to get individual rows of list
+
+            for(int i=1;i<rows.length;i++){
+                adapter.add(rows[i]);   //to add each value to the list
+                adapter.notifyDataSetChanged();
+            }
+        } else{
+            adapter.add(dataSet);
+            adapter.notifyDataSetChanged();
+        }
+    }
+    //method to add a category
+    public void addCategory(){
+        get_text = edit_list.getText().toString();
+        //check if input is empty or contains strings
+        if(!get_text.isEmpty() && get_text.length() > 0)
+        {
+           adapter.add(get_text);
+           //refresh data
+           adapter.notifyDataSetChanged();
+           edit_list.setText("");
+           SavePreferences("List", get_text);
+        }
+        else
+        {
+            Toast.makeText(ManualInputActivity.this, "No Category To Add", Toast.LENGTH_LONG).show();
+        }
+    }
+    //method to delete
+    public void delete()
+    {
+        //String getList = edit_list.getText().toString();
+
+        //get the postion selected
+        int pos = spinner.getSelectedItemPosition();
+        //user has selected a category if >-1
+        if(pos > -1)
+        {
+            adapter.remove(EditMyList.get(pos));
+            Toast.makeText(ManualInputActivity.this, "Category Deleted", Toast.LENGTH_LONG).show();
+            adapter.notifyDataSetChanged();
+            edit_list.setText("");
+        }
+        else
+        {
+            Toast.makeText(ManualInputActivity.this, "Nothing to Delete", Toast.LENGTH_LONG).show();
+        }
+    }
 
 
     @Override
@@ -160,24 +260,22 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId())
         {
             case Edit_List:
-                //when edit is pressed list should update to include
-                //current category
-                //set get_Text to string
-                get_text = edit_list.getText().toString();
-                //then add it to my of strings and
-                //notify the spinner about the change
-                EditMyList.add(get_text);
-                adapter.notifyDataSetChanged();
-
-                //lets the user know his category was added
+                addCategory();
+                //lets the user know their category was added
                 Toast.makeText(ManualInputActivity.this, "Category Added", Toast.LENGTH_LONG).show();
                 break;
             case finishAddingItemsToBudget:
                 //testUser.getMap().get("10292017").getAmountForEachCategory();
                 //System.out.println(testUser.getMap().get("10292017").getTotalAmountOfMoneySpent());
+     //           load();
                 finish();
                 break;
+            case DeleteB:
+                 delete();
+
+                 break;
         }
+
     }
 
 
@@ -372,7 +470,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     // wants to add item to past or future
     public void addItemToWeek(Item item)
     {
-        String date = item.getDate();                   //Get the date of the item
+        final String date = item.getDate();                   //Get the date of the item
         System.out.println("the date is:" +date);
         WeekLongBudget inputWeek = getWeek(date);       //Get the current weeks budget or the budget for the corresponding date
         inputWeek.addItem(item);
@@ -387,7 +485,14 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             e.printStackTrace();
         }
 
-        mFireBaseDatabase.child(userId).setValue(usersBudgets);
+
+        //checks that you are over budget!
+        WeekLongBudget currentWeeksBudget = getWeek(date);
+        if(currentWeeksBudget.getTotalAmountSpent() > currentWeeksBudget.getGoalTotal())
+        {
+            Toast.makeText(ManualInputActivity.this, "You are over Goal Budget!", Toast.LENGTH_LONG).show();
+
+        }
 
 
     }
