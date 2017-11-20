@@ -55,7 +55,7 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
         //get the persons information
         String name = getItem(position).getName();
         String date = getItem(position).getDate();
-        double price = getItem(position).getPrice();
+        double price = Math.round(getItem(position).getPrice() * 100.00) / 100.00;
 
         try
         {
