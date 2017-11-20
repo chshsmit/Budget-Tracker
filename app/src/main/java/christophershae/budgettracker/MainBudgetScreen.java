@@ -9,10 +9,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -93,8 +95,12 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
 
                 pieChart = (PieChart) findViewById(R.id.idPieChart);
+                
+                Description description = new Description();
+                description.setTextColor(ColorTemplate.VORDIPLOM_COLORS[2]);
+                description.setText("Price per Category");
+                pieChart.setDescription(description);
 
-         //       pieChart.setDescription("Sales by Category");
                 pieChart.setRotationEnabled(true);
                 //pieChart.setUsePercentValues(true);
                 pieChart.setHoleRadius(0f);
@@ -147,8 +153,8 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     private void addDataSet(PieChart chart){
         //checks to see if there's data to add
 
-        ArrayList<Entry> pieEntries = new ArrayList<>();
-        ArrayList<String> labels = new ArrayList<>();
+        ArrayList<PieEntry> pieEntries = new ArrayList<PieEntry>();
+        ArrayList<String> labels = new ArrayList<String>();
 
         int l = 0;
         for (Map.Entry<String, Double> entry : currentWeeksBudget.costOfAllCategories.entrySet())
@@ -158,7 +164,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             int myInt = number.intValue();
             float myFloat = number.floatValue();
             if(myFloat != 0.00) {
-                pieEntries.add(new Entry(myFloat, l));
+                pieEntries.add(new PieEntry(myFloat, l));
                 labels.add(entry.getKey());
                 l++;
             }
@@ -166,26 +172,32 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
 
         //create the dataset
-        //PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
-        //dataSet.setSliceSpace(2);
-        //dataSet.setValueTextSize(12);
+        PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
+        dataSet.setSliceSpace(2);
+        dataSet.setValueTextSize(12);
 
         //add colors
         ArrayList<Integer> colors = new ArrayList<>();
 
-        //dataSet.setColors(ColorTemplate.COLORFUL_COLORS); // set the color<br />
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS); // set the color<br />
 
         //custom data display MonetaryDisplay
-   //     dataSet.setValueFormatter(new MonetaryDisplay());
+        dataSet.setValueFormatter(new MonetaryDisplay());
 
         //make legend
         Legend legend = pieChart.getLegend();
         legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
+        //legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+
 
         //create pie data object
-     //   PieData pieData = new PieData(labels, dataSet);
-       // pieChart.setData(pieData);
+
+        PieData pieData = new PieData(dataSet);
+        pieChart.setData(pieData);
+
         pieChart.invalidate();
 
     }
