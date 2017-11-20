@@ -9,10 +9,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -91,6 +93,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 System.out.println("We are getting data from the database");
 
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
+<<<<<<< HEAD
 //                totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
 //
 //                pieChart = (PieChart) findViewById(R.id.idPieChart);
@@ -107,6 +110,27 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 //
 //                System.out.println("This is the current weeks start date: ");
 //                //System.out.println(currentWeeksBudget.getStartDate());
+=======
+                totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
+
+                pieChart = (PieChart) findViewById(R.id.idPieChart);
+
+                Description description = new Description();
+                description.setTextColor(ColorTemplate.VORDIPLOM_COLORS[2]);
+                description.setText("Price per Category");
+                pieChart.setDescription(description);
+                pieChart.setRotationEnabled(true);
+                //pieChart.setUsePercentValues(true);
+                pieChart.setHoleRadius(0f);
+                pieChart.setTransparentCircleRadius(0);
+                //pieChart.setCenterText("Maybe a button");
+                //pieChart.setCenterTextSize(10);
+
+                addDataSet(pieChart);
+
+                System.out.println("This is the current weeks start date: ");
+                //System.out.println(currentWeeksBudget.getStartDate());
+>>>>>>> sprint_three
 
 
             }
@@ -148,8 +172,8 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     private void addDataSet(PieChart chart){
         //checks to see if there's data to add
 
-        ArrayList<Entry> pieEntries = new ArrayList<>();
-        ArrayList<String> labels = new ArrayList<>();
+        ArrayList<PieEntry> pieEntries = new ArrayList<PieEntry>();
+        ArrayList<String> labels = new ArrayList<String>();
 
         int l = 0;
         for (Map.Entry<String, Double> entry : currentWeeksBudget.costOfAllCategories.entrySet())
@@ -159,13 +183,14 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             int myInt = number.intValue();
             float myFloat = number.floatValue();
             if(myFloat != 0.00) {
-                pieEntries.add(new Entry(myFloat, l));
+                pieEntries.add(new PieEntry(myFloat, l));
                 labels.add(entry.getKey());
                 l++;
             }
         }
 
 
+<<<<<<< HEAD
 //        //create the dataset
 //        PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
 //        dataSet.setSliceSpace(2);
@@ -188,6 +213,34 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 //        PieData pieData = new PieData(labels, dataSet);
 //        pieChart.setData(pieData);
 //        pieChart.invalidate();
+=======
+        //create the dataset
+        PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
+        dataSet.setSliceSpace(2);
+        dataSet.setValueTextSize(12);
+
+        //add colors
+        ArrayList<Integer> colors = new ArrayList<>();
+
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS); // set the color<br />
+
+        //custom data display MonetaryDisplay
+        dataSet.setValueFormatter(new MonetaryDisplay());
+
+        //make legend
+        Legend legend = pieChart.getLegend();
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        //legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+
+
+        //create pie data object
+        PieData pieData = new PieData(dataSet);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+>>>>>>> sprint_three
 
     }
 
