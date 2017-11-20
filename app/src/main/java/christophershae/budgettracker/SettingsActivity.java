@@ -46,6 +46,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -210,4 +211,50 @@ public class SettingsActivity extends AppCompatActivity{
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+
+
+    int deletedItemIndex;
+    public void deleteItemFromBudget(View v){
+        ArrayList<String> itemNames = new ArrayList<>();
+        for(Item item: currentWeeksBudget.allItems){
+            itemNames.add(item.name);
+        }
+
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        //LayoutInflater inflater = this.getLayoutInflater();
+        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
+        final EditText incomeInput = new EditText(this);
+        incomeInput.setHint("Weekly Income");
+        alertDialogBuilder.setView(incomeInput);
+
+        alertDialogBuilder.setTitle("Select an item to delete:");
+        alertDialogBuilder.setSingleChoiceItems(itemNames.toArray(new CharSequence[itemNames.size()]),0, null);
+        alertDialogBuilder.setPositiveButton("Set",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                        deletedItemIndex = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
+                        currentWeeksBudget.removeItem(deletedItemIndex);
+                        mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
+
+                        Toast.makeText(SettingsActivity.this, "Deleted Item", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+
+            }
+        });
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+
 }

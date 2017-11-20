@@ -376,7 +376,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     User testUser = new User("Chris");
 
 
-
     //Global variables for the item price, name, date, adnd category
     public String newItemName;
     public String newItemPrice;

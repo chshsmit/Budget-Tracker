@@ -18,6 +18,8 @@ public class WeekLongBudget {
     public double goalTotal;
     public double totalIncomeAccumulated;
 
+    public double netIncome;
+
     public String startDate;
 
     public WeekLongBudget(){}
@@ -26,6 +28,7 @@ public class WeekLongBudget {
         this.startDate = date;
         this.totalAmountSpent = 0.00;
         this.totalIncomeAccumulated = 0.00;
+        this.netIncome = Math.round((this.totalIncomeAccumulated - this.totalAmountSpent) * 100.00) / 100.00;
         this.costOfAllCategories = new HashMap<>();
     }
 
@@ -34,6 +37,16 @@ public class WeekLongBudget {
     {
         this.allItems.add(item);
         this.totalAmountSpent += item.getPrice();
+        setNetIncome();
+    }
+
+    public void removeItem(int index)
+    {
+        this.totalAmountSpent -= Math.round(this.allItems.get(index).getPrice() * 100.00) / 100.00;
+        setNetIncome();
+        this.allItems.remove(index);
+
+
     }
 
 
@@ -43,13 +56,19 @@ public class WeekLongBudget {
     //---------------------------------------------------------------------------------------------
 
     public void setGoalTotal(double goalTotal){
-        this.goalTotal = Math.round(goalTotal * 100.0) / 100.0;
+        this.goalTotal = Math.round(goalTotal * 100.00) / 100.00;
     }
 
     public void addMoneyToIncome(double income){
 
-        this.totalIncomeAccumulated += Math.round(income * 100.0) / 100.0;
+        this.totalIncomeAccumulated += Math.round(income * 100.00) / 100.00;
+        setNetIncome();
 
+    }
+
+    public void setNetIncome()
+    {
+        this.netIncome = Math.round((this.totalIncomeAccumulated - this.totalAmountSpent) * 100.00) / 100.00;
     }
 
 
@@ -57,9 +76,13 @@ public class WeekLongBudget {
     //---------------------------------------------------------------------------------------------
     // Getter functions
     //---------------------------------------------------------------------------------------------
+    public Double getNetIncome(){
+        return Math.round(this.netIncome * 100.00) / 100.00;
+    }
+
     public Double getTotalAmountSpent()
     {
-        return Math.round(this.totalAmountSpent *100.0) / 100.0;
+        return Math.round(this.totalAmountSpent *100.00) / 100.00;
     }
 
     public Double getTotalIncomeAccumulated(){ return this.totalIncomeAccumulated; }
@@ -78,7 +101,7 @@ public class WeekLongBudget {
             if(item == null) break;
             newPrice = 0.00;
             if(this.costOfAllCategories.containsKey(item.category)){
-                newPrice = Math.round((item.getPrice() + this.costOfAllCategories.get(item.category)) * 100.0) / 100.0;
+                newPrice = Math.round((item.getPrice() + this.costOfAllCategories.get(item.category)) * 100.00) / 100.00;
                 this.costOfAllCategories.put(item.category, newPrice);
                 //System.out.println("You have a total of $"+newPrice+" spent in the category "+item.category);
             } else {
