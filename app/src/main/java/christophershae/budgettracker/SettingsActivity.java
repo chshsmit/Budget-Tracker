@@ -223,9 +223,6 @@ public class SettingsActivity extends AppCompatActivity{
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         //LayoutInflater inflater = this.getLayoutInflater();
         //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
-        final EditText incomeInput = new EditText(this);
-        incomeInput.setHint("Weekly Income");
-        alertDialogBuilder.setView(incomeInput);
 
         alertDialogBuilder.setTitle("Select an item to delete:");
         alertDialogBuilder.setSingleChoiceItems(itemNames.toArray(new CharSequence[itemNames.size()]),0, null);
