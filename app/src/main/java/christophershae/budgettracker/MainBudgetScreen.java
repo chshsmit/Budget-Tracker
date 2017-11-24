@@ -37,6 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+import static christophershae.budgettracker.R.id.BarGraph;
 import static christophershae.budgettracker.R.id.Enter_Man;
 import static christophershae.budgettracker.R.id.Picture_Screen;
 import static christophershae.budgettracker.R.id.Recent_Purchases;
@@ -72,6 +73,8 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         settings.setOnClickListener(this);
         Button photo = (Button) findViewById(Picture_Screen);
         photo.setOnClickListener(this);
+        Button bargraph = (Button) findViewById(BarGraph);
+        bargraph.setOnClickListener(this);
 
 
         //Firebase stuff
@@ -93,24 +96,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 System.out.println("We are getting data from the database");
 
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
-<<<<<<< HEAD
-//                totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
-//
-//                pieChart = (PieChart) findViewById(R.id.idPieChart);
-//
-//                pieChart.setDescription("Sales by Category");
-//                pieChart.setRotationEnabled(true);
-//                //pieChart.setUsePercentValues(true);
-//                pieChart.setHoleRadius(0f);
-//                pieChart.setTransparentCircleRadius(0);
-//                //pieChart.setCenterText("Maybe a button");
-//                //pieChart.setCenterTextSize(10);
-//
-//                addDataSet(pieChart);
-//
-//                System.out.println("This is the current weeks start date: ");
-//                //System.out.println(currentWeeksBudget.getStartDate());
-=======
                 totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
 
                 pieChart = (PieChart) findViewById(R.id.idPieChart);
@@ -130,9 +115,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
                 System.out.println("This is the current weeks start date: ");
                 //System.out.println(currentWeeksBudget.getStartDate());
->>>>>>> sprint_three
-
-
             }
 
             @Override
@@ -189,31 +171,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             }
         }
 
-
-<<<<<<< HEAD
-//        //create the dataset
-//        PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
-//        dataSet.setSliceSpace(2);
-//        dataSet.setValueTextSize(12);
-//
-//        //add colors
-//        ArrayList<Integer> colors = new ArrayList<>();
-//
-//        dataSet.setColors(ColorTemplate.COLORFUL_COLORS); // set the color<br />
-//
-//        //custom data display MonetaryDisplay
-//        dataSet.setValueFormatter(new MonetaryDisplay());
-//
-//        //make legend
-//        Legend legend = pieChart.getLegend();
-//        legend.setForm(Legend.LegendForm.CIRCLE);
-//        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
-//
-//        //create pie data object
-//        PieData pieData = new PieData(labels, dataSet);
-//        pieChart.setData(pieData);
-//        pieChart.invalidate();
-=======
         //create the dataset
         PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
         dataSet.setSliceSpace(2);
@@ -240,7 +197,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         PieData pieData = new PieData(dataSet);
         pieChart.setData(pieData);
         pieChart.invalidate();
->>>>>>> sprint_three
 
     }
 
@@ -262,6 +218,11 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             case Picture_Screen:
                 Intent picture_screen = new Intent(MainBudgetScreen.this, Camera_Interface.class);
                 startActivity(picture_screen);
+                break;
+            case BarGraph:
+                Intent bar_graph = new Intent(MainBudgetScreen.this, BudgetDetailsBarGraph.class);
+                startActivity(bar_graph);
+                break;
         }
 
     }
