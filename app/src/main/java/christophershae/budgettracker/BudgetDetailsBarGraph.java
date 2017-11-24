@@ -5,6 +5,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -16,11 +18,28 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BudgetDetailsBarGraph extends AppCompatActivity {
+
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference mFireBaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+    private String userId;
+
+    SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
+
+    //These are variables for the current weeks date, and the budget for the current week
+    private String currentWeeksDate;
+    private WeekLongBudget currentWeeksBudget;
 
     public class MyXAxisValueFormatter implements IAxisValueFormatter {
 
@@ -53,20 +72,20 @@ public class BudgetDetailsBarGraph extends AppCompatActivity {
         return newBarData;
     }
 
-    class MyBarDataSet extends BarDataSet {
-        public MyBarDataSet(List<BarEntry> yVals, String label) {
-            super(yVals, label);
-        }
-        @Override
-        public int getColor(int index) {
-            if(getEntryForIndex(index).getY() < 140)
-                return mColors.get(0);
-            else if(getEntryForIndex(index).getY() > 145)
-                return mColors.get(1);
-            else
-                return mColors.get(2);
-        }
-    }
+//    class MyBarDataSet extends BarDataSet {
+//        public MyBarDataSet(List<BarEntry> yVals, String label) {
+//            super(yVals, label);
+//        }
+//        @Override
+//        public int getColor(int index) {
+//            if(getEntryForIndex(index).getY() < 140)
+//                return mColors.get(0);
+//            else if(getEntryForIndex(index).getY() > 145)
+//                return mColors.get(1);
+//            else
+//                return mColors.get(2);
+//        }
+//    }
 
     private int[] getColors() {
         int stacksize = 3;
@@ -83,6 +102,25 @@ public class BudgetDetailsBarGraph extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget_details_bar_graph);
         BarChart barGraph = (BarChart) findViewById(R.id.bargraph);
+        final TextView totalIncomeTextView = (TextView) findViewById(R.id.Total_Spent);
+
+        //Firebase stuff
+        firebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseInstance = Utils.getDatabase();
+        mFireBaseDatabase = mFirebaseInstance.getReference("users");
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        userId = currentUser.getUid();
+        System.out.println("The current user ID is: " +userId);
+
+        //Getting the current weeks index
+        currentWeeksDate = Utils.decrementDate(new Date());
+
+        if(firebaseAuth.getCurrentUser() == null){
+            System.out.println("You are not signed in");
+        } else {
+            System.out.println("You are signed in on the main page: oncreate");
+        }
 
         /* All entries must be represented as stacked bars (including single ones), or app will crash */
         List<BarEntry> entries = new ArrayList<>();
