@@ -32,7 +32,7 @@ import java.util.List;
 import static android.R.attr.category;
 import static christophershae.budgettracker.R.id.DeleteB;
 import static christophershae.budgettracker.R.id.addItemToBudget;
-import static christophershae.budgettracker.R.id.item;
+//import static christophershae.budgettracker.R.id.item;
 import static christophershae.budgettracker.R.id.itemNameView;
 import static christophershae.budgettracker.R.id.snap;
 import static java.security.AccessController.getContext;
@@ -200,8 +200,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     protected void LoadPreferences(){
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
         String dataSet = data.getString("List", "Add a Category ......");
-            adapter.remove("");
-            adapter.remove("");
+            adapter.remove("Add a Category");
+
         if(dataSet.contains("!")){ //to check if previous items are there or not
 
             String rows[]=dataSet.split("!"); //to get individual rows of list
