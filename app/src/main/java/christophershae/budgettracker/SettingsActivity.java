@@ -31,11 +31,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import static android.R.id.input;
-//import static christophershae.budgettracker.R.id.goalInput;
-//import static christophershae.budgettracker.R.id.signout;
-//import static christophershae.budgettracker.R.id.textView;
-
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,7 +49,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import static christophershae.budgettracker.R.id.signout;
 
 public class SettingsActivity extends AppCompatActivity{
 
@@ -116,6 +110,7 @@ public class SettingsActivity extends AppCompatActivity{
         buttonSignOut = (Button) findViewById(R.id.signout);
 
     }
+
 
     public void signOut(View v){
         System.out.println("You did it");
@@ -214,15 +209,16 @@ public class SettingsActivity extends AppCompatActivity{
 
 
     int deletedItemIndex;
-    public void deleteItemFromBudget(View v){
+    public void deleteItemFromBudget(View v)
+    {
         ArrayList<String> itemNames = new ArrayList<>();
-        for(Item item: currentWeeksBudget.allItems){
+
+        for(Item item: currentWeeksBudget.allItems)
+        {
             itemNames.add(item.name);
         }
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        //LayoutInflater inflater = this.getLayoutInflater();
-        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
 
         alertDialogBuilder.setTitle("Select an item to delete:");
         alertDialogBuilder.setSingleChoiceItems(itemNames.toArray(new CharSequence[itemNames.size()]),0, null);

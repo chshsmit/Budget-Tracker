@@ -55,11 +55,13 @@ public class WeekLongBudget {
     // Setter functions
     //---------------------------------------------------------------------------------------------
 
-    public void setGoalTotal(double goalTotal){
+    public void setGoalTotal(double goalTotal)
+    {
         this.goalTotal = Math.round(goalTotal * 100.00) / 100.00;
     }
 
-    public void addMoneyToIncome(double income){
+    public void addMoneyToIncome(double income)
+    {
 
         this.totalIncomeAccumulated += Math.round(income * 100.00) / 100.00;
         setNetIncome();
