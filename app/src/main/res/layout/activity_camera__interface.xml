@@ -9,13 +9,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="christophershae.budgettracker.Camera_Interface">
-<!---
+
     <Gallery
         android:id="@+id/gallery1"
         android:layout_width="fill_parent"
         android:layout_height="170dp"
         android:layout_alignParentTop="true" />
--->
 
     <ImageView
         android:id="@+id/imageview"
@@ -24,7 +23,7 @@
         android:layout_above="@+id/Photo_B"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp" />
-
+<!--
     <RelativeLayout
         android:id="@+id/RelativeGridLayout"
         android:layout_width="wrap_content"
@@ -43,7 +42,7 @@
             android:paddingTop="10dp"
             />
     </RelativeLayout>
-
+-->
     <Button
         android:id="@+id/Photo_B"
         style="@android:style/Widget.Holo.Button"

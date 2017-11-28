@@ -25,7 +25,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Gallery;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -58,21 +57,21 @@ public class Camera_Interface extends Activity implements View.OnClickListener
     final int CAMERA_CAPTURE = 1;
     final int CROP_PIC = 2;
     private Uri picUri;
-    private GridView display;
+    private Gallery display;
 
     //array to display image
     List<String> receiptImages;
 
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final String Gallery_ImagePath = Environment.getExternalStorageDirectory()
-            .getAbsolutePath() + "/GridViewDemo/";
+            .getAbsolutePath() + "/Budget-Tracker/";
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera__interface);
         //initialize our Gallery
-        display = (GridView) findViewById(R.id.gridView);
+        display = (Gallery) findViewById(R.id.gallery1);
 
         //Initialize list of Images
         receiptImages = null;
@@ -89,8 +88,51 @@ public class Camera_Interface extends Activity implements View.OnClickListener
             {
                 Toast.makeText(getBaseContext(),"Receipt" +" "+ (position + 1) + " Selected",
                         Toast.LENGTH_SHORT).show();
+
+                BitmapFactory.Options myOptions = new BitmapFactory.Options();
+                //disable dithering mode
+                myOptions.inDither = false;
+                //if needed to free memory Bitmap can be clear
+                myOptions.inPurgeable = true;
+                myOptions.inInputShareable = true;
+                myOptions.inTempStorage=new byte[32 * 1024];
+                ImageView theView;
                 imageView =(ImageView)findViewById(R.id.imageview);
-                imageView.setImageResource(position);
+                Context context = Camera_Interface.this;
+                if (imageView == null)
+                {
+                    theView = new ImageView(context);
+
+                    theView.setPadding(0, 0, 0, 0);
+                }
+                else
+                {
+                    theView= (ImageView) imageView;
+
+                }
+                FileInputStream images;
+                Bitmap myView;
+                TypedArray a =obtainStyledAttributes(R.styleable.MyGallery);
+                int itemBackground = a.getResourceId(R.styleable.
+                        MyGallery_android_galleryItemBackground, 0);
+                try
+                {
+                    images = new FileInputStream(new File(receiptImages.get(position)));
+
+                    if (images != null)
+                    {
+                        myView = BitmapFactory.decodeFileDescriptor(images.getFD(), null, myOptions);
+
+                        theView.setImageBitmap(myView);
+                        theView.setId(position);
+                        //sets backgropund to gray
+                        theView.setBackgroundResource(itemBackground);
+                    }
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
             }
         });
         if(receiptImages != null)
@@ -241,13 +283,13 @@ public class Camera_Interface extends Activity implements View.OnClickListener
             Bitmap myView;
             try
             {
-                images = new FileInputStream(new File(galleryPhotos.get(position).toString()));
+                images = new FileInputStream(new File(galleryPhotos.get(position)));
 
                 if (images != null) {
                     myView = BitmapFactory.decodeFileDescriptor(images.getFD(), null, myOptions);
                     tView.setImageBitmap(myView);
                     tView.setId(position);
-                    tView.setLayoutParams(new GridView.LayoutParams(500, 500));
+                    tView.setLayoutParams(new Gallery.LayoutParams(500, 500));
 
                     tView.setBackgroundResource(itemBackground);
                 }
