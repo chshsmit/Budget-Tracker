@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<!--
+    <item
+        android:id="@+id/"
+        android:enabled="true"
+        android:icon="@drawable/ic_add"
+        android:title="@string/plus_sign"
+        app:showAsAction="ifRoom"/>
+-->
+    <item
+        android:id="@+id/Enter_Man"
+        android:enabled="true"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="ifRoom"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/Recent_Purchases"
+        android:enabled="true"
+        android:icon="@drawable/ic_cash_money"
+        app:showAsAction="ifRoom"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/Picture_Screen"
+        android:enabled="true"
+        android:icon="@drawable/ic_cam"
+        app:showAsAction="ifRoom"
+        tools:ignore="MenuTitle" />
+</menu>

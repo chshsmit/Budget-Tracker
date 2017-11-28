@@ -2,11 +2,16 @@ package christophershae.budgettracker;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
@@ -44,7 +49,7 @@ import static christophershae.budgettracker.R.id.Settings;
 //import static christophershae.budgettracker.R.id.textView;
 
 
-public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener{
+public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mFireBaseDatabase;
@@ -59,19 +64,76 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     PieChart pieChart;
 
 
+//    public void onClick(@NonNull MenuItem item) {
+//        Class next_activity = null;
+//        switch (item.getItemId()) {
+//            case R.id.Enter_Man:
+//                Toast.makeText(MainBudgetScreen.this,
+//                        "Action Manual Add Clicked", Toast.LENGTH_SHORT).show();
+//                //next_activity = ManualInputActivity.class;
+//                break;
+//
+//            case R.id.Recent_Purchases:
+//                Toast.makeText(MainBudgetScreen.this,
+//                        "Action Recent Purchases Clicked", Toast.LENGTH_SHORT).show();
+//                //next_activity = RecentPurchases.class;
+//                break;
+//
+//            case R.id.Picture_Screen:
+//                Toast.makeText(MainBudgetScreen.this,
+//                        "Action Scan Clicked", Toast.LENGTH_SHORT).show();
+//                //next_activity = Camera_Interface.class;
+//                break;
+//        }
+//        //startActivity(new Intent(this, next_activity));
+//    }
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_budget_screen);
         final TextView totalIncomeTextView = (TextView) findViewById(R.id.Total_Spent);
 
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.idBottomNav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Class next_activity = null;
+                switch (menuItem.getItemId()) {
+                    case R.id.Enter_Man:
+                        Toast.makeText(MainBudgetScreen.this,
+                                "Action Manual Add Clicked", Toast.LENGTH_SHORT).show();
+                        next_activity = ManualInputActivity.class;
+                        break;
+
+                    case R.id.Recent_Purchases:
+                        Toast.makeText(MainBudgetScreen.this,
+                                "Action Recent Purchases Clicked", Toast.LENGTH_SHORT).show();
+                        next_activity = RecentPurchases.class;
+                        break;
+
+                    case R.id.Picture_Screen:
+                        Toast.makeText(MainBudgetScreen.this,
+                                "Action Scan Clicked", Toast.LENGTH_SHORT).show();
+                        next_activity = Camera_Interface.class;
+                        break;
+                }
+                //startActivity(new Intent(this, next_activity));
+                return true;
+            }
+        });
+
         //define Buttons from main screen
-        Button enter = (Button) findViewById(Enter_Man);
-        enter.setOnClickListener(this);
-        Button settings = (Button) findViewById(Settings);
-        settings.setOnClickListener(this);
-        Button photo = (Button) findViewById(Picture_Screen);
-        photo.setOnClickListener(this);
+//        Button enter = (Button) findViewById(Enter_Man);
+//        enter.setOnClickListener(this);
+//        Button settings = (Button) findViewById(Settings);
+//        settings.setOnClickListener(this);
+//        Button photo = (Button) findViewById(Picture_Screen);
+//        photo.setOnClickListener(this);
 
 
         //Firebase stuff
@@ -124,19 +186,19 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         System.out.println("The current user ID is: " +userId);
 
-        Button purchases = (Button) findViewById(R.id.Recent_Purchases);
+        //Button purchases = (Button) findViewById(R.id.Recent_Purchases);
 
-        purchases.setOnClickListener(new View.OnClickListener() {
+        //purchases.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainBudgetScreen.this, RecentPurchases.class);
-                Bundle args = new Bundle();
-                args.putSerializable("ARRAYLIST", (Serializable) currentWeeksBudget.getAllItems());
-                intent.putExtra("BUNDLE", args);
-                startActivity(intent);
-            }
-        });
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainBudgetScreen.this, RecentPurchases.class);
+//                Bundle args = new Bundle();
+//                args.putSerializable("ARRAYLIST", (Serializable) currentWeeksBudget.getAllItems());
+//                intent.putExtra("BUNDLE", args);
+//                startActivity(intent);
+//            }
+//        });
 
 
         if(firebaseAuth.getCurrentUser() == null){
