@@ -167,6 +167,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             if(myFloat != 0.00) {
                 pieEntries.add(new PieEntry(myFloat, l));
                 labels.add(entry.getKey());
+                System.out.println(entry.getKey());
                 l++;
             }
         }
