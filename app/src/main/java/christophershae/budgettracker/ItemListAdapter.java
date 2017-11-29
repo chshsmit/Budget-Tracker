@@ -46,6 +46,7 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
         mResource = resource;
     }
 
+
     SimpleDateFormat slashedDate = new SimpleDateFormat("MM/dd/yyyy");
     SimpleDateFormat startingVersion = new SimpleDateFormat("MMddyyyy");
 
@@ -53,6 +54,10 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //get the persons information
+
+
+
+
         String name = getItem(position).getName();
         String date = getItem(position).getDate();
         double price = Math.round(getItem(position).getPrice() * 100.00) / 100.00;

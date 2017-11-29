@@ -2,11 +2,16 @@ package christophershae.budgettracker;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
@@ -45,7 +50,7 @@ import static christophershae.budgettracker.R.id.Settings;
 //import static christophershae.budgettracker.R.id.textView;
 
 
-public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener{
+public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mFireBaseDatabase;
@@ -59,22 +64,16 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     private WeekLongBudget currentWeeksBudget;
     PieChart pieChart;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_budget_screen);
         final TextView totalIncomeTextView = (TextView) findViewById(R.id.Total_Spent);
 
+
         //define Buttons from main screen
-        Button enter = (Button) findViewById(Enter_Man);
-        enter.setOnClickListener(this);
         Button settings = (Button) findViewById(Settings);
         settings.setOnClickListener(this);
-        Button photo = (Button) findViewById(Picture_Screen);
-        photo.setOnClickListener(this);
-        Button bargraph = (Button) findViewById(BarGraph);
-        bargraph.setOnClickListener(this);
 
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
@@ -129,21 +128,50 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         System.out.println("The current user ID is: " +userId);
 
-        Button purchases = (Button) findViewById(R.id.Recent_Purchases);
-
-        purchases.setOnClickListener(new View.OnClickListener() {
-
+        //sets activity transitions for the bottom nav menu
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.idBottomNav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainBudgetScreen.this, RecentPurchases.class);
-                Bundle args = new Bundle();
-                args.putSerializable("ARRAYLIST", (Serializable) currentWeeksBudget.getAllItems());
-                intent.putExtra("BUNDLE", args);
-                startActivity(intent);
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Intent next_activity = null;
+                switch (menuItem.getItemId()) {
+                    case R.id.Enter_Man:
+                        Toast.makeText(MainBudgetScreen.this,
+                                "Action Manual Add Clicked", Toast.LENGTH_SHORT).show();
+                        next_activity = new Intent(MainBudgetScreen.this, ManualInputActivity.class);
+                        startActivity(next_activity);
+                        break;
+
+                    case R.id.Recent_Purchases:
+                        Toast.makeText(MainBudgetScreen.this,
+                                "Action Recent Purchases Clicked", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainBudgetScreen.this, RecentPurchases.class);
+                        Bundle args = new Bundle();
+                        args.putSerializable("ARRAYLIST", (Serializable) currentWeeksBudget.getAllItems());
+                        intent.putExtra("BUNDLE", args);
+                        startActivity(intent);
+                        break;
+
+                    case R.id.Picture_Screen:
+                        Toast.makeText(MainBudgetScreen.this,
+                                "Action Scan Clicked", Toast.LENGTH_SHORT).show();
+                        next_activity = new Intent(MainBudgetScreen.this, Camera_Interface.class);
+                        startActivity(next_activity);
+                        break;
+
+                    case R.id.Budget_Details:
+                        Toast.makeText(MainBudgetScreen.this,
+                                "Action Scan Clicked", Toast.LENGTH_SHORT).show();
+                        next_activity = new Intent(MainBudgetScreen.this, BudgetDetailsBarGraph.class);
+                        startActivity(next_activity);
+                        break;
+                }
+                return true;
             }
         });
 
 
+        //Firebase sign in checks
         if(firebaseAuth.getCurrentUser() == null){
             System.out.println("You are not signed in");
         } else {
@@ -214,21 +242,9 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            case Enter_Man:
-                Intent manual_input = new Intent(MainBudgetScreen.this, ManualInputActivity.class);
-                startActivity(manual_input);
-                break;
             case Settings:
                 Intent setting = new Intent(MainBudgetScreen.this, SettingsActivity.class);
                 startActivity(setting);
-                break;
-            case Picture_Screen:
-                Intent picture_screen = new Intent(MainBudgetScreen.this, Camera_Interface.class);
-                startActivity(picture_screen);
-                break;
-            case BarGraph:
-                Intent bar_graph = new Intent(MainBudgetScreen.this, BudgetDetailsBarGraph.class);
-                startActivity(bar_graph);
                 break;
         }
 

@@ -47,6 +47,11 @@ public class WeekLongBudget {
         this.allItems.remove(index);
 
 
+
+        this.totalAmountSpent = 0;
+        for(Item eachItem: allItems){
+            this.totalAmountSpent += eachItem.getPrice();
+        }
     }
 
 
