@@ -126,6 +126,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
         System.out.println("The current user ID is: " +userId);
+        System.out.println(usersBudgets.isEmpty());
 
 
         //Instantiating the adapter for the listview
@@ -484,6 +485,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         {
             e.printStackTrace();
         }
+
+        mFireBaseDatabase.child(userId).setValue(usersBudgets);
 
 
         //checks that you are over budget!
