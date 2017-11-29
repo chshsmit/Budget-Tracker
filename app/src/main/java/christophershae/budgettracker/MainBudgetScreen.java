@@ -37,6 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+import static christophershae.budgettracker.R.id.BarGraph;
 import static christophershae.budgettracker.R.id.Enter_Man;
 import static christophershae.budgettracker.R.id.Picture_Screen;
 import static christophershae.budgettracker.R.id.Recent_Purchases;
@@ -72,6 +73,8 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         settings.setOnClickListener(this);
         Button photo = (Button) findViewById(Picture_Screen);
         photo.setOnClickListener(this);
+        Button bargraph = (Button) findViewById(BarGraph);
+        bargraph.setOnClickListener(this);
 
 
         //Firebase stuff
@@ -111,9 +114,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 addDataSet(pieChart);
 
                 System.out.println("This is the current weeks start date: ");
-                //System.out.println(currentWeeksBudget.getStartDate());
-
-
+                System.out.println(currentWeeksBudget.getStartDate());
             }
 
             @Override
@@ -166,10 +167,10 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             if(myFloat != 0.00) {
                 pieEntries.add(new PieEntry(myFloat, l));
                 labels.add(entry.getKey());
+                System.out.println(entry.getKey());
                 l++;
             }
         }
-
 
         //create the dataset
         PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
@@ -218,6 +219,11 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             case Picture_Screen:
                 Intent picture_screen = new Intent(MainBudgetScreen.this, Camera_Interface.class);
                 startActivity(picture_screen);
+                break;
+            case BarGraph:
+                Intent bar_graph = new Intent(MainBudgetScreen.this, BudgetDetailsBarGraph.class);
+                startActivity(bar_graph);
+                break;
         }
 
     }

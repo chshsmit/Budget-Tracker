@@ -377,7 +377,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
 
-    //Global variables for the item price, name, date, adnd category
+    //Global variables for the item price, name, date, and category
     public String newItemName;
     public String newItemPrice;
     public String newItemDate;
@@ -470,7 +470,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     // wants to add item to past or future
     public void addItemToWeek(Item item)
     {
-        final String date = item.getDate();                   //Get the date of the item
+        String date = item.getDate();                   //Get the date of the item
         System.out.println("the date is:" +date);
         WeekLongBudget inputWeek = getWeek(date);       //Get the current weeks budget or the budget for the corresponding date
         inputWeek.addItem(item);
@@ -485,14 +485,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             e.printStackTrace();
         }
 
-
-        //checks that you are over budget!
-        WeekLongBudget currentWeeksBudget = getWeek(date);
-        if(currentWeeksBudget.getTotalAmountSpent() > currentWeeksBudget.getGoalTotal())
-        {
-            Toast.makeText(ManualInputActivity.this, "You are over Goal Budget!", Toast.LENGTH_LONG).show();
-
-        }
+        mFireBaseDatabase.child(userId).setValue(usersBudgets);
 
 
     }
