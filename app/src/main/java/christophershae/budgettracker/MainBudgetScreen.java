@@ -63,35 +63,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     private WeekLongBudget currentWeeksBudget;
     PieChart pieChart;
 
-
-//    public void onClick(@NonNull MenuItem item) {
-//        Class next_activity = null;
-//        switch (item.getItemId()) {
-//            case R.id.Enter_Man:
-//                Toast.makeText(MainBudgetScreen.this,
-//                        "Action Manual Add Clicked", Toast.LENGTH_SHORT).show();
-//                //next_activity = ManualInputActivity.class;
-//                break;
-//
-//            case R.id.Recent_Purchases:
-//                Toast.makeText(MainBudgetScreen.this,
-//                        "Action Recent Purchases Clicked", Toast.LENGTH_SHORT).show();
-//                //next_activity = RecentPurchases.class;
-//                break;
-//
-//            case R.id.Picture_Screen:
-//                Toast.makeText(MainBudgetScreen.this,
-//                        "Action Scan Clicked", Toast.LENGTH_SHORT).show();
-//                //next_activity = Camera_Interface.class;
-//                break;
-//        }
-//        //startActivity(new Intent(this, next_activity));
-//    }
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,13 +71,8 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
 
         //define Buttons from main screen
-//        Button enter = (Button) findViewById(Enter_Man);
-//        enter.setOnClickListener(this);
         Button settings = (Button) findViewById(Settings);
         settings.setOnClickListener(this);
-//        Button photo = (Button) findViewById(Picture_Screen);
-//        photo.setOnClickListener(this);
-
 
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
@@ -158,6 +124,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         System.out.println("The current user ID is: " +userId);
 
+        //sets activity transitions for the bottom nav menu
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.idBottomNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -187,26 +154,20 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                         next_activity = new Intent(MainBudgetScreen.this, Camera_Interface.class);
                         startActivity(next_activity);
                         break;
+
+                    case R.id.Budget_Details:
+                        Toast.makeText(MainBudgetScreen.this,
+                                "Action Scan Clicked", Toast.LENGTH_SHORT).show();
+                        next_activity = new Intent(MainBudgetScreen.this, BudgetDetailsBarGraph.class);
+                        startActivity(next_activity);
+                        break;
                 }
                 return true;
             }
         });
 
-        //Button purchases = (Button) findViewById(R.id.Recent_Purchases);
 
-        //purchases.setOnClickListener(new View.OnClickListener() {
-
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainBudgetScreen.this, RecentPurchases.class);
-//                Bundle args = new Bundle();
-//                args.putSerializable("ARRAYLIST", (Serializable) currentWeeksBudget.getAllItems());
-//                intent.putExtra("BUNDLE", args);
-//                startActivity(intent);
-//            }
-//        });
-
-
+        //Firebase sign in checks
         if(firebaseAuth.getCurrentUser() == null){
             System.out.println("You are not signed in");
         } else {
@@ -275,17 +236,10 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-//            case Enter_Man:
-//                Intent manual_input = new Intent(MainBudgetScreen.this, ManualInputActivity.class);
-//                startActivity(manual_input);
-//                break;
             case Settings:
                 Intent setting = new Intent(MainBudgetScreen.this, SettingsActivity.class);
                 startActivity(setting);
                 break;
-//            case Picture_Screen:
-//                Intent picture_screen = new Intent(MainBudgetScreen.this, Camera_Interface.class);
-//                startActivity(picture_screen);
         }
 
     }

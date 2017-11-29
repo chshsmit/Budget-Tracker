@@ -8,7 +8,7 @@
         android:enabled="true"
         android:icon="@drawable/ic_add"
         app:showAsAction="ifRoom"
-        android:title="@string/plus_sign" />
+        android:title="@string/add" />
 
     <item
         android:id="@+id/Recent_Purchases"
@@ -25,9 +25,9 @@
         android:title="@string/picture" />
 
     <item
-        android:id="@+id/Budgert_Details"
+        android:id="@+id/Budget_Details"
         android:enabled="true"
         android:icon="@drawable/ic_bar"
         app:showAsAction="ifRoom"
-        android:title="@string/plus_sign" />
+        android:title="@string/budget_details" />
 </menu>
