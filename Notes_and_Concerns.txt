@@ -1,2 +1,3 @@
-(1) costOfAllCategories does not update when a custom category is added, and thus BarGraph and PieChart do not update. Seems to also crash
-    RecentPurchases.
+(1) costOfAllCategories does not update when a custom category is added, and thus BarGraph and PieChart do not update.
+
+(2) RecentPurchases seems to crash on some null pointer. 
