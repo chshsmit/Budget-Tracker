@@ -32,7 +32,7 @@ import java.util.List;
 import static android.R.attr.category;
 import static christophershae.budgettracker.R.id.DeleteB;
 import static christophershae.budgettracker.R.id.addItemToBudget;
-import static christophershae.budgettracker.R.id.item;
+//import static christophershae.budgettracker.R.id.item;
 import static christophershae.budgettracker.R.id.itemNameView;
 import static christophershae.budgettracker.R.id.snap;
 import static java.security.AccessController.getContext;
@@ -200,8 +200,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     protected void LoadPreferences(){
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
         String dataSet = data.getString("List", "Add a Category ......");
-            adapter.remove("");
-            adapter.remove("");
+            adapter.remove("Add a Category");
+
         if(dataSet.contains("!")){ //to check if previous items are there or not
 
             String rows[]=dataSet.split("!"); //to get individual rows of list
@@ -375,9 +375,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //Global variables
     User testUser = new User("Chris");
 
-
-
     //Global variables for the item price, name, date, and category
+    //Global variables for the item price, name, date, adnd category
     public String newItemName;
     public String newItemPrice;
     public String newItemDate;
@@ -489,64 +488,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
     }
-
-    //This function decrements the date so it adds it to the correct weeklong budget
-    public String decrementDate(Date date)
-    {
-
-        //Get an instance of the calendar and set the time to the date the item was purchased
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int day = calendar.get(Calendar.DAY_OF_WEEK);    //Get which day of the week that was
-
-        //Depending on what day it is, decrement the date to be the most recent sunday
-        //If it is Sunday, then it won't change the date at all
-        switch(day){
-            case Calendar.MONDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -1);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.TUESDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -2);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.WEDNESDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -3);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.THURSDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -4);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.FRIDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -5);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.SATURDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -6);
-                date = calendar.getTime();
-                break;
-
-            default:
-                break;
-        }
-
-
-        return sdf.format(date);   //return the decremented date as a string
-    }
-
-
 
 
 }

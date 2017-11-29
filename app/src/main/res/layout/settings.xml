@@ -40,6 +40,12 @@
         android:onClick="changeIncome"
         android:text="Set Income" />
 
+    <Button
+        android:id="@+id/deleteAnItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deleteItemFromBudget"
+        android:text="Delete Item" />
 
     <Button
         android:id="@+id/signout"

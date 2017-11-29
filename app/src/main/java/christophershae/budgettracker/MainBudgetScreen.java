@@ -76,7 +76,6 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         Button bargraph = (Button) findViewById(BarGraph);
         bargraph.setOnClickListener(this);
 
-
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = Utils.getDatabase();
@@ -95,15 +94,20 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             public void onDataChange(DataSnapshot dataSnapshot) {
                 System.out.println("We are getting data from the database");
 
+
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
+
+                if(currentWeeksBudget == null) {currentWeeksBudget = Utils.createNewWeek();}
+
                 totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
 
                 pieChart = (PieChart) findViewById(R.id.idPieChart);
-
+                
                 Description description = new Description();
                 description.setTextColor(ColorTemplate.VORDIPLOM_COLORS[2]);
                 description.setText("Price per Category");
                 pieChart.setDescription(description);
+
                 pieChart.setRotationEnabled(true);
                 //pieChart.setUsePercentValues(true);
                 pieChart.setHoleRadius(0f);
@@ -121,7 +125,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("You arent reDING CORRECTLTY");
             }
-        });
+        } );
 
         System.out.println("The current user ID is: " +userId);
 
@@ -195,8 +199,10 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
 
         //create pie data object
+
         PieData pieData = new PieData(dataSet);
         pieChart.setData(pieData);
+
         pieChart.invalidate();
 
     }

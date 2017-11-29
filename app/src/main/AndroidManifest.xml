@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -59,9 +60,8 @@
 
         <activity android:name=".Camera_Interface"
 
-            android:parentActivityName=".MainBudgetScreen"
+            android:parentActivityName=".MainBudgetScreen">
 
-            android:screenOrientation="landscape">
             <!-- configure this activity to use landscape orientation -->
 
             <intent-filter>
