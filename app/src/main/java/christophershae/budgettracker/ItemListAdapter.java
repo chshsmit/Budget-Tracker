@@ -42,10 +42,14 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
         mResource = resource;
     }
 
-    @NonNull
+    //@NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //get the persons information
+
+
+
+
         String name = getItem(position).getName();
         String date = getItem(position).getDate();
         double price = getItem(position).getPrice();
