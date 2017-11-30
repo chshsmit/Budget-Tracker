@@ -7,6 +7,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -50,6 +52,7 @@ import static christophershae.budgettracker.R.id.Settings;
 //import static christophershae.budgettracker.R.id.textView;
 
 
+
 public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth firebaseAuth;
@@ -70,10 +73,9 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_main_budget_screen);
         final TextView totalIncomeTextView = (TextView) findViewById(R.id.Total_Spent);
 
-
-        //define Buttons from main screen
-        Button settings = (Button) findViewById(Settings);
-        settings.setOnClickListener(this);
+        //toolbar setup
+        Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
 
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
@@ -170,18 +172,13 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
             }
         });
 
-
         //Firebase sign in checks
         if(firebaseAuth.getCurrentUser() == null){
             System.out.println("You are not signed in");
         } else {
             System.out.println("You are signed in on the main page: oncreate");
         }
-
-
-
     }
-
 
     private void addDataSet(PieChart chart){
         //checks to see if there's data to add
@@ -247,6 +244,28 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 startActivity(setting);
                 break;
         }
+    }
 
+    //ToolBar function to setup res/menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.Settings) {
+            Intent setting = new Intent(MainBudgetScreen.this, SettingsActivity.class);
+            startActivity(setting);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

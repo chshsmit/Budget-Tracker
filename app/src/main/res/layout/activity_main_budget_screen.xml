@@ -4,8 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/light_wood_desk"
     tools:context="christophershae.budgettracker.MainBudgetScreen">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        app:title="Budget-Tracker"
+        android:background="?attr/colorPrimary">
+    </android.support.v7.widget.Toolbar>
+
 
     <TextView
         android:id="@+id/Total_Spent"
@@ -18,20 +28,9 @@
         android:layout_marginTop="8dp"
         android:text="Total Spent:"
         app:layout_constraintBottom_toTopOf="@+id/idPieChart"
-        app:layout_constraintEnd_toStartOf="@+id/Settings"
-        app:layout_constraintStart_toEndOf="@+id/Recent_Purchases"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="294dp" />
 <!--
     <Button
         android:id="@+id/Enter_Man"

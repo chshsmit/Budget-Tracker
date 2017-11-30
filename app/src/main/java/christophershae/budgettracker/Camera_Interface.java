@@ -18,8 +18,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -48,7 +51,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class Camera_Interface extends Activity implements View.OnClickListener
+public class Camera_Interface extends AppCompatActivity implements View.OnClickListener
 {
     //variables to use for the camera
     private ImageView imageView;
@@ -70,6 +73,11 @@ public class Camera_Interface extends Activity implements View.OnClickListener
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera__interface);
+
+        //toolbar setup
+        Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
+
         //initialize our Gallery
         display = (Gallery) findViewById(R.id.gallery1);
 
@@ -344,6 +352,29 @@ public class Camera_Interface extends Activity implements View.OnClickListener
                     .makeText(this, "This device doesn't support the crop action!", Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    //ToolBar function to setup res/menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.Settings) {
+            Intent setting = new Intent(Camera_Interface.this, SettingsActivity.class);
+            startActivity(setting);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
