@@ -54,8 +54,6 @@ public class RecentPurchases extends AppCompatActivity {
 
 
 
-
-
         ItemListAdapter adapter = new ItemListAdapter(this, R.layout.adapter_view_layout, recentItemList);
         mListView.setAdapter(adapter);
 

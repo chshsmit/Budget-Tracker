@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
@@ -44,10 +45,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-import static christophershae.budgettracker.R.id.BarGraph;
-import static christophershae.budgettracker.R.id.Enter_Man;
-import static christophershae.budgettracker.R.id.Picture_Screen;
-import static christophershae.budgettracker.R.id.Recent_Purchases;
+
 import static christophershae.budgettracker.R.id.Settings;
 //import static christophershae.budgettracker.R.id.textView;
 
@@ -71,11 +69,19 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_budget_screen);
-        final TextView totalIncomeTextView = (TextView) findViewById(R.id.Total_Spent);
+        //final TextView totalIncomeTextView = (TextView) findViewById(R.id.Total_Spent);
 
         //toolbar setup
         Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
+
+
+        //Initial progress bar setup
+        RoundCornerProgressBar progress1 = (RoundCornerProgressBar) findViewById(R.id.progress_1);
+        progress1.setProgressColor(Color.parseColor("#ed3b27"));
+        progress1.setProgressBackgroundColor(Color.parseColor("#808080"));
+        progress1.setMax(70);
+        progress1.setProgress(15);
 
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
@@ -97,10 +103,11 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
 
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
-
                 if(currentWeeksBudget == null) {currentWeeksBudget = Utils.createNewWeek();}
 
-                totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
+
+
+                //totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
 
                 pieChart = (PieChart) findViewById(R.id.idPieChart);
                 
@@ -115,8 +122,8 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 pieChart.setTransparentCircleRadius(0);
                 //pieChart.setCenterText("Maybe a button");
                 //pieChart.setCenterTextSize(10);
-
                 addDataSet(pieChart);
+
 
                 System.out.println("This is the current weeks start date: ");
                 System.out.println(currentWeeksBudget.getStartDate());
@@ -129,6 +136,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         } );
 
         System.out.println("The current user ID is: " +userId);
+
 
         //sets activity transitions for the bottom nav menu
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.idBottomNav);
