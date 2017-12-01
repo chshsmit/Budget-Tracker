@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -44,7 +45,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-import static christophershae.budgettracker.R.id.BarGraph;
 import static christophershae.budgettracker.R.id.Enter_Man;
 import static christophershae.budgettracker.R.id.Picture_Screen;
 import static christophershae.budgettracker.R.id.Recent_Purchases;
@@ -217,7 +217,20 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         //make legend
         Legend legend = pieChart.getLegend();
         legend.setForm(Legend.LegendForm.CIRCLE);
-        //legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
+
+
+        //prepare legend entries
+        List<LegendEntry> entries = new ArrayList<>();
+
+        for (int i = 0; i < pieEntries.size(); i++) {
+            LegendEntry entry = new LegendEntry();
+            entry.formColor = ColorTemplate.COLORFUL_COLORS[i];
+            entry.label = labels.get(i);
+            entries.add(entry);
+        }
+
+        legend.setCustom(entries);
+        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         legend.setOrientation(Legend.LegendOrientation.VERTICAL);
