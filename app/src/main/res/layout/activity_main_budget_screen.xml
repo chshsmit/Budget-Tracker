@@ -17,33 +17,7 @@
     </android.support.v7.widget.Toolbar>
 
 
-    <TextView
-        android:id="@+id/Total_Spent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Total Spent:"
-        app:layout_constraintBottom_toTopOf="@+id/idPieChart"
-        app:layout_constraintTop_toTopOf="parent" />
 
-
-<<<<<<<<< Temporary merge branch 1
-    <Button
-        android:id="@+id/Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="294dp" />
-
-
-=========
->>>>>>>>> Temporary merge branch 2
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/idPieChart"
         android:layout_width="348dp"
@@ -53,8 +27,7 @@
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></com.github.mikephil.charting.charts.PieChart>
-
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
