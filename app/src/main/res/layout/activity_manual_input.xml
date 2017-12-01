@@ -7,6 +7,15 @@
     android:background="@drawable/light_wood_desk"
     tools:context="christophershae.budgettracker.ManualInputActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        app:title="Budget-Tracker"
+        android:background="?attr/colorPrimary">
+    </android.support.v7.widget.Toolbar>
 
     <EditText
 
@@ -16,7 +25,7 @@
         android:layout_height="45dp"
 
         android:layout_marginLeft="28dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="68dp"
         android:ems="10"
         android:hint="Item Name"
         android:inputType="textPersonName"
