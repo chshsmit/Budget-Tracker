@@ -21,4 +21,5 @@ public class MonetaryDisplay implements IValueFormatter {
 
         return "$" + mFormat.format(value); // e.g. append a dollar-sign
     }
+
 }

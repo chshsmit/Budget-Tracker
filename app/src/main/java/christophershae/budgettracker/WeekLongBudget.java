@@ -41,10 +41,7 @@ public class WeekLongBudget {
     {
         this.allItems.add(item);
 
-        this.totalAmountSpent = 0;
-        for(Item eachItem: allItems){
-            this.totalAmountSpent += eachItem.getPrice();
-        }
+        calculateTotal();
         setNetIncome();
     }
 
@@ -56,15 +53,20 @@ public class WeekLongBudget {
 
 
 
-        this.totalAmountSpent = 0;
-        for(Item eachItem: allItems){
-            this.totalAmountSpent += eachItem.getPrice();
-        }
+        calculateTotal();
     }
 
     public void addImageToList(Bitmap image)
     {
         myImages.add(image);
+    }
+
+    public void calculateTotal()
+    {
+        this.totalAmountSpent = 0;
+        for(Item eachItem: allItems){
+            this.totalAmountSpent += eachItem.getPrice();
+        }
     }
 
 
