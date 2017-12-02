@@ -20,19 +20,23 @@
         android:id="@+id/gallery1"
         android:layout_width="fill_parent"
         android:layout_height="170dp"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="11dp" />
 
     <ImageView
         android:id="@+id/imageview"
-        android:layout_width="215dp"
+        android:layout_width="350dp"
         android:layout_height="250dp"
         android:layout_above="@+id/Photo_B"
         android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="12dp"
+        android:visibility="invisible" />
+
     <Button
         android:id="@+id/Photo_B"
-        style="@android:style/Widget.Holo.Button"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
