@@ -146,7 +146,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     public void signOut(){
-        System.out.println("You did it");
         firebaseAuth.signOut();
         changeToLoginScreen();
     }
@@ -161,8 +160,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     public void changeWeeklyGoal()
     {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        //LayoutInflater inflater = this.getLayoutInflater();
-        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
         final EditText goalInput = new EditText(this);
         goalInput.setHint("Weekly Goal");
         alertDialogBuilder.setView(goalInput);
@@ -175,11 +172,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     {
                         newGoalBudget = goalInput.getText().toString();
                         currentWeeksBudget.setGoalTotal(Double.valueOf(newGoalBudget));
-
                         mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
-
                         Toast.makeText(SettingsActivity.this, "Updated Weekly Goal", Toast.LENGTH_LONG).show();
-
                     }
                 });
 
@@ -209,9 +203,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     {
                         newIncome = incomeInput.getText().toString();
                         currentWeeksBudget.addMoneyToIncome(Double.valueOf(newIncome));
-
                         mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
-
                         Toast.makeText(SettingsActivity.this, "Added Income to Week", Toast.LENGTH_LONG).show();
 
                     }
@@ -235,9 +227,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        final EditText incomeInput = new EditText(this);
-        incomeInput.setHint("Weekly Income");
-        alertDialogBuilder.setView(incomeInput);
 
         alertDialogBuilder.setTitle("Select an item to delete:");
         alertDialogBuilder.setSingleChoiceItems(itemNames.toArray(new CharSequence[itemNames.size()]),0, null);
@@ -249,9 +238,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         deletedItemIndex = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
                         currentWeeksBudget.removeItem(deletedItemIndex);
                         mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
-
                         Toast.makeText(SettingsActivity.this, "Deleted Item", Toast.LENGTH_LONG).show();
-
                     }
                 });
 
@@ -259,192 +246,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             @Override
             public void onClick(DialogInterface arg0, int arg1)
             {
-
             }
         });
-
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings);
-        final TextView currentspent = (TextView) findViewById(R.id.weekbudget);
-        final TextView currentgoal = (TextView) findViewById(R.id.weekGoal);
-        final TextView currentincome = (TextView) findViewById(R.id.weekIncome);
-        buttonSignOut = (Button) findViewById(R.id.signout);
-
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseInstance = Utils.getDatabase();
-        mFireBaseDatabase = mFirebaseInstance.getReference("users");
-        currentDate = Utils.decrementDate(new Date());
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        userId = currentUser.getUid();
-
-        mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                currentWeeksBudget = dataSnapshot.child(userId).child(currentDate).getValue(WeekLongBudget.class);
-                currentspent.setText("Weekly Spent      : $"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent()));//change to display real time
-                currentgoal.setText("Weekly Goal Budget: $"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
-                currentincome.setText("Weekly Income     : $"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalIncomeAccumulated()));
-
-                System.out.println(currentWeeksBudget.getStartDate());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("You arent reDING CORRECTLTY");
-            }
-        });
-
-        buttonSignOut = (Button) findViewById(R.id.signout);
-
-    }
-
-    public void signOut(View v){
-        System.out.println("You did it");
-        firebaseAuth.signOut();
-        changeToLoginScreen();
-    }
-
-    private void changeToLoginScreen(){
-        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
-        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(login);
-    }
-
-
-
-
-    private String newGoalBudget;
-
-    public void changeWeeklyGoal(View v)
-    {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        //LayoutInflater inflater = this.getLayoutInflater();
-        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
-        final EditText goalInput = new EditText(this);
-        goalInput.setHint("Weekly Goal");
-        alertDialogBuilder.setView(goalInput);
-
-        alertDialogBuilder.setTitle("Set this week's goal!");
-        alertDialogBuilder.setPositiveButton("Set",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1)
-                    {
-                        newGoalBudget = goalInput.getText().toString();
-                        currentWeeksBudget.setGoalTotal(Double.valueOf(newGoalBudget));
-
-                        mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
-
-                        Toast.makeText(SettingsActivity.this, "Updated Weekly Goal", Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1)
-            {
-
-            }
-        });
-
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
-    private String newIncome;
-
-    public void changeIncome(View v)
-    {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        //LayoutInflater inflater = this.getLayoutInflater();
-        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
-        final EditText incomeInput = new EditText(this);
-        incomeInput.setHint("Weekly Income");
-        alertDialogBuilder.setView(incomeInput);
-
-        alertDialogBuilder.setTitle("Set this week's income!");
-        alertDialogBuilder.setPositiveButton("Set",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1)
-                    {
-                        newIncome = incomeInput.getText().toString();
-                        currentWeeksBudget.addMoneyToIncome(Double.valueOf(newIncome));
-
-                        mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
-
-                        Toast.makeText(SettingsActivity.this, "Added Income to Week", Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1)
-            {
-
-            }
-        });
-
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
-
-    int deletedItemIndex;
-    public void deleteItemFromBudget(View v){
-        ArrayList<String> itemNames = new ArrayList<>();
-        for(Item item: currentWeeksBudget.allItems){
-            itemNames.add(item.name);
-        }
-
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        //LayoutInflater inflater = this.getLayoutInflater();
-        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
-        final EditText incomeInput = new EditText(this);
-        incomeInput.setHint("Weekly Income");
-        alertDialogBuilder.setView(incomeInput);
-
-        alertDialogBuilder.setTitle("Select an item to delete:");
-        alertDialogBuilder.setSingleChoiceItems(itemNames.toArray(new CharSequence[itemNames.size()]),0, null);
-        alertDialogBuilder.setPositiveButton("Delete",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1)
-                    {
-                        deletedItemIndex = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
-                        currentWeeksBudget.removeItem(deletedItemIndex);
-                        mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
-
-                        Toast.makeText(SettingsActivity.this, "Deleted Item", Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1)
-            {
-
-            }
-        });
-
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }*/
-
 
 }
