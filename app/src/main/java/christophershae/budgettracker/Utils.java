@@ -3,6 +3,7 @@ package christophershae.budgettracker;
 import com.github.mikephil.charting.data.BarEntry;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +41,12 @@ public class Utils {
 
         return newWeek;
 
+    }
+
+    private static DecimalFormat twoDecimalPlaces = new DecimalFormat("#.00");
+    public static String getStringToTwoDecimalPlaces(double myNumber)
+    {
+        return twoDecimalPlaces.format(myNumber);
     }
 
 

@@ -36,7 +36,11 @@ public class WeekLongBudget {
     public void addItem(Item item)
     {
         this.allItems.add(item);
-        this.totalAmountSpent += item.getPrice();
+
+        this.totalAmountSpent = 0;
+        for(Item eachItem: allItems){
+            this.totalAmountSpent += eachItem.getPrice();
+        }
         setNetIncome();
     }
 
@@ -92,7 +96,7 @@ public class WeekLongBudget {
 
     public Double getTotalIncomeAccumulated(){ return this.totalIncomeAccumulated; }
 
-    public Double getGoalTotal(){ return this.goalTotal; }
+    public Double getGoalTotal(){ return Math.round(this.goalTotal * 100.00) / 100.00; }
 
     public Map<String, Double> getCostOfAllCategories()
     {

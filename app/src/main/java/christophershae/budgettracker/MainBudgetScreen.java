@@ -29,6 +29,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -69,7 +70,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_budget_screen);
-        //final TextView totalIncomeTextView = (TextView) findViewById(R.id.Total_Spent);
+        final TextView totalIncomeTextView = (TextView) findViewById(R.id.totalOutOfGoal);
 
         //toolbar setup
         Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
@@ -77,11 +78,9 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
 
         //Initial progress bar setup
-        RoundCornerProgressBar progress1 = (RoundCornerProgressBar) findViewById(R.id.progress_1);
-        progress1.setProgressColor(Color.parseColor("#ed3b27"));
-        progress1.setProgressBackgroundColor(Color.parseColor("#808080"));
-        progress1.setMax(70);
-        progress1.setProgress(15);
+        final RoundCornerProgressBar progress1 = (RoundCornerProgressBar) findViewById(R.id.progress_1);
+        progress1.setProgressColor(Color.parseColor("#79ff19"));
+        progress1.setProgressBackgroundColor(Color.parseColor("#d8d8d8"));
 
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
@@ -105,9 +104,12 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
                 if(currentWeeksBudget == null) {currentWeeksBudget = Utils.createNewWeek();}
 
+                progress1.setMax(currentWeeksBudget.getGoalTotal().floatValue());
+                progress1.setProgress(currentWeeksBudget.getTotalAmountSpent().floatValue());
 
 
-                //totalIncomeTextView.setText("$"+currentWeeksBudget.getTotalAmountSpent());
+                totalIncomeTextView.setText("$"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent())+
+                        "/$"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
 
                 pieChart = (PieChart) findViewById(R.id.idPieChart);
                 

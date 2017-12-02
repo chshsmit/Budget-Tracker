@@ -100,9 +100,9 @@ public class SettingsActivity extends AppCompatActivity{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentDate).getValue(WeekLongBudget.class);
-                currentspent.setText("Weekly Spent      : $"+currentWeeksBudget.getTotalAmountSpent());//change to display real time
-                currentgoal.setText("Weekly Goal Budget: $"+currentWeeksBudget.getGoalTotal());
-                currentincome.setText("Weekly Income     : $"+currentWeeksBudget.getTotalIncomeAccumulated());
+                currentspent.setText("Weekly Spent      : $"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent()));//change to display real time
+                currentgoal.setText("Weekly Goal Budget: $"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
+                currentincome.setText("Weekly Income     : $"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalIncomeAccumulated()));
 
                 System.out.println(currentWeeksBudget.getStartDate());
             }
@@ -229,7 +229,7 @@ public class SettingsActivity extends AppCompatActivity{
 
         alertDialogBuilder.setTitle("Select an item to delete:");
         alertDialogBuilder.setSingleChoiceItems(itemNames.toArray(new CharSequence[itemNames.size()]),0, null);
-        alertDialogBuilder.setPositiveButton("Set",
+        alertDialogBuilder.setPositiveButton("Delete",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1)
