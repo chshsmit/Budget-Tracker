@@ -89,13 +89,27 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
         captureButton= (Button) findViewById(R.id.Photo_B);
         captureButton.setOnClickListener(this);
 
-        display.setAdapter(new ImageAdapter(this, receiptImages));
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            captureButton.setEnabled(false);
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+        }
+        final ImageAdapter myAdapter = new ImageAdapter(this, receiptImages);
+
+        imageView =(ImageView)findViewById(R.id.imageview);
+        TypedArray a =obtainStyledAttributes(R.styleable.MyGallery);
+        int itemBackground = a.getResourceId(R.styleable.
+                MyGallery_android_galleryItemBackground, 0);
+        imageView.setBackgroundResource(itemBackground);
+
+        display.setAdapter(myAdapter);
         display.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+
                 Toast.makeText(getBaseContext(),"Receipt" +" "+ (position + 1) + " Selected",
                         Toast.LENGTH_SHORT).show();
+
 
                 BitmapFactory.Options myOptions = new BitmapFactory.Options();
                 //disable dithering mode
@@ -104,48 +118,38 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                 myOptions.inPurgeable = true;
                 myOptions.inInputShareable = true;
                 myOptions.inTempStorage=new byte[32 * 1024];
-                ImageView theView;
-                imageView =(ImageView)findViewById(R.id.imageview);
-                Context context = Camera_Interface.this;
-                if (imageView == null)
-                {
-                    theView = new ImageView(context);
 
-                    theView.setPadding(0, 0, 0, 0);
-                }
-                else
-                {
-                    theView= (ImageView) imageView;
-
-                }
                 FileInputStream images;
                 Bitmap myView;
-                TypedArray a =obtainStyledAttributes(R.styleable.MyGallery);
-                int itemBackground = a.getResourceId(R.styleable.
-                        MyGallery_android_galleryItemBackground, 0);
+
                 try
                 {
                     images = new FileInputStream(new File(receiptImages.get(position)));
 
                     if (images != null)
                     {
+
+
                         myView = BitmapFactory.decodeFileDescriptor(images.getFD(), null, myOptions);
 
-                        theView.setImageBitmap(myView);
-                        theView.setId(position);
+                        imageView.setVisibility(View.VISIBLE);
+                        imageView.setImageBitmap(myView);
+                        imageView.setId(position);
                         //sets backgropund to gray
-                        theView.setBackgroundResource(itemBackground);
+
                     }
                 }
                 catch (IOException e)
                 {
                     e.printStackTrace();
                 }
+
+                
             }
         });
         if(receiptImages != null)
         {
-            display.setAdapter(new ImageAdapter(this, receiptImages));
+            display.setAdapter(myAdapter);
         }
     }
     public void onClick(View v)
