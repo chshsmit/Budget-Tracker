@@ -207,8 +207,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
 
                     display.setAdapter(new ImageAdapter(this, receiptImages));
 
-                   // ImageView picView = (ImageView) findViewById(R.id.imageview);
-                    //picView.setImageBitmap(thePic);
+
 
                 }
             }
