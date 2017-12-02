@@ -25,6 +25,12 @@
         android:textSize="20sp"
         />
 
+    <ListView
+        android:id="@+id/list"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+    </ListView>
+
     <Button
         android:id="@+id/changeWeeklyGoalBut"
         android:layout_width="match_parent"

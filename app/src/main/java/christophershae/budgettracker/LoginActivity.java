@@ -69,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button buttonSignIn;
 
+
+
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
@@ -94,10 +96,9 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
-        buttonSignup = (Button) findViewById(R.id.signUp);
 
-
-        buttonSignup.setOnClickListener(new View.OnClickListener() {
+        TextView signupLink = (TextView) findViewById(R.id.signUp);;
+        signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 registerUser();
