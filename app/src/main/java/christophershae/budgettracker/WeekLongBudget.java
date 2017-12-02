@@ -1,5 +1,7 @@
 package christophershae.budgettracker;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +13,8 @@ public class WeekLongBudget {
 
     public ArrayList<Item> allItems = new ArrayList<>();
     public Map<String, Double> costOfAllCategories;
+
+    public ArrayList<Bitmap> myImages = new ArrayList<>();
     //public Map<String, Double> amountForEachCategory;
     //public double totalAmountOfMoneySpent;
 
@@ -36,7 +40,11 @@ public class WeekLongBudget {
     public void addItem(Item item)
     {
         this.allItems.add(item);
-        this.totalAmountSpent += item.getPrice();
+
+        this.totalAmountSpent = 0;
+        for(Item eachItem: allItems){
+            this.totalAmountSpent += eachItem.getPrice();
+        }
         setNetIncome();
     }
 
@@ -52,6 +60,11 @@ public class WeekLongBudget {
         for(Item eachItem: allItems){
             this.totalAmountSpent += eachItem.getPrice();
         }
+    }
+
+    public void addImageToList(Bitmap image)
+    {
+        myImages.add(image);
     }
 
 
@@ -92,7 +105,7 @@ public class WeekLongBudget {
 
     public Double getTotalIncomeAccumulated(){ return this.totalIncomeAccumulated; }
 
-    public Double getGoalTotal(){ return this.goalTotal; }
+    public Double getGoalTotal(){ return Math.round(this.goalTotal * 100.00) / 100.00; }
 
     public Map<String, Double> getCostOfAllCategories()
     {
