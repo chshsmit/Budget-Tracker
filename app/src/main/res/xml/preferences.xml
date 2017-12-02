@@ -40,21 +40,5 @@
         <Preference
             android:title="Sign Out"
             android:key="signout"/>
-
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="prefLockScreen"
-            android:summary="Lock The Screen With Password"
-            android:title="Screen Lock" >
-        </CheckBoxPreference>
-
-        <ListPreference
-            android:key="prefUpdateFrequency"
-            android:title="Reminder for Updation"
-            android:summary="Set Update Reminder Frequency"
-            android:entries="@array/updateFrequency"
-            android:entryValues="@array/updateFrequencyValues"
-            />
     </PreferenceCategory>
 </PreferenceScreen>
