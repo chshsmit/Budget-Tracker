@@ -12,9 +12,13 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import static christophershae.budgettracker.R.id.signout;
@@ -28,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,43 +61,72 @@ import java.util.Map;
 
 //import static christophershae.budgettracker.R.id.signout;
 
-public class SettingsActivity extends AppCompatActivity{
+public class SettingsActivity extends AppCompatPreferenceActivity {
 
     private DatabaseReference mFireBaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private String userId;
     private String currentDate;
 
-    private WeekLongBudget currentWeeksBudget;
+    public WeekLongBudget currentWeeksBudget;
     Map<String, WeekLongBudget> usersBudgets = new HashMap<>();
 
 
     private Button buttonSignOut;
     private FirebaseAuth firebaseAuth;
 
-
-
     @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.preferences);
+
+        //app bar stuff
+        getLayoutInflater().inflate(R.layout.toolbar, (ViewGroup)findViewById(android.R.id.content));
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        int horizontalMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
+        int verticalMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
+        int topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (int) getResources().getDimension(R.dimen.activity_vertical_margin) , getResources().getDisplayMetrics());
+        getListView().setPadding(horizontalMargin, topMargin, horizontalMargin, verticalMargin);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseInstance = Utils.getDatabase();
+        mFireBaseDatabase = mFirebaseInstance.getReference("users");
+        currentDate = Utils.decrementDate(new Date());
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        userId = currentUser.getUid();
+
+        mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                currentWeeksBudget = dataSnapshot.child(userId).child(currentDate).getValue(WeekLongBudget.class);
+                findPreference("totalSpent").setTitle("Current Week Total Spent:" +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent()));
+                findPreference("goalBudget").setTitle("Current Week Goal Budget: "+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
+                findPreference("income").setTitle("Current Week Income: " +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalIncomeAccumulated()));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    /*@Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-
-
-        firebaseAuth = FirebaseAuth.getInstance();
-
         final TextView currentspent = (TextView) findViewById(R.id.weekbudget);
         final TextView currentgoal = (TextView) findViewById(R.id.weekGoal);
         final TextView currentincome = (TextView) findViewById(R.id.weekIncome);
-
-
-
-        mFirebaseInstance = Utils.getDatabase();
-        mFireBaseDatabase = mFirebaseInstance.getReference("users");
         buttonSignOut = (Button) findViewById(R.id.signout);
 
-        currentDate = Utils.decrementDate(new Date());
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseInstance = Utils.getDatabase();
+        mFireBaseDatabase = mFirebaseInstance.getReference("users");
+        currentDate = Utils.decrementDate(new Date());
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         userId = currentUser.getUid();
 
@@ -254,7 +288,7 @@ public class SettingsActivity extends AppCompatActivity{
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
-    }
+    }*/
 
 
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <Preference
+        android:key="totalSpent"
+        android:persistent="false"
+        android:selectable="false"
+        android:title="@string/app_name" />
+
+    <Preference
+        android:key="goalBudget"
+        android:persistent="false"
+        android:selectable="false"
+        android:title="@string/app_name" />
+
+    <Preference
+        android:key="income"
+        android:persistent="false"
+        android:selectable="false"
+        android:title="@string/app_name" />
+
+    <PreferenceCategory android:title="Settings" >
+        <EditTextPreference
+            android:title="Set Current Goal Budget"
+            android:summary="Change the Goal Budget for Current Week"
+            android:key="changeGoal"/>
+
+        <EditTextPreference
+            android:title="Set Current Income"
+            android:summary="Add or Reduce Income from Current Week"
+            android:key="changeIncome"/>
+
+        <EditTextPreference
+            android:title="Delete Item"
+            android:summary="Select an Item to Delete from Current Week"
+            android:key="deleteItem"/>
+
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="prefLockScreen"
+            android:summary="Lock The Screen With Password"
+            android:title="Screen Lock" >
+        </CheckBoxPreference>
+
+        <ListPreference
+            android:key="prefUpdateFrequency"
+            android:title="Reminder for Updation"
+            android:summary="Set Update Reminder Frequency"
+            android:entries="@array/updateFrequency"
+            android:entryValues="@array/updateFrequencyValues"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>
