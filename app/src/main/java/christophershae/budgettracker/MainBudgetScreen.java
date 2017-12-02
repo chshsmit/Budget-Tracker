@@ -103,6 +103,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
                 if(currentWeeksBudget == null) {currentWeeksBudget = Utils.createNewWeek();}
+                currentWeeksBudget.calculateTotal();
 
                 progress1.setMax(currentWeeksBudget.getGoalTotal().floatValue());
                 progress1.setProgress(currentWeeksBudget.getTotalAmountSpent().floatValue());
@@ -148,15 +149,15 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 Intent next_activity = null;
                 switch (menuItem.getItemId()) {
                     case R.id.Enter_Man:
-                        Toast.makeText(MainBudgetScreen.this,
-                                "Action Manual Add Clicked", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainBudgetScreen.this,
+                          //      "Action Manual Add Clicked", Toast.LENGTH_SHORT).show();
                         next_activity = new Intent(MainBudgetScreen.this, ManualInputActivity.class);
                         startActivity(next_activity);
                         break;
 
                     case R.id.Recent_Purchases:
-                        Toast.makeText(MainBudgetScreen.this,
-                                "Action Recent Purchases Clicked", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainBudgetScreen.this,
+                               // "Action Recent Purchases Clicked", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainBudgetScreen.this, RecentPurchases.class);
                         Bundle args = new Bundle();
                         args.putSerializable("ARRAYLIST", (Serializable) currentWeeksBudget.getAllItems());
@@ -165,15 +166,15 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                         break;
 
                     case R.id.Picture_Screen:
-                        Toast.makeText(MainBudgetScreen.this,
-                                "Action Scan Clicked", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainBudgetScreen.this,
+                         //       "Action Scan Clicked", Toast.LENGTH_SHORT).show();
                         next_activity = new Intent(MainBudgetScreen.this, Camera_Interface.class);
                         startActivity(next_activity);
                         break;
 
                     case R.id.Budget_Details:
-                        Toast.makeText(MainBudgetScreen.this,
-                                "Action Scan Clicked", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainBudgetScreen.this,
+                        //        "Action Scan Clicked", Toast.LENGTH_SHORT).show();
                         next_activity = new Intent(MainBudgetScreen.this, BudgetDetailsBarGraph.class);
                         startActivity(next_activity);
                         break;
