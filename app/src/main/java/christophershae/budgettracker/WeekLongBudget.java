@@ -1,5 +1,7 @@
 package christophershae.budgettracker;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +13,8 @@ public class WeekLongBudget {
 
     public ArrayList<Item> allItems = new ArrayList<>();
     public Map<String, Double> costOfAllCategories;
+
+    public ArrayList<Bitmap> myImages = new ArrayList<>();
     //public Map<String, Double> amountForEachCategory;
     //public double totalAmountOfMoneySpent;
 
@@ -56,6 +60,11 @@ public class WeekLongBudget {
         for(Item eachItem: allItems){
             this.totalAmountSpent += eachItem.getPrice();
         }
+    }
+
+    public void addImageToList(Bitmap image)
+    {
+        myImages.add(image);
     }
 
 
