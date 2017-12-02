@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import static christophershae.budgettracker.R.id.deleteAnItem;
 import static christophershae.budgettracker.R.id.signout;
 
 
@@ -110,6 +111,161 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
+        Preference goalPref = (Preference) findPreference("changeGoal");
+        goalPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                changeWeeklyGoal();
+                return true;
+            }
+        });
+
+        Preference incomePerf = (Preference) findPreference("changeIncome");
+        incomePerf.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                changeIncome();
+                return true;
+            }
+        });
+
+        Preference deletePref = (Preference) findPreference("deleteItem");
+        deletePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                deleteItemFromBudget();
+                return true;
+            }
+        });
+
+        Preference singoutPref = (Preference) findPreference("signout");
+        singoutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                signOut();
+                return true;
+            }
+        });
+    }
+
+    public void signOut(){
+        System.out.println("You did it");
+        firebaseAuth.signOut();
+        changeToLoginScreen();
+    }
+
+    private void changeToLoginScreen(){
+        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(login);
+    }
+
+    private String newGoalBudget;
+    public void changeWeeklyGoal()
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        //LayoutInflater inflater = this.getLayoutInflater();
+        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
+        final EditText goalInput = new EditText(this);
+        goalInput.setHint("Weekly Goal");
+        alertDialogBuilder.setView(goalInput);
+
+        alertDialogBuilder.setTitle("Set this week's goal!");
+        alertDialogBuilder.setPositiveButton("Set",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                        newGoalBudget = goalInput.getText().toString();
+                        currentWeeksBudget.setGoalTotal(Double.valueOf(newGoalBudget));
+
+                        mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
+
+                        Toast.makeText(SettingsActivity.this, "Updated Weekly Goal", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private String newIncome;
+    public void changeIncome()
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        final EditText incomeInput = new EditText(this);
+        incomeInput.setHint("Weekly Income");
+        alertDialogBuilder.setView(incomeInput);
+
+        alertDialogBuilder.setTitle("Set this week's income!");
+        alertDialogBuilder.setPositiveButton("Set",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                        newIncome = incomeInput.getText().toString();
+                        currentWeeksBudget.addMoneyToIncome(Double.valueOf(newIncome));
+
+                        mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
+
+                        Toast.makeText(SettingsActivity.this, "Added Income to Week", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    int deletedItemIndex;
+    public void deleteItemFromBudget(){
+        ArrayList<String> itemNames = new ArrayList<>();
+        for(Item item: currentWeeksBudget.allItems){
+            itemNames.add(item.name);
+        }
+
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        final EditText incomeInput = new EditText(this);
+        incomeInput.setHint("Weekly Income");
+        alertDialogBuilder.setView(incomeInput);
+
+        alertDialogBuilder.setTitle("Select an item to delete:");
+        alertDialogBuilder.setSingleChoiceItems(itemNames.toArray(new CharSequence[itemNames.size()]),0, null);
+        alertDialogBuilder.setPositiveButton("Delete",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                        deletedItemIndex = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
+                        currentWeeksBudget.removeItem(deletedItemIndex);
+                        mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
+
+                        Toast.makeText(SettingsActivity.this, "Deleted Item", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+
+            }
+        });
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     /*@Override
