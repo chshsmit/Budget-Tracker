@@ -217,27 +217,9 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         dataSet.setValueTextSize(12);
 
         //add colors
-        ArrayList<Integer> colors = new ArrayList<Integer>();
+        ArrayList<Integer> colors = new ArrayList<>();
 
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-
-        dataSet.setColors(colors);
-
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS); // set the color<br />
 
         //custom data display MonetaryDisplay
         dataSet.setValueFormatter(new MonetaryDisplay());
@@ -252,7 +234,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         for (int i = 0; i < pieEntries.size(); i++) {
             LegendEntry entry = new LegendEntry();
-            entry.formColor = colors.get(i);
+            entry.formColor = ColorTemplate.COLORFUL_COLORS[i];
             entry.label = labels.get(i);
             entries.add(entry);
         }
