@@ -7,12 +7,26 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class RecentPurchases extends AppCompatActivity {
 
-    private static final String TAG = "Popup";
+//-------------------------------------------------------------------------
+
+
+    //Global variables for the item price, name, and date
+    public String newItemName;
+    public String newItemPrice;
+    public String newItemDate;
+    public String newItemCategory;
+    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy, EEEE");
+//-------------------------------------------------------------------------
+
+
+    private static final String TAG = "*** Popup Debugger ***";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +47,9 @@ public class RecentPurchases extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Started.");
         ListView mListView = (ListView) findViewById(R.id.listView);
+
+
+
 
         ItemListAdapter adapter = new ItemListAdapter(this, R.layout.adapter_view_layout, recentItemList);
         mListView.setAdapter(adapter);

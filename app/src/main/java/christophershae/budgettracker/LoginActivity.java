@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -85,6 +86,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //toolbar setup
+        Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
 
         firebaseAuth = FirebaseAuth.getInstance();
         editTextEmail = (EditText) findViewById(R.id.email);
@@ -168,7 +173,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void changeToMainBudgetScreen(){
-        Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
+        //Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
+        Intent next_activity = new Intent(LoginActivity.this, Splash.class);
         startActivity(next_activity);
         finish();
     }

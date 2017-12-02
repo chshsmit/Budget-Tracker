@@ -21,8 +21,13 @@
     <string name="plus_sign">+</string>
     <string name="settings">Settings</string>
     <string name="picture">Scan</string>
+    <string name="recent_purchases">Recent Purchases</string>
+    <string name="budget_details">Budget Details</string>
+
 
     <string name="DeteB">Delete</string>
+
+    <string name="delete_item">Delete Item</string>
 
     <!-- <string name="app_name">main screen + settings</string> -->
 
