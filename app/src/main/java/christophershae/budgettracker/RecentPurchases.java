@@ -14,7 +14,6 @@ import java.util.Date;
 
 public class RecentPurchases extends AppCompatActivity {
 
-// Testing User and Date classes
 //-------------------------------------------------------------------------
 
 
