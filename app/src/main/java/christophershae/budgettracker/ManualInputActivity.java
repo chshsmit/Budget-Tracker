@@ -380,8 +380,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //This code creates a new item object and adds it to a user's current weeklong budget object
     //----------------------------------------------------------------------------------------
 
-    //Global variables
-    User testUser = new User("Chris");
 
     //Global variables for the item price, name, date, and category
     //Global variables for the item price, name, date, adnd category
@@ -425,8 +423,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         newItem.setDate(newItemDate);
         System.out.println("The current date is:" +newItem.getDate());    //debugging function
 
-        //Adding the new item to the test user's current week budget
-        testUser.addItem(newItem);
 
         //Add the item to the correct weeks budget
         addItemToWeek(newItem);

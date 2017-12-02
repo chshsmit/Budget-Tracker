@@ -16,8 +16,6 @@ public class RecentPurchases extends AppCompatActivity {
 
 // Testing User and Date classes
 //-------------------------------------------------------------------------
-    //Global variables
-    User testUser = new User("CrashTestDummy0.1");
 
 
     //Global variables for the item price, name, and date
