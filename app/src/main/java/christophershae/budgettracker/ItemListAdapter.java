@@ -46,9 +46,15 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //get the persons information
-        String name = getItem(position).getName();
-        String date = getItem(position).getDate();
-        double price = getItem(position).getPrice();
+        String name = "[deleted]";
+        String date = "";
+        double price = 0.0;
+        // Checks if item has been deleted
+        if (getItem(position) != null) {
+            name = getItem(position).getName();
+            date = getItem(position).getDate();
+            price = getItem(position).getPrice();
+        }
 
         //Create the transaction object with the information
         Item item = new Item(name);
@@ -60,7 +66,6 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
 
         //ViewHolder object
         ViewHolder holder;
-
 
         if(convertView == null){
             LayoutInflater inflater = LayoutInflater.from(mContext);

@@ -461,7 +461,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         } else{
             return usersBudgets.get(date);        //Return the WeekLongBudget for the date if it isn't null
         }
-
     }
 
 
