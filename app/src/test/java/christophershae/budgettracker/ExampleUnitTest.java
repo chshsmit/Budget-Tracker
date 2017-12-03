@@ -15,7 +15,6 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
 
-    User testUser = new User("Chris");
     SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
     Item newItem = new Item("Bagels");
     private static final double DELTA = 1e-15;

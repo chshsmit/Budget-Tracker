@@ -4,9 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/light_wood_desk"
     tools:context="christophershae.budgettracker.ManualInputActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        app:title="Budget-Tracker"
+        android:background="?attr/colorPrimary">
+    </android.support.v7.widget.Toolbar>
 
     <EditText
 
@@ -16,29 +24,28 @@
         android:layout_height="45dp"
 
         android:layout_marginLeft="28dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="68dp"
         android:ems="10"
         android:hint="Item Name"
-        android:inputType="textPersonName"
-
+        android:inputType="textCapSentences|textAutoCorrect"
+        android:imeOptions="actionDone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
         android:id="@+id/addItemToBudget"
+        style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginLeft="72dp"
+        android:layout_marginLeft="44dp"
         android:layout_marginTop="8dp"
         android:onClick="createNewItem"
         android:text="@string/add"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/finishAddingItemsToBudget"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemsAddedToBudgetAlready"
         app:layout_constraintVertical_bias="0.0" />
@@ -61,7 +68,7 @@
         android:ems="10"
 
         android:hint="@string/zero_dollars"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal|textAutoComplete"
 
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/text_editlist"
@@ -89,7 +96,7 @@
 
     <Button
         android:id="@+id/Edit_List"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@android:style/Widget.Button"
         android:layout_width="106dp"
         android:layout_height="45dp"
         android:layout_marginBottom="8dp"
@@ -97,6 +104,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/Edit_List"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.Button"
         app:layout_constraintBottom_toTopOf="@+id/Menu_C"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/text_editlist"
@@ -109,10 +117,11 @@
         android:layout_width="182dp"
         android:layout_height="43dp"
         android:layout_marginLeft="28dp"
+
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Create Category"
-        android:inputType="textPersonName"
+        android:inputType="textCapSentences|textAutoCorrect"
 
 
         app:layout_constraintLeft_toLeftOf="parent"
@@ -131,13 +140,12 @@
 
     <Button
         android:id="@+id/DeleteB"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="106dp"
         android:layout_height="45dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="24dp"
         android:text="@string/DeteB"
         app:layout_constraintBottom_toTopOf="@+id/itemsAddedToBudgetAlready"
@@ -150,15 +158,16 @@
 
     <Button
         android:id="@+id/finishAddingItemsToBudget"
+        style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginRight="72dp"
+        android:layout_marginEnd="44dp"
         android:layout_marginTop="8dp"
         android:onClick="Finish"
         android:text="@string/finish"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemsAddedToBudgetAlready"

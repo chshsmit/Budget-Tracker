@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -68,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button buttonSignIn;
 
+
+
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
@@ -86,13 +89,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //toolbar setup
+        Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
+
         firebaseAuth = FirebaseAuth.getInstance();
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
-        buttonSignup = (Button) findViewById(R.id.signUp);
 
-
-        buttonSignup.setOnClickListener(new View.OnClickListener() {
+        TextView signupLink = (TextView) findViewById(R.id.signUp);;
+        signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 registerUser();
@@ -168,7 +174,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void changeToMainBudgetScreen(){
-        Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
+        //Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
+        Intent next_activity = new Intent(LoginActivity.this, Splash.class);
         startActivity(next_activity);
         finish();
     }

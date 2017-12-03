@@ -3,12 +3,14 @@ package christophershae.budgettracker;
 import com.github.mikephil.charting.data.BarEntry;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Map;
 /**
  * Created by chrissmith on 11/16/17.
  */
@@ -24,6 +26,31 @@ public class Utils {
         }
         return mDataBase;
     }
+
+    public String newDate;
+
+    //Retrieving the correct weeklong budget object to store the new item in
+    public static WeekLongBudget createNewWeek()
+    {
+        //DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
+        //Decrement the date to be the most recent sunday
+        Date currentDate = new Date();
+        String newWeekIndex = decrementDate(currentDate);
+        WeekLongBudget newWeek = new WeekLongBudget(newWeekIndex);
+
+
+        return newWeek;
+
+    }
+
+    private static DecimalFormat twoDecimalPlaces = new DecimalFormat("#.00");
+    public static String getStringToTwoDecimalPlaces(double myNumber)
+    {
+        return twoDecimalPlaces.format(myNumber);
+    }
+
+
+
 
     static SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");    //This is the format we want our date string to be in
 

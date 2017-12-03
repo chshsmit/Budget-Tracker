@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,7 +35,7 @@ import java.util.List;
 import static android.R.attr.category;
 import static christophershae.budgettracker.R.id.DeleteB;
 import static christophershae.budgettracker.R.id.addItemToBudget;
-import static christophershae.budgettracker.R.id.item;
+//import static christophershae.budgettracker.R.id.item;
 import static christophershae.budgettracker.R.id.itemNameView;
 import static christophershae.budgettracker.R.id.snap;
 import static java.security.AccessController.getContext;
@@ -95,6 +98,10 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manual_input);
 
+        //toolbar setup
+        Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
+
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = Utils.getDatabase();
@@ -126,6 +133,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
         System.out.println("The current user ID is: " +userId);
+        System.out.println(usersBudgets.isEmpty());
 
 
         //Instantiating the adapter for the listview
@@ -200,8 +208,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     protected void LoadPreferences(){
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
         String dataSet = data.getString("List", "Add a Category ......");
-            adapter.remove("");
-            adapter.remove("");
+            adapter.remove("Add a Category");
+
         if(dataSet.contains("!")){ //to check if previous items are there or not
 
             String rows[]=dataSet.split("!"); //to get individual rows of list
@@ -372,12 +380,9 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //This code creates a new item object and adds it to a user's current weeklong budget object
     //----------------------------------------------------------------------------------------
 
-    //Global variables
-    User testUser = new User("Chris");
-
-
 
     //Global variables for the item price, name, date, and category
+    //Global variables for the item price, name, date, adnd category
     public String newItemName;
     public String newItemPrice;
     public String newItemDate;
@@ -418,8 +423,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         newItem.setDate(newItemDate);
         System.out.println("The current date is:" +newItem.getDate());    //debugging function
 
-        //Adding the new item to the test user's current week budget
-        testUser.addItem(newItem);
 
         //Add the item to the correct weeks budget
         addItemToWeek(newItem);
@@ -487,65 +490,37 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         mFireBaseDatabase.child(userId).setValue(usersBudgets);
 
 
-    }
+        //checks that you are over budget!
+        WeekLongBudget currentWeeksBudget = getWeek(date);
+        if(currentWeeksBudget.getTotalAmountSpent() > currentWeeksBudget.getGoalTotal())
+        {
+            Toast.makeText(ManualInputActivity.this, "You are over Goal Budget!", Toast.LENGTH_LONG).show();
 
-    //This function decrements the date so it adds it to the correct weeklong budget
-    public String decrementDate(Date date)
-    {
-
-        //Get an instance of the calendar and set the time to the date the item was purchased
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int day = calendar.get(Calendar.DAY_OF_WEEK);    //Get which day of the week that was
-
-        //Depending on what day it is, decrement the date to be the most recent sunday
-        //If it is Sunday, then it won't change the date at all
-        switch(day){
-            case Calendar.MONDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -1);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.TUESDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -2);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.WEDNESDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -3);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.THURSDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -4);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.FRIDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -5);
-                date = calendar.getTime();
-                break;
-
-            case Calendar.SATURDAY:
-                calendar.setTime(date);
-                calendar.add(Calendar.DATE, -6);
-                date = calendar.getTime();
-                break;
-
-            default:
-                break;
         }
-
-
-        return sdf.format(date);   //return the decremented date as a string
     }
 
 
+    //ToolBar function to setup res/menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.Settings) {
+            Intent setting = new Intent(ManualInputActivity.this, SettingsActivity.class);
+            startActivity(setting);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

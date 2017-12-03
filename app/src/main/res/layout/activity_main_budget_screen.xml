@@ -4,92 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/light_wood_desk"
     tools:context="christophershae.budgettracker.MainBudgetScreen">
 
-    <TextView
-        android:id="@+id/Total_Spent"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:title="Budget-Tracker"
+        app:titleTextColor="@android:color/white"></android.support.v7.widget.Toolbar>
 
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Total Spent:"
-        app:layout_constraintBottom_toTopOf="@+id/idPieChart"
-        app:layout_constraintEnd_toStartOf="@+id/Settings"
-        app:layout_constraintStart_toEndOf="@+id/Recent_Purchases"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <Button
-        android:id="@+id/Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="294dp" />
-
-    <Button
-        android:id="@+id/Enter_Man"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginStart="12dp"
-        android:text="@string/plus_sign"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Picture_Screen" />
-
-    <Button
-        android:id="@+id/Picture_Screen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="148dp"
-        android:layout_marginStart="148dp"
-        android:text="@string/picture"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/Recent_Purchases"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recent Purchases"
-        app:layout_constraintBaseline_toBaselineOf="@+id/Settings"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/idPieChart"
         android:layout_width="348dp"
         android:layout_height="377dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="68dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/progress_1"
+        android:layout_width="276dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/idPieChart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rcBackgroundPadding="5dp" />
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></com.github.mikephil.charting.charts.PieChart>
+        app:layout_constraintTop_toBottomOf="@+id/idPieChart">
 
-    <Button
-        android:id="@+id/BarGraph"
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/idBottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:itemBackground="@color/colorPrimary"
+            app:itemIconTint="@color/common_google_signin_btn_text_light"
+            app:itemTextColor="@color/common_google_signin_btn_text_light"
+            app:menu="@menu/bottom_nav_items">
+
+        </android.support.design.widget.BottomNavigationView>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/totalOutOfGoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Weeks"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/Picture_Screen"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idPieChart" />
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/progress_1"
+        app:layout_constraintEnd_toEndOf="@+id/progress_1"
+        app:layout_constraintStart_toStartOf="@+id/progress_1"
+        app:layout_constraintTop_toTopOf="@+id/progress_1" />
 
 </android.support.constraint.ConstraintLayout>

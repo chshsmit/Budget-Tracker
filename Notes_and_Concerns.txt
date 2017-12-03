@@ -1,0 +1,41 @@
+
+(1) RecentPurchases seems to crash on some null pointer. [TEMPORARILY RESOLVED]
+    - null pointer seems to be on a missing item index on Firebase for a previously deleted item in a given week (i.e. if index 4 has
+      been deleted, the index itself will be treated as null, crashing the app)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
