@@ -102,9 +102,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentDate).getValue(WeekLongBudget.class);
-                findPreference("totalSpent").setTitle("Current Week Total Spent:" +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent()));
-                findPreference("goalBudget").setTitle("Current Week Goal Budget: "+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
-                findPreference("income").setTitle("Current Week Income: " +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalIncomeAccumulated()));
+                if (currentWeeksBudget != null) {
+                    findPreference("totalSpent").setTitle("Current Week Total Spent:" +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent()));
+                    findPreference("goalBudget").setTitle("Current Week Goal Budget: "+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
+                    findPreference("income").setTitle("Current Week Income: " +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalIncomeAccumulated()));
+                }
+                else {
+                    System.out.println("There is no existing week in Firebase!");
+                }
+
             }
 
             @Override
