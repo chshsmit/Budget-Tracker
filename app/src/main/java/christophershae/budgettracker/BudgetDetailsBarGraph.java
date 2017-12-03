@@ -283,7 +283,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         float pos = 0f;    //determines bar positioning for each week (in correct order)
         for (int i = allWeekBudgets.size() - 1; i >= 0; i--) {
             float[] barData = new float[]{}; //create new bar for each week checked
-//            ArrayList<Float> barData = new ArrayList<Float>();   // convert to array when fully populated with stacked bars
+//            ArrayList<Float> stackData = new ArrayList<Float>();   // convert to array when fully populated with stacked bars
 
             // Really important that you check if the currently checked week has null entries later!
             for (Map.Entry<String, Double> entry : allWeekBudgets.get(i).costOfAllCategories.entrySet()) {
@@ -292,16 +292,18 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
                 float myFloat = number.floatValue();
                 if (myFloat != 0.00) {
                     barData = addStackedData(barData, myFloat); //add new data
-                    barEntries.add(new BarEntry(pos, barData));
+//                    barEntries.add(new BarEntry(pos, barData));
+//                    stackData.add(myFloat);
 //                    legendLabels.add(new LegendEntry(entry.getKey(), Legend.LegendForm.DEFAULT, NaN, NaN,
 //                            null, ColorTemplate.COLORFUL_COLORS[l]));
                     l++;
                 }
+                barEntries.add(new BarEntry(pos, barData));
             }
             pos++;
         }
         // Creates example bars
-//        barEntries.add(new BarEntry(1F, new float[]{10f, 156f}));
+//        barEntries.add(new BarEntry(0F, new float[]{10f, 156f}));
 //        barEntries.add(new BarEntry(1F, new float[]{10f}));
 //        barEntries.add(new BarEntry(0F, 10f));
 //        barEntries.add(new BarEntry(1F, new float[]{57f, 145f, 230f}));
@@ -333,9 +335,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         xAxis.setDrawGridLines(false);
         Collections.reverse(allWeeks);      //gets correct order
         String[] allWeeksArray = allWeeks.toArray(new String[allWeeks.size()]);
-//        xAxis.setValueFormatter(new MyXAxisValueFormatter(allWeeksArray));
-//        xAxis.setValueFormatter(new IndexAxisValueFormatter(mWeeks));
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(allWeeksArray));
+//        xAxis.setValueFormatter(new IndexAxisValueFormatter(allWeeksArray));
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
 
