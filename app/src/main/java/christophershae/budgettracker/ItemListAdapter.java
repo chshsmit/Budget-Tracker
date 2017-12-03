@@ -55,6 +55,18 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
     public View getView(int position, View convertView, ViewGroup parent) {
         //get the persons information
 
+// HEAD
+        // String name = "[deleted]";
+        // String date = "";
+        // double price = 0.0;
+        // // Checks if item has been deleted
+        // if (getItem(position) != null) {
+        //     name = getItem(position).getName();
+        //     date = getItem(position).getDate();
+        //     price = getItem(position).getPrice();
+        // }
+// =======
+
 
 
 
@@ -84,7 +96,6 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
 
         //ViewHolder object
         ViewHolder holder;
-
 
         if(convertView == null){
             LayoutInflater inflater = LayoutInflater.from(mContext);
