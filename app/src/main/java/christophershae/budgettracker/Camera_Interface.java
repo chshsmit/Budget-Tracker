@@ -14,6 +14,7 @@ import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,22 @@ import android.widget.TextView;
 
 import android.Manifest;
 import android.widget.Toast;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -73,6 +90,15 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera__interface);
+
+        //Firebase stuff
+        firebaseAuth = FirebaseAuth.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        mFirebaseInstance = Utils.getDatabase();
+        mFireBaseDatabase = mFirebaseInstance.getReference("users");
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        userId = currentUser.getUid();
 
         //toolbar setup
         Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
@@ -151,6 +177,28 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
         {
             display.setAdapter(myAdapter);
         }
+
+
+
+        //Getting the current weeks index
+        currentWeeksDate = Utils.decrementDate(new Date());
+
+        mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("We are getting data from the database");
+                currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
+                currentWeeksBudget.calculateTotal();
+
+                System.out.println("This is the current weeks start date: ");
+                System.out.println(currentWeeksBudget.getStartDate());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("You arent reDING CORRECTLTY");
+            }
+        } );
     }
     public void onClick(View v)
     {
@@ -170,6 +218,15 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference mFireBaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+    private StorageReference mStorageRef;
+    private String userId;
+    private String currentWeeksDate;
+    private WeekLongBudget currentWeeksBudget;
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (resultCode == RESULT_OK) {
@@ -186,6 +243,8 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                 Bundle extras = data.getExtras();
                 // get the cropped bitmap
                 Bitmap thePic = extras.getParcelable("data");
+//                currentWeeksBudget.addImageToList(thePic);
+//                mFireBaseDatabase.child(userId).child(currentWeeksDate).setValue(currentWeeksBudget);
 
                 //store in the file path
                 String imageInformation = dateFormat.format(new Date());
@@ -221,10 +280,34 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
             File[] files=myShots.listFiles();
             Arrays.sort(files);
 
+
+            //currentWeeksBudget.clearImages();
             for(int i=0; i<files.length; i++){
+
                 File file = files[i];
                 if(file.isDirectory())
                     continue;
+
+                Uri imageUri = Uri.fromFile(file);
+                System.out.println(mStorageRef == null);
+                StorageReference storageReference = mStorageRef.child("images/users/" + userId + "/" +i+ " .jpg");
+
+                storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        toastMessage("Upload Success");
+                        //mProgressDialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        toastMessage("Upload Failed");
+                        //mProgressDialog.dismiss();
+                    }
+                });
+
                 myImages.add(file.getPath());
             }
         }
@@ -378,6 +461,16 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+    /**
+     * customizable toast
+     * @param message
+     */
+    private void toastMessage(String message){
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
 }
