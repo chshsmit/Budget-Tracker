@@ -112,7 +112,7 @@ public class WeekLongBudget {
     public Map<String, Double> getCostOfAllCategories()
     {
 
-        if(this.costOfAllCategories == null) {return null;}
+        if(this.costOfAllCategories == null) {this.costOfAllCategories = new HashMap<>();}
 
         this.costOfAllCategories.clear();
         //System.out.println(this.costOfAllCategories.containsKey("Food"));

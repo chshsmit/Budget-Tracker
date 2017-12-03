@@ -1,6 +1,9 @@
 package christophershae.budgettracker;
 
 import com.github.mikephil.charting.data.BarEntry;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
@@ -15,9 +18,15 @@ import java.util.Map;
  * Created by chrissmith on 11/16/17.
  */
 
+
 public class Utils {
 
     private static FirebaseDatabase mDataBase;
+    private static DatabaseReference mFireBaseDatabase;
+    private static FirebaseDatabase mFirebaseInstance;
+    private static FirebaseAuth firebaseAuth;
+
+    private static String userId;
 
     public static FirebaseDatabase getDatabase() {
         if (mDataBase == null) {
@@ -37,6 +46,17 @@ public class Utils {
         Date currentDate = new Date();
         String newWeekIndex = decrementDate(currentDate);
         WeekLongBudget newWeek = new WeekLongBudget(newWeekIndex);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        userId = firebaseAuth.getUid();
+        mFirebaseInstance = getDatabase();
+        mFireBaseDatabase = mFirebaseInstance.getReference("users");
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        userId = currentUser.getUid();
+
+        mFireBaseDatabase.child(userId).child(newWeekIndex).setValue(newWeek);
+
 
 
         return newWeek;

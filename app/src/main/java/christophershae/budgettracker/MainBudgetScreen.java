@@ -198,6 +198,9 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         ArrayList<String> labels = new ArrayList<String>();
 
         int l = 0;
+
+        if(currentWeeksBudget.getCostOfAllCategories() == null) System.out.println("NULL");
+        if(currentWeeksBudget.getCostOfAllCategories() == null) return;
         for (Map.Entry<String, Double> entry : currentWeeksBudget.costOfAllCategories.entrySet())
         {
             BigDecimal number = new BigDecimal(entry.getValue());

@@ -281,6 +281,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
             float[] barData = new float[]{}; //create new bar for each week checked
 
             // Really important that you check if the currently checked week has null entries later!
+            if(allWeekBudgets.get(i).costOfAllCategories == null) return;
             for (Map.Entry<String, Double> entry : allWeekBudgets.get(i).costOfAllCategories.entrySet()) {
                 categoryCount++;
                 BigDecimal number = new BigDecimal(entry.getValue());
