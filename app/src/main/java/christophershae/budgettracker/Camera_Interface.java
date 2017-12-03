@@ -246,8 +246,11 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
 //                currentWeeksBudget.addImageToList(thePic);
 //                mFireBaseDatabase.child(userId).child(currentWeeksDate).setValue(currentWeeksBudget);
 
+
                 //store in the file path
-                String imageInformation = dateFormat.format(new Date());
+                currentWeeksBudget.increasePhotoCount();
+                mFireBaseDatabase.child(userId).child(currentWeeksDate).setValue(currentWeeksBudget);
+                String imageInformation = currentWeeksDate+"_"+currentWeeksBudget.getPhotoCounter()+".jpeg";;
                 File imageDir = new File(Gallery_ImagePath);
                 imageDir.mkdirs();
                 String path = Gallery_ImagePath + imageInformation +".jpeg";
@@ -255,6 +258,26 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                     FileOutputStream out = new FileOutputStream(path);
                     thePic.compress(Bitmap.CompressFormat.JPEG, 90, out);
                     out.close();
+
+                    Uri imageUri = Uri.fromFile(new File(path));
+                    System.out.println(mStorageRef == null);
+                    StorageReference storageReference = mStorageRef.child("images/users/" + userId +"/"+imageInformation);
+                    storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // Get a URL to the uploaded content
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            toastMessage("Upload Success");
+                            //mProgressDialog.dismiss();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            toastMessage("Upload Failed");
+                            //mProgressDialog.dismiss();
+                        }
+                    });
+
                 } catch (FileNotFoundException e) {
                     e.getMessage();
                 } catch (IOException e) {
@@ -288,25 +311,6 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                 if(file.isDirectory())
                     continue;
 
-                Uri imageUri = Uri.fromFile(file);
-                System.out.println(mStorageRef == null);
-                StorageReference storageReference = mStorageRef.child("images/users/" + userId + "/" +i+ " .jpg");
-
-                storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        toastMessage("Upload Success");
-                        //mProgressDialog.dismiss();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        toastMessage("Upload Failed");
-                        //mProgressDialog.dismiss();
-                    }
-                });
 
                 myImages.add(file.getPath());
             }

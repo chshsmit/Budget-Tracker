@@ -25,6 +25,8 @@ public class WeekLongBudget {
     public double goalTotal;
     public double totalIncomeAccumulated;
 
+    public int photoCounter;
+
     public double netIncome;
 
     public String startDate;
@@ -36,6 +38,7 @@ public class WeekLongBudget {
         this.totalAmountSpent = 0.00;
         this.totalIncomeAccumulated = 0.00;
         this.netIncome = Math.round((this.totalIncomeAccumulated - this.totalAmountSpent) * 100.00) / 100.00;
+        this.photoCounter = 0;
         this.costOfAllCategories = new HashMap<>();
     }
 
@@ -99,6 +102,11 @@ public class WeekLongBudget {
         this.myImages.clear();
     }
 
+    public void increasePhotoCount()
+    {
+        this.photoCounter += 1;
+    }
+
 
     //---------------------------------------------------------------------------------------------
     // Getter functions
@@ -115,6 +123,8 @@ public class WeekLongBudget {
     public Double getTotalIncomeAccumulated(){ return this.totalIncomeAccumulated; }
 
     public Double getGoalTotal(){ return Math.round(this.goalTotal * 100.00) / 100.00; }
+
+    public int getPhotoCounter(){ return this.photoCounter;}
 
     public Map<String, Double> getCostOfAllCategories()
     {
