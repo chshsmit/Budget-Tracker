@@ -29,20 +29,24 @@
         android:id="@+id/imageview"
         android:layout_width="350dp"
         android:layout_height="250dp"
-        android:layout_above="@+id/Photo_B"
+        android:layout_alignBottom="@+id/Photo_B"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="26dp"
         android:visibility="invisible" />
 
-    <Button
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/Photo_B"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/imageview"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/Take_Photo" />
-
-
+        android:layout_alignRight="@+id/imageview"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:src="@android:drawable/ic_menu_camera"
+        app:fabSize="normal" />
 
 </RelativeLayout>

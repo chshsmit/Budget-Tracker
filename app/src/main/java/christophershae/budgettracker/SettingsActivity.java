@@ -102,9 +102,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentDate).getValue(WeekLongBudget.class);
-                findPreference("totalSpent").setTitle("Current Week Total Spent:" +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent()));
-                findPreference("goalBudget").setTitle("Current Week Goal Budget: "+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
-                findPreference("income").setTitle("Current Week Income: " +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalIncomeAccumulated()));
+                if (currentWeeksBudget != null) {
+                    findPreference("totalSpent").setTitle("Current Week Total Spent:" +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent()));
+                    findPreference("goalBudget").setTitle("Current Week Goal Budget: "+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
+                    findPreference("income").setTitle("Current Week Income: " +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalIncomeAccumulated()));
+                }
+                else {
+                    System.out.println("There is no existing week in Firebase!");
+                }
+
             }
 
             @Override
@@ -140,6 +146,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         singoutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 signOut();
+                return true;
+            }
+        });
+
+        Preference about = (Preference) findPreference("about");
+        about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                about();
+                System.out.print("ABOUTTTTT");
                 return true;
             }
         });
@@ -251,6 +266,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public void about()
+    {
+        Intent about = new Intent(getApplicationContext(), about.class);
+        startActivity(about);
     }
 
 }

@@ -22,6 +22,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -58,8 +59,6 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
     private FirebaseDatabase mFirebaseInstance;
     private String userId;
 
-    SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
-
     // These are variables for the current weeks date, all previous week dates, and the budget for the current week
     private String currentWeeksDate;
     private String prevWeeksDate;
@@ -68,6 +67,10 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
     private ArrayList<WeekLongBudget> allWeekBudgets = new ArrayList<WeekLongBudget>();
     private ArrayList<String> allWeeks = new ArrayList<String>();   //for x-axis values
     BarChart barGraph;
+
+    String[] mWeeks = new String[]{
+            "10/29", "11/05"//, "11/12", "11/19", "11/26", "12/3", "12/10"
+    };
 
     // Compiles all the colors available from MPAndroidChart's ColorTemplate
     private static final int[] STACK_COLORS = {
@@ -95,6 +98,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         int[] colors = new int[stackSize];
         for (int i = 0; i < colors.length; i++) {
             colors[i] = STACK_COLORS[i];
+            System.out.println("We are now at color: " + i);
         }
         return colors;
     }
@@ -279,32 +283,38 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         float pos = 0f;    //determines bar positioning for each week (in correct order)
         for (int i = allWeekBudgets.size() - 1; i >= 0; i--) {
             float[] barData = new float[]{}; //create new bar for each week checked
+//            ArrayList<Float> stackData = new ArrayList<Float>();   // convert to array when fully populated with stacked bars
 
             // Really important that you check if the currently checked week has null entries later!
+            if(allWeekBudgets.get(i).costOfAllCategories == null) return;
             for (Map.Entry<String, Double> entry : allWeekBudgets.get(i).costOfAllCategories.entrySet()) {
                 categoryCount++;
                 BigDecimal number = new BigDecimal(entry.getValue());
                 float myFloat = number.floatValue();
                 if (myFloat != 0.00) {
                     barData = addStackedData(barData, myFloat); //add new data
-                    barEntries.add(new BarEntry(pos, barData));
+//                    barEntries.add(new BarEntry(pos, barData));
+//                    stackData.add(myFloat);
 //                    legendLabels.add(new LegendEntry(entry.getKey(), Legend.LegendForm.DEFAULT, NaN, NaN,
 //                            null, ColorTemplate.COLORFUL_COLORS[l]));
                     l++;
                 }
+                barEntries.add(new BarEntry(pos, barData));
             }
             pos++;
         }
         // Creates example bars
-//        barEntries.add(new BarEntry(1F, new float[]{10f, 156f}));
-//        barEntries.add(new BarEntry(2F, new float[]{57f, 145f, 230f}));
+//        barEntries.add(new BarEntry(0F, new float[]{10f, 156f}));
+//        barEntries.add(new BarEntry(1F, new float[]{10f}));
+//        barEntries.add(new BarEntry(0F, 10f));
+//        barEntries.add(new BarEntry(1F, new float[]{57f, 145f, 230f}));
 
         // Creates the data set for the bar graph
         BarDataSet dataSet = new BarDataSet(barEntries, "BarDataSet");
 
         // Sets a different color for each category stack
-        dataSet.setColors(getColors(categoryCount));
-//        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+//        dataSet.setColors(getColors(categoryCount));
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
         // Creates the legend
         Legend legend = barGraph.getLegend();
@@ -326,15 +336,36 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         xAxis.setDrawGridLines(false);
         Collections.reverse(allWeeks);      //gets correct order
         String[] allWeeksArray = allWeeks.toArray(new String[allWeeks.size()]);
-        xAxis.setValueFormatter(new MyXAxisValueFormatter(allWeeksArray));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(allWeeksArray));
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
 
-        // Defines budget cap limit line (for perhaps each week?)
-        YAxis leftAxis = barGraph.getAxisLeft();
-        LimitLine ll = new LimitLine(230f, "WEEKLY BUDGET CAP EXCEEDED!");
-        ll.setLineColor(Color.RED);
-        ll.setLineWidth(4f);
-        ll.setTextColor(Color.BLACK);
-        ll.setTextSize(12f);
-        leftAxis.addLimitLine(ll);
+        // Defines budget cap limit line (for perhaps each week?) [defunct until further work]
+//        YAxis leftAxis = barGraph.getAxisLeft();
+//        LimitLine ll = new LimitLine(230f, "WEEKLY BUDGET CAP EXCEEDED!");
+//        ll.setLineColor(Color.RED);
+//        ll.setLineWidth(4f);
+//        ll.setTextColor(Color.BLACK);
+//        ll.setTextSize(12f);
+//        leftAxis.addLimitLine(ll);
     }
+//    @Override
+//    public void onBackPressed()
+//    {
+//        Intent intent  = new Intent(this, MainBudgetScreen.class);
+////        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//        System.out.println("**********You have exited the bar graph activity.");
+//        finish();
+//    }
+
+
+//    @Override
+//    protected void onStop()
+//    {
+//        super.onStop();
+////        System.out.println("You have exited the bar graph activity.");
+//        finish();
+//    }
 }

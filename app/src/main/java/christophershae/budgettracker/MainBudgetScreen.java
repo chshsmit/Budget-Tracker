@@ -112,8 +112,8 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 totalIncomeTextView.setText("$"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent())+
                         "/$"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
 
+                //pie chart layout setup
                 pieChart = (PieChart) findViewById(R.id.idPieChart);
-                
                 Description description = new Description();
                 description.setTextColor(ColorTemplate.VORDIPLOM_COLORS[2]);
                 description.setText("Price per Category");
@@ -149,15 +149,13 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 Intent next_activity = null;
                 switch (menuItem.getItemId()) {
                     case R.id.Enter_Man:
-                        //Toast.makeText(MainBudgetScreen.this,
-                          //      "Action Manual Add Clicked", Toast.LENGTH_SHORT).show();
+                        //transition to manual entry activity
                         next_activity = new Intent(MainBudgetScreen.this, ManualInputActivity.class);
                         startActivity(next_activity);
                         break;
 
                     case R.id.Recent_Purchases:
-                        //Toast.makeText(MainBudgetScreen.this,
-                               // "Action Recent Purchases Clicked", Toast.LENGTH_SHORT).show();
+                        //transition to recent purchases activity
                         Intent intent = new Intent(MainBudgetScreen.this, RecentPurchases.class);
                         Bundle args = new Bundle();
                         args.putSerializable("ARRAYLIST", (Serializable) currentWeeksBudget.getAllItems());
@@ -166,15 +164,13 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                         break;
 
                     case R.id.Picture_Screen:
-                        //Toast.makeText(MainBudgetScreen.this,
-                         //       "Action Scan Clicked", Toast.LENGTH_SHORT).show();
+                        //transition to picture screen
                         next_activity = new Intent(MainBudgetScreen.this, Camera_Interface.class);
                         startActivity(next_activity);
                         break;
 
                     case R.id.Budget_Details:
-                        //Toast.makeText(MainBudgetScreen.this,
-                        //        "Action Scan Clicked", Toast.LENGTH_SHORT).show();
+                        //transition to budget details bar graph activity
                         next_activity = new Intent(MainBudgetScreen.this, BudgetDetailsBarGraph.class);
                         startActivity(next_activity);
                         break;
@@ -198,6 +194,9 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         ArrayList<String> labels = new ArrayList<String>();
 
         int l = 0;
+
+        if(currentWeeksBudget.getCostOfAllCategories() == null) System.out.println("NULL");
+        if(currentWeeksBudget.getCostOfAllCategories() == null) return;
         for (Map.Entry<String, Double> entry : currentWeeksBudget.costOfAllCategories.entrySet())
         {
             BigDecimal number = new BigDecimal(entry.getValue());

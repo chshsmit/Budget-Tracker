@@ -58,4 +58,11 @@
         android:layout_height="wrap_content"
         android:onClick="signOut"
         android:text="Sign Out" />
+
+    <Button
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="about"
+        android:text="Sign Out" />
 </LinearLayout>

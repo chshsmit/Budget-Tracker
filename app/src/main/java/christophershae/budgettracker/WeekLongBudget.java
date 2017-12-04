@@ -2,8 +2,11 @@ package christophershae.budgettracker;
 
 import android.graphics.Bitmap;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static christophershae.budgettracker.R.string.finish;
@@ -14,13 +17,15 @@ public class WeekLongBudget {
     public ArrayList<Item> allItems = new ArrayList<>();
     public Map<String, Double> costOfAllCategories;
 
-    public ArrayList<Bitmap> myImages = new ArrayList<>();
+    public List<Bitmap> myImages = new ArrayList<>();
     //public Map<String, Double> amountForEachCategory;
     //public double totalAmountOfMoneySpent;
 
     public double totalAmountSpent;
     public double goalTotal;
     public double totalIncomeAccumulated;
+
+    public int photoCounter;
 
     public double netIncome;
 
@@ -33,6 +38,7 @@ public class WeekLongBudget {
         this.totalAmountSpent = 0.00;
         this.totalIncomeAccumulated = 0.00;
         this.netIncome = Math.round((this.totalIncomeAccumulated - this.totalAmountSpent) * 100.00) / 100.00;
+        this.photoCounter = 0;
         this.costOfAllCategories = new HashMap<>();
     }
 
@@ -91,6 +97,15 @@ public class WeekLongBudget {
         this.netIncome = Math.round((this.totalIncomeAccumulated - this.totalAmountSpent) * 100.00) / 100.00;
     }
 
+    public void clearImages()
+    {
+        this.myImages.clear();
+    }
+
+    public void increasePhotoCount()
+    {
+        this.photoCounter += 1;
+    }
 
 
     //---------------------------------------------------------------------------------------------
@@ -109,10 +124,12 @@ public class WeekLongBudget {
 
     public Double getGoalTotal(){ return Math.round(this.goalTotal * 100.00) / 100.00; }
 
+    public int getPhotoCounter(){ return this.photoCounter;}
+
     public Map<String, Double> getCostOfAllCategories()
     {
 
-        if(this.costOfAllCategories == null) {return null;}
+        if(this.costOfAllCategories == null) {this.costOfAllCategories = new HashMap<>();}
 
         this.costOfAllCategories.clear();
         //System.out.println(this.costOfAllCategories.containsKey("Food"));
