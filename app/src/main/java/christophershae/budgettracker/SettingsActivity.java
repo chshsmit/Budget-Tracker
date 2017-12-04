@@ -149,6 +149,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 return true;
             }
         });
+
+        Preference about = (Preference) findPreference("about");
+        about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                about();
+                System.out.print("ABOUTTTTT");
+                return true;
+            }
+        });
     }
 
     public void signOut(){
@@ -257,6 +266,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public void about()
+    {
+        Intent about = new Intent(getApplicationContext(), about.class);
+        startActivity(about);
     }
 
 }

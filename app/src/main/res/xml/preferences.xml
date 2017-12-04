@@ -40,5 +40,9 @@
         <Preference
             android:title="Sign Out"
             android:key="signout"/>
+
+        <Preference
+            android:title="About"
+            android:key="about"/>
     </PreferenceCategory>
 </PreferenceScreen>
