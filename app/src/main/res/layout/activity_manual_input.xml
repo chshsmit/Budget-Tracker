@@ -4,9 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/light_wood_desk"
     tools:context="christophershae.budgettracker.ManualInputActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        app:title="Budget-Tracker"
+        android:background="?attr/colorPrimary">
+    </android.support.v7.widget.Toolbar>
 
     <EditText
 
@@ -16,28 +24,28 @@
         android:layout_height="45dp"
 
         android:layout_marginLeft="28dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="68dp"
         android:ems="10"
         android:hint="Item Name"
-        android:inputType="textPersonName"
-
+        android:inputType="textCapSentences|textAutoCorrect"
+        android:imeOptions="actionDone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
         android:id="@+id/addItemToBudget"
+        style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginLeft="72dp"
+        android:layout_marginLeft="44dp"
         android:layout_marginTop="8dp"
         android:onClick="createNewItem"
-        android:text="@string/add"
+        android:text="Add Item"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/finishAddingItemsToBudget"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemsAddedToBudgetAlready"
         app:layout_constraintVertical_bias="0.0" />
@@ -47,22 +55,16 @@
         android:id="@+id/itemPriceEntry"
         android:layout_width="83dp"
         android:layout_height="45dp"
-
-
-
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
-
-
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         android:ems="10"
 
         android:hint="@string/zero_dollars"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal|textAutoComplete"
 
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/text_editlist"
+        app:layout_constraintBottom_toBottomOf="@+id/itemNameEntry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/itemNameEntry"
         app:layout_constraintTop_toTopOf="@+id/itemNameEntry" />
@@ -74,46 +76,33 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:dropDownWidth="match_parent"
         android:prompt="@string/titleSpinner"
         android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_editlist" />
+        app:layout_constraintTop_toBottomOf="@+id/setDate" />
 
     <Button
         android:id="@+id/Edit_List"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="106dp"
-        android:layout_height="45dp"
+        style="@android:style/Widget.Button"
+        android:layout_width="102dp"
+        android:layout_height="54dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/Edit_List"
-        app:layout_constraintBottom_toTopOf="@+id/Menu_C"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_editlist"
-        app:layout_constraintTop_toBottomOf="@+id/itemPriceEntry"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/text_editlist"
-        style="@android:style/Widget.Holo.Light.EditText"
-        android:layout_width="182dp"
-        android:layout_height="43dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Create Category"
-        android:inputType="textPersonName"
-
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemNameEntry" />
+        android:text="Create Category"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.Button"
+        app:layout_constraintBottom_toTopOf="@+id/itemsAddedToBudgetAlready"
+        app:layout_constraintEnd_toStartOf="@+id/DeleteB"
+        app:layout_constraintHorizontal_bias="0.528"
+        app:layout_constraintStart_toStartOf="@+id/Menu_C"
+        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
+        app:layout_constraintVertical_bias="0.961" />
 
     <ListView
         android:id="@+id/itemsAddedToBudgetAlready"
@@ -128,31 +117,30 @@
 
     <Button
         android:id="@+id/DeleteB"
-        android:layout_width="106dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="8dp"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="102dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="36dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/DeteB"
+        android:layout_marginTop="8dp"
+        android:text="Delete Category"
         app:layout_constraintBottom_toTopOf="@+id/itemsAddedToBudgetAlready"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
-        app:layout_constraintStart_toEndOf="@+id/setDate"
-        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintEnd_toEndOf="@+id/Menu_C"
+        app:layout_constraintTop_toTopOf="@+id/Edit_List"
         tools:text="@string/DeteB" />
 
     <Button
         android:id="@+id/finishAddingItemsToBudget"
+        style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="72dp"
+        android:layout_marginEnd="44dp"
         android:layout_marginTop="8dp"
         android:onClick="Finish"
         android:text="@string/finish"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemsAddedToBudgetAlready"
@@ -163,18 +151,51 @@
         style="@android:style/Widget.Holo.Light.EditText"
         android:layout_width="182dp"
         android:layout_height="44dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="date"
         android:text="@string/set_date"
-        app:layout_constraintBottom_toTopOf="@+id/itemsAddedToBudgetAlready"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintEnd_toEndOf="@+id/itemNameEntry"
+        app:layout_constraintStart_toStartOf="@+id/itemNameEntry"
+        app:layout_constraintTop_toBottomOf="@+id/itemNameEntry"
         tools:text="@string/set_date" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:text="      Item Information"
+        android:textColor="@color/colorAccent"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="237dp"
+        tools:text="Create Custom Category" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
+        android:textColor="@color/colorAccent"
+        android:text="      Custom Category"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="237dp"
+        tools:text="Create Custom Category" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/setDate"
+        android:textColor="@color/colorAccent"
+        android:text="      Choose from Category List"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="166dp"
+        tools:text="Choose from Category List" />
 
 
 </android.support.constraint.ConstraintLayout>

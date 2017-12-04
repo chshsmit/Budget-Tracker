@@ -11,7 +11,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ItemListAdapter extends ArrayAdapter<Item> {
 
@@ -42,13 +46,45 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
         mResource = resource;
     }
 
+
+    SimpleDateFormat slashedDate = new SimpleDateFormat("MM/dd/yyyy");
+    SimpleDateFormat startingVersion = new SimpleDateFormat("MMddyyyy");
+
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //get the persons information
+
+// HEAD
+        // String name = "[deleted]";
+        // String date = "";
+        // double price = 0.0;
+        // // Checks if item has been deleted
+        // if (getItem(position) != null) {
+        //     name = getItem(position).getName();
+        //     date = getItem(position).getDate();
+        //     price = getItem(position).getPrice();
+        // }
+// =======
+
+
+
+
         String name = getItem(position).getName();
         String date = getItem(position).getDate();
-        double price = getItem(position).getPrice();
+        double price = Math.round(getItem(position).getPrice() * 100.00) / 100.00;
+
+        try
+        {
+            //Adding the WeekLongBudget to all of the users budgets
+            Date itemDate = startingVersion.parse(date);
+            date = slashedDate.format(itemDate);
+        }
+        catch (ParseException e)    //This exception catches the parsing of the date
+        {
+            e.printStackTrace();
+        }
+
 
         //Create the transaction object with the information
         Item item = new Item(name);
@@ -60,7 +96,6 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
 
         //ViewHolder object
         ViewHolder holder;
-
 
         if(convertView == null){
             LayoutInflater inflater = LayoutInflater.from(mContext);
