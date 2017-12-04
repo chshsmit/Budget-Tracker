@@ -43,7 +43,7 @@
         android:layout_marginLeft="44dp"
         android:layout_marginTop="8dp"
         android:onClick="createNewItem"
-        android:text="@string/add"
+        android:text="Add Item"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -55,11 +55,7 @@
         android:id="@+id/itemPriceEntry"
         android:layout_width="83dp"
         android:layout_height="45dp"
-
-
         android:layout_marginEnd="16dp"
-
-
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         android:ems="10"
@@ -80,9 +76,9 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:dropDownWidth="match_parent"
         android:prompt="@string/titleSpinner"
         android:spinnerMode="dialog"
@@ -93,19 +89,20 @@
     <Button
         android:id="@+id/Edit_List"
         style="@android:style/Widget.Button"
-        android:layout_width="106dp"
-        android:layout_height="45dp"
+        android:layout_width="102dp"
+        android:layout_height="54dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/Edit_List"
+        android:text="Create Category"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.Button"
         app:layout_constraintBottom_toTopOf="@+id/itemsAddedToBudgetAlready"
         app:layout_constraintEnd_toStartOf="@+id/DeleteB"
+        app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toStartOf="@+id/Menu_C"
         app:layout_constraintTop_toBottomOf="@+id/Menu_C"
-        app:layout_constraintVertical_bias="0.457" />
+        app:layout_constraintVertical_bias="0.961" />
 
     <ListView
         android:id="@+id/itemsAddedToBudgetAlready"
@@ -121,12 +118,12 @@
     <Button
         android:id="@+id/DeleteB"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="106dp"
-        android:layout_height="45dp"
+        android:layout_width="102dp"
+        android:layout_height="54dp"
         android:layout_marginBottom="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/DeteB"
+        android:text="Delete Category"
         app:layout_constraintBottom_toTopOf="@+id/itemsAddedToBudgetAlready"
         app:layout_constraintEnd_toEndOf="@+id/Menu_C"
         app:layout_constraintTop_toTopOf="@+id/Edit_List"
@@ -165,6 +162,40 @@
         app:layout_constraintStart_toStartOf="@+id/itemNameEntry"
         app:layout_constraintTop_toBottomOf="@+id/itemNameEntry"
         tools:text="@string/set_date" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:text="      Item Information"
+        android:textColor="@color/colorAccent"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="237dp"
+        tools:text="Create Custom Category" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
+        android:textColor="@color/colorAccent"
+        android:text="      Custom Category"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="237dp"
+        tools:text="Create Custom Category" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/setDate"
+        android:textColor="@color/colorAccent"
+        android:text="      Choose from Category List"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="166dp"
+        tools:text="Choose from Category List" />
 
 
 </android.support.constraint.ConstraintLayout>
