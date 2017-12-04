@@ -12,7 +12,6 @@
     tools:context="christophershae.budgettracker.LoginActivity">
 
     <!-- Login progress -->
-
     <LinearLayout
         android:id="@+id/email_login_form"
         android:layout_width="match_parent"
