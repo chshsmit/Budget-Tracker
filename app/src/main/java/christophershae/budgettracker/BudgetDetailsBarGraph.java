@@ -336,18 +336,18 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         xAxis.setDrawGridLines(false);
         Collections.reverse(allWeeks);      //gets correct order
         String[] allWeeksArray = allWeeks.toArray(new String[allWeeks.size()]);
-//        xAxis.setValueFormatter(new IndexAxisValueFormatter(allWeeksArray));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(allWeeksArray));
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
 
-        // Defines budget cap limit line (for perhaps each week?)
-        YAxis leftAxis = barGraph.getAxisLeft();
-        LimitLine ll = new LimitLine(230f, "WEEKLY BUDGET CAP EXCEEDED!");
-        ll.setLineColor(Color.RED);
-        ll.setLineWidth(4f);
-        ll.setTextColor(Color.BLACK);
-        ll.setTextSize(12f);
-        leftAxis.addLimitLine(ll);
+        // Defines budget cap limit line (for perhaps each week?) [defunct until further work]
+//        YAxis leftAxis = barGraph.getAxisLeft();
+//        LimitLine ll = new LimitLine(230f, "WEEKLY BUDGET CAP EXCEEDED!");
+//        ll.setLineColor(Color.RED);
+//        ll.setLineWidth(4f);
+//        ll.setTextColor(Color.BLACK);
+//        ll.setTextSize(12f);
+//        leftAxis.addLimitLine(ll);
     }
 //    @Override
 //    public void onBackPressed()
