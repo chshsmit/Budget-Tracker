@@ -201,15 +201,19 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
     }
     //save listview data
-    protected void SavePreferences(String key, String value) {
+    protected void SavePreferences(String key, String value, boolean x) {
         //
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
 
         String s=data.getString(key,""); //to fetch previous stored values
 
         s=s+"!"+value;   //to add new value to previous one
-
-        data.edit().putString(key,s).commit();
+        if(x == false) {
+            data.edit().putString(key, s).apply();
+        }
+        if(x == true){
+            data.edit().remove(key).apply();
+        }
     }
 
 
@@ -241,7 +245,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
            //refresh data
            adapter.notifyDataSetChanged();
            edit_list.setText("");
-           SavePreferences("List", cat);
+           SavePreferences("List", cat, false);
         }
         else
         {
@@ -249,12 +253,12 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         }
     }
     //method to delete
-    public void delete()
+    /*public void delete()
     {
         //String getList = edit_list.getText().toString();
 
         //get the postion selected
-        int pos = spinner.getSelectedItemPosition();
+        int pos = Categories_list.get();
         //user has selected a category if >-1
         if(pos > -1)
         {
@@ -267,7 +271,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         {
             Toast.makeText(ManualInputActivity.this, "Nothing to Delete", Toast.LENGTH_LONG).show();
         }
-    }
+    }*/
 
 
     @Override
@@ -328,6 +332,18 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                             {
                                 int deletedCat = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
                                 //insert delete code
+                                if(deletedCat > -1)
+                                {
+                                    adapter.remove(EditMyList.get(deletedCat));
+                                    Toast.makeText(ManualInputActivity.this, "Category Deleted", Toast.LENGTH_LONG).show();
+                                    adapter.notifyDataSetChanged();
+                                    SavePreferences("List", Categories_list[deletedCat], false);
+                                    edit_list.setText("");
+                                }
+                                else
+                                {
+                                    Toast.makeText(ManualInputActivity.this, "Nothing to Delete", Toast.LENGTH_LONG).show();
+                                }
                                 Toast.makeText(ManualInputActivity.this, "Deleted Category", Toast.LENGTH_LONG).show();
                             }
                         });
@@ -344,7 +360,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
 
-                 delete();
+
 
                  break;
         }

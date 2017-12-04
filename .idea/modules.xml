@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Budget-Tracker.iml" filepath="$PROJECT_DIR$/Budget-Tracker.iml" />
       <module fileurl="file://C:\Users\jonny\AndroidStudioProjects\Budget-Tracker\BudgetTracker.iml" filepath="C:\Users\jonny\AndroidStudioProjects\Budget-Tracker\BudgetTracker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BudgetTracker.iml" filepath="$PROJECT_DIR$/BudgetTracker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
