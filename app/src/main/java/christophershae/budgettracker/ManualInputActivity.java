@@ -1,6 +1,8 @@
 package christophershae.budgettracker;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -224,16 +226,15 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         }
     }
     //method to add a category
-    public void addCategory(){
-        get_text = edit_list.getText().toString();
+    public void addCategory(String cat){
         //check if input is empty or contains strings
-        if(!get_text.isEmpty() && get_text.length() > 0)
+        if(!cat.isEmpty() && cat.length() > 0)
         {
-           adapter.add(get_text);
+           adapter.add(cat);
            //refresh data
            adapter.notifyDataSetChanged();
            edit_list.setText("");
-           SavePreferences("List", get_text);
+           SavePreferences("List", cat);
         }
         else
         {
@@ -268,7 +269,32 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId())
         {
             case Edit_List:
-                addCategory();
+                //addCategory();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                final EditText incomeInput = new EditText(this);
+                incomeInput.setHint("New Category");
+                alertDialogBuilder.setView(incomeInput);
+
+                alertDialogBuilder.setTitle("Create New Category");
+                alertDialogBuilder.setPositiveButton("Create",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1)
+                            {
+                                String newCat = incomeInput.getText().toString();
+                                addCategory(newCat);
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
                 //lets the user know their category was added
                 Toast.makeText(ManualInputActivity.this, "Category Added", Toast.LENGTH_LONG).show();
                 break;
@@ -279,6 +305,38 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 finish();
                 break;
             case DeleteB:
+
+                ArrayList<String> itemNames = new ArrayList<>();
+                for(String item: Categories_list){
+                    itemNames.add(item);
+                }
+
+                final AlertDialog.Builder deleteAlert = new AlertDialog.Builder(this);
+                deleteAlert.setTitle("Select an Category to delete:");
+                deleteAlert.setSingleChoiceItems(itemNames.toArray(new CharSequence[itemNames.size()]),0, null);
+                deleteAlert.setPositiveButton("Delete",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1)
+                            {
+                                int deletedCat = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
+                                //insert delete code
+                                Toast.makeText(ManualInputActivity.this, "Deleted Category", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                deleteAlert.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                    }
+                });
+
+                AlertDialog deleteAlertDiag = deleteAlert.create();
+                deleteAlertDiag.show();
+
+
+
                  delete();
 
                  break;
