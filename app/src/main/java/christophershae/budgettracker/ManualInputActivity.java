@@ -472,6 +472,15 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     {
 
         //Getting the user input from the edit texts
+        if(priceEntry.getText().toString().equals("") || nameEntry.getText().toString().equals(""))
+        {
+            toastMessage("Must Input Price and Name");
+            return;
+        }
+
+
+
+
         newItemPrice = priceEntry.getText().toString();
         newItemName = nameEntry.getText().toString();
         newItemDate = dateEntry.getText().toString();
@@ -592,6 +601,11 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void toastMessage(String message){
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
 }
