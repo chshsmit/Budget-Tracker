@@ -1,6 +1,7 @@
 package christophershae.budgettracker;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -26,6 +27,7 @@ public class WeekLongBudget {
     public double totalIncomeAccumulated;
 
     public int photoCounter;
+    public ArrayList<Uri> imageDownloadLinks;
 
     public double netIncome;
 
@@ -40,6 +42,7 @@ public class WeekLongBudget {
         this.netIncome = Math.round((this.totalIncomeAccumulated - this.totalAmountSpent) * 100.00) / 100.00;
         this.photoCounter = 0;
         this.costOfAllCategories = new HashMap<>();
+        imageDownloadLinks = new ArrayList<>();
     }
 
 
@@ -62,9 +65,10 @@ public class WeekLongBudget {
         calculateTotal();
     }
 
-    public void addImageToList(Bitmap image)
-    {
-        myImages.add(image);
+    public void addUriToList(Uri uri){
+        if(this.imageDownloadLinks == null) this.imageDownloadLinks = new ArrayList<>();
+        this.imageDownloadLinks.add(uri);
+
     }
 
     public void calculateTotal()
@@ -113,6 +117,10 @@ public class WeekLongBudget {
     //---------------------------------------------------------------------------------------------
     public Double getNetIncome(){
         return Math.round(this.netIncome * 100.00) / 100.00;
+    }
+
+    public List<Uri> getImageDownloadLinks(){
+        return this.imageDownloadLinks;
     }
 
     public Double getTotalAmountSpent()

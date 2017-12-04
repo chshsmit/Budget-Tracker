@@ -39,6 +39,8 @@ import android.widget.TextView;
 import android.Manifest;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -99,6 +101,8 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
 
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         userId = currentUser.getUid();
+        imageLinks = new ArrayList<>();
+        //allImages = new ArrayList<>();
 
         //toolbar setup
         Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
@@ -190,6 +194,14 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
                 currentWeeksBudget.calculateTotal();
 
+                try {
+                    totalPhotoCount = dataSnapshot.child(userId).child("photoCount").getValue(Integer.class);
+                }
+                catch(NullPointerException e){
+                        totalPhotoCount = 0;
+                        System.out.println(totalPhotoCount);
+                }
+
                 System.out.println("This is the current weeks start date: ");
                 System.out.println(currentWeeksBudget.getStartDate());
             }
@@ -225,6 +237,8 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
     private String userId;
     private String currentWeeksDate;
     private WeekLongBudget currentWeeksBudget;
+    public int totalPhotoCount;
+    private ArrayList<Uri> imageLinks;
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -249,8 +263,10 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
 
                 //store in the file path
                 currentWeeksBudget.increasePhotoCount();
+                totalPhotoCount += 1;
                 mFireBaseDatabase.child(userId).child(currentWeeksDate).setValue(currentWeeksBudget);
-                String imageInformation = currentWeeksDate+"_"+currentWeeksBudget.getPhotoCounter()+".jpeg";;
+                mFireBaseDatabase.child(userId).child("photoCount").setValue(totalPhotoCount);
+                String imageInformation = totalPhotoCount+".jpeg";;
                 File imageDir = new File(Gallery_ImagePath);
                 imageDir.mkdirs();
                 String path = Gallery_ImagePath + imageInformation +".jpeg";
@@ -267,6 +283,10 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             // Get a URL to the uploaded content
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            imageLinks.add(downloadUrl);
+                            System.out.println("Succesfully added to URI list");
+
+
                             toastMessage("Upload Success");
                             //mProgressDialog.dismiss();
                         }
@@ -283,18 +303,19 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+
                 receiptImages = null;
                 receiptImages = RetriveCapturedImagePath();
                 if(receiptImages!=null) {
-
                     display.setAdapter(new ImageAdapter(this, receiptImages));
-
-
-
                 }
             }
         }
     }
+
+
+
     private List<String> RetriveCapturedImagePath()
     {
         List <String> myImages = new ArrayList<String>();
@@ -323,7 +344,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
         Context context;
         private List<String> galleryPhotos;
         int itemBackground;
-        public ImageAdapter(Context c, List<String>Pictures)
+        public ImageAdapter(Context c, List<String> Pictures)
         {
             context = c;
             galleryPhotos = Pictures;
@@ -386,6 +407,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                 if (images != null) {
                     myView = BitmapFactory.decodeFileDescriptor(images.getFD(), null, myOptions);
                     tView.setImageBitmap(myView);
+
                     tView.setId(position);
                     tView.setLayoutParams(new Gallery.LayoutParams(500, 500));
 

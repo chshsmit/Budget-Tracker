@@ -62,7 +62,7 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        <Button
             android:id="@+id/signIn"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="#FFFFFF"
