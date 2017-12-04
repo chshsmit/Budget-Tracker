@@ -68,10 +68,6 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
     private ArrayList<String> allWeeks = new ArrayList<String>();   //for x-axis values
     BarChart barGraph;
 
-    String[] mWeeks = new String[]{
-            "10/29", "11/05"//, "11/12", "11/19", "11/26", "12/3", "12/10"
-    };
-
     // Compiles all the colors available from MPAndroidChart's ColorTemplate
     private static final int[] STACK_COLORS = {
             rgb("#2ecc71"), rgb("#f1c40f"), rgb("#e74c3c"), rgb("#3498db"),
@@ -104,6 +100,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
     }
 
     // Reinitialize data arrays when new data is appended, since arrays are immutable
+    // (defunct, only meant for testing now)
     public float[] addStackedData(float[] barData, float newData)
     {
         float[] newBarData = new float[barData.length + 1];
@@ -115,23 +112,6 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         return newBarData;
     }
 
-    public class MyXAxisValueFormatter implements IAxisValueFormatter {
-
-        private String[] mValues;
-        public MyXAxisValueFormatter(String[] values) {
-            this.mValues = values;
-        }
-        @Override
-        public String getFormattedValue(float value, AxisBase axis) {
-            System.out.println(value);
-            // "value" represents the position of the label on the axis (x or y)
-            return mValues[(int) value];
-        }
-        /** this is only needed if numbers are returned, else return 0 */
-//    @Override
-//    public int getDecimalDigits() { return 0; }
-    }
-
     public class StackedValueFormatter implements IValueFormatter
     {
         private boolean mDrawWholeStack;
@@ -139,6 +119,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         private DecimalFormat mFormat;
 
         public StackedValueFormatter(boolean drawWholeStack, String appendix, int decimals)
+//        public StackedValueFormatter(boolean drawWholeStack, String appendix, int decimals, String[] labels)
         {
             this.mDrawWholeStack = drawWholeStack;
             this.mAppendix = appendix;
@@ -282,8 +263,9 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
 
         float pos = 0f;    //determines bar positioning for each week (in correct order)
         for (int i = allWeekBudgets.size() - 1; i >= 0; i--) {
-            float[] barData = new float[]{}; //create new bar for each week checked
-//            ArrayList<Float> stackData = new ArrayList<Float>();   // convert to array when fully populated with stacked bars
+//            float[] barData = new float[]{}; //create new bar for each week checked
+            ArrayList<Float> stackData = new ArrayList<Float>();   // convert to array when fully populated with stacked bars
+            ArrayList<String> stackLabels = new ArrayList<String>(); //holds each category's name
 
             // Really important that you check if the currently checked week has null entries later!
             if(allWeekBudgets.get(i).costOfAllCategories == null) return;
@@ -292,21 +274,37 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
                 BigDecimal number = new BigDecimal(entry.getValue());
                 float myFloat = number.floatValue();
                 if (myFloat != 0.00) {
-                    barData = addStackedData(barData, myFloat); //add new data
+//                    barData = addStackedData(barData, myFloat); //add new data (for testing only)
 //                    barEntries.add(new BarEntry(pos, barData));
-//                    stackData.add(myFloat);
+                    stackData.add(myFloat);
+                    stackLabels.add(entry.getKey());
+//                    stackData.add(24f);
 //                    legendLabels.add(new LegendEntry(entry.getKey(), Legend.LegendForm.DEFAULT, NaN, NaN,
 //                            null, ColorTemplate.COLORFUL_COLORS[l]));
                     l++;
                 }
+                /* Convert Arraylist to float array */
+                float[] barData = new float[stackData.size()];
+                int j = 0;
+                for (Float f : stackData) {
+                    barData[j] = (f != null ? f : stackData.get(j));
+                    j++;
+                }
                 barEntries.add(new BarEntry(pos, barData));
             }
+            System.out.println(stackLabels);
             pos++;
         }
         // Creates example bars
-//        barEntries.add(new BarEntry(0F, new float[]{10f, 156f}));
-//        barEntries.add(new BarEntry(1F, new float[]{10f}));
-//        barEntries.add(new BarEntry(0F, 10f));
+//        ArrayList<Float> floatList = new ArrayList<Float>();
+//        floatList.add(24f);
+//        floatList.add(156f);
+//        float[] barData = new float[floatList.size()];
+//        for (int j = 0; j < floatList.size(); j++) {
+//            barData[j] = floatList.get(j);
+//        }
+//        System.out.println(floatList);
+//        barEntries.add(new BarEntry(0F, barData));
 //        barEntries.add(new BarEntry(1F, new float[]{57f, 145f, 230f}));
 
         // Creates the data set for the bar graph
@@ -314,7 +312,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
 
         // Sets a different color for each category stack
 //        dataSet.setColors(getColors(categoryCount));
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
         // Creates the legend
         Legend legend = barGraph.getLegend();
@@ -349,23 +347,4 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
 //        ll.setTextSize(12f);
 //        leftAxis.addLimitLine(ll);
     }
-//    @Override
-//    public void onBackPressed()
-//    {
-//        Intent intent  = new Intent(this, MainBudgetScreen.class);
-////        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intent);
-//        System.out.println("**********You have exited the bar graph activity.");
-//        finish();
-//    }
-
-
-//    @Override
-//    protected void onStop()
-//    {
-//        super.onStop();
-////        System.out.println("You have exited the bar graph activity.");
-//        finish();
-//    }
 }
