@@ -87,7 +87,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     List<CharSequence> EditMyList;
     Spinner spinner;
     String get_text;
-    SharedPreferences store;
     //make an array
     public String [] Categories_list = {"Food" ,"Rent", "Gas", "Personal Items", "Household Items",
             "Groceries", "Entertainment"};
@@ -170,7 +169,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         deleteCategory = (Button) findViewById(R.id.DeleteB);
         deleteCategory.setOnClickListener(this);
         //define edittext
-        edit_list = (EditText) findViewById(R.id.text_editlist);
+        //edit_list = (EditText) findViewById(R.id.text_editlist);
         //define list
         EditMyList = new ArrayList<CharSequence>(Arrays.<CharSequence>asList(Categories_list));
 
@@ -208,11 +207,11 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         String s=data.getString(key,""); //to fetch previous stored values
 
         s=s+"!"+value;   //to add new value to previous one
-        if(x == false) {
-            data.edit().putString(key, s).apply();
+        if(!x) {
+            data.edit().putString(key, s).commit();
         }
-        if(x == true){
-            data.edit().remove(key).apply();
+        if(x){
+            data.edit().remove(key).commit();
         }
     }
 
@@ -220,8 +219,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //load listview data
     protected void LoadPreferences(){
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-        String dataSet = data.getString("List", "Add a Category ......");
-            adapter.remove("Add a Category");
+        String dataSet = data.getString("List","Add a Category....." );
+            adapter.remove("Add a Category.....");
 
         if(dataSet.contains("!")){ //to check if previous items are there or not
 
@@ -244,7 +243,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
            adapter.add(cat);
            //refresh data
            adapter.notifyDataSetChanged();
-           edit_list.setText("");
+//           edit_list.setText("");
            SavePreferences("List", cat, false);
         }
         else
@@ -253,25 +252,26 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         }
     }
     //method to delete
-    /*public void delete()
+    public void delete(int pos, String deleteVal )
     {
-        //String getList = edit_list.getText().toString();
+        //cat = edit_list.getText().toString();
 
         //get the postion selected
-        int pos = Categories_list.get();
+        //pos = spinner.getSelectedItemPosition();
         //user has selected a category if >-1
         if(pos > -1)
         {
             adapter.remove(EditMyList.get(pos));
             Toast.makeText(ManualInputActivity.this, "Category Deleted", Toast.LENGTH_LONG).show();
             adapter.notifyDataSetChanged();
-            edit_list.setText("");
+  //          edit_list.setText("");
+            SavePreferences("List", deleteVal, true);
         }
         else
         {
             Toast.makeText(ManualInputActivity.this, "Nothing to Delete", Toast.LENGTH_LONG).show();
         }
-    }*/
+    }
 
 
     @Override
@@ -283,7 +283,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 //addCategory();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
                 final EditText incomeInput = new EditText(this);
-                incomeInput.setHint("New Category");
+                 incomeInput.setHint("New Category");
                 alertDialogBuilder.setView(incomeInput);
 
                 alertDialogBuilder.setTitle("Create New Category");
@@ -317,34 +317,24 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 break;
             case DeleteB:
 
-                ArrayList<String> itemNames = new ArrayList<>();
-                for(String item: Categories_list){
+                /*ArrayList<String> itemNames = new ArrayList<>();
+                for(String item: EditMyList){
                     itemNames.add(item);
-                }
+                }*/
 
                 final AlertDialog.Builder deleteAlert = new AlertDialog.Builder(this);
                 deleteAlert.setTitle("Select an Category to delete:");
-                deleteAlert.setSingleChoiceItems(itemNames.toArray(new CharSequence[itemNames.size()]),0, null);
+                deleteAlert.setSingleChoiceItems(EditMyList.toArray(new CharSequence[EditMyList.size()]),0, null);
                 deleteAlert.setPositiveButton("Delete",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1)
                             {
+
                                 int deletedCat = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
                                 //insert delete code
-                                if(deletedCat > -1)
-                                {
-                                    adapter.remove(EditMyList.get(deletedCat));
-                                    Toast.makeText(ManualInputActivity.this, "Category Deleted", Toast.LENGTH_LONG).show();
-                                    adapter.notifyDataSetChanged();
-                                    SavePreferences("List", Categories_list[deletedCat], false);
-                                    edit_list.setText("");
-                                }
-                                else
-                                {
-                                    Toast.makeText(ManualInputActivity.this, "Nothing to Delete", Toast.LENGTH_LONG).show();
-                                }
-                                Toast.makeText(ManualInputActivity.this, "Deleted Category", Toast.LENGTH_LONG).show();
+                                String deleteCat = String.valueOf(deletedCat);
+                                delete(deletedCat, deleteCat);
                             }
                         });
 
