@@ -143,6 +143,7 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
 
         //sets activity transitions for the bottom nav menu
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.idBottomNav);
+        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

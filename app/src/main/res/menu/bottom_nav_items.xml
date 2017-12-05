@@ -15,7 +15,7 @@
         android:enabled="true"
         android:icon="@drawable/ic_menu"
         app:showAsAction="ifRoom"
-        android:title="@string/recent_purchases" />
+        android:title="History" />
 
     <item
         android:id="@+id/Picture_Screen"
@@ -29,5 +29,5 @@
         android:enabled="true"
         android:icon="@drawable/ic_bar"
         app:showAsAction="ifRoom"
-        android:title="@string/budget_details" />
+        android:title="Bar Graph" />
 </menu>
