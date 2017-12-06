@@ -188,7 +188,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     public void onClick(DialogInterface arg0, int arg1)
                     {
                         newGoalBudget = goalInput.getText().toString();
-                        currentWeeksBudget.setGoalTotal(Double.valueOf(newGoalBudget));
+                        try{
+                            currentWeeksBudget.setGoalTotal(Double.valueOf(newGoalBudget));
+                        } catch(NumberFormatException e){
+                            Toast.makeText(SettingsActivity.this, "Input Valid Number", Toast.LENGTH_SHORT).show();
+                            changeWeeklyGoal();
+                            return;
+                        }
+
                         mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
                         Toast.makeText(SettingsActivity.this, "Updated Weekly Goal", Toast.LENGTH_LONG).show();
                     }
@@ -220,7 +227,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     public void onClick(DialogInterface arg0, int arg1)
                     {
                         newIncome = incomeInput.getText().toString();
-                        currentWeeksBudget.addMoneyToIncome(Double.valueOf(newIncome));
+                        try {
+                            currentWeeksBudget.addMoneyToIncome(Double.valueOf(newIncome));
+                        } catch(NumberFormatException e){
+                            Toast.makeText(SettingsActivity.this, "Input Valid Number", Toast.LENGTH_SHORT).show();
+                            changeIncome();
+                            return;
+                        }
+
                         mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
                         Toast.makeText(SettingsActivity.this, "Added Income to Week", Toast.LENGTH_LONG).show();
 
