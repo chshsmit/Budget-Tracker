@@ -185,13 +185,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         try{
                             currentWeeksBudget.setGoalTotal(Double.valueOf(newGoalBudget));
                         } catch(NumberFormatException e){
-                            Toast.makeText(SettingsActivity.this, "Input Valid Number", Toast.LENGTH_SHORT).show();
+                            Utils.toastMessage("Input Valid Number", SettingsActivity.this);
                             changeWeeklyGoal();
                             return;
                         }
 
                         mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
-                        Toast.makeText(SettingsActivity.this, "Updated Weekly Goal", Toast.LENGTH_LONG).show();
+                        Utils.toastMessage("Updated Weekly Goal", SettingsActivity.this);
                     }
                 });
 
@@ -225,13 +225,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         try {
                             currentWeeksBudget.addMoneyToIncome(Double.valueOf(newIncome));
                         } catch(NumberFormatException e){
-                            Toast.makeText(SettingsActivity.this, "Input Valid Number", Toast.LENGTH_SHORT).show();
+                            Utils.toastMessage("Input Valid Number", SettingsActivity.this);
                             changeIncome();
                             return;
                         }
 
                         mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
-                        Toast.makeText(SettingsActivity.this, "Added Income to Week", Toast.LENGTH_LONG).show();
+                        Utils.toastMessage("Added Income to Week", SettingsActivity.this);
 
                     }
                 });
@@ -270,7 +270,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         deletedItemIndex = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
                         currentWeeksBudget.removeItem(deletedItemIndex);
                         mFireBaseDatabase.child(userId).child(currentDate).setValue(currentWeeksBudget);
-                        Toast.makeText(SettingsActivity.this, "Deleted Item", Toast.LENGTH_LONG).show();
+                        Utils.toastMessage("Deleted Item", SettingsActivity.this);
                     }
                 });
 
