@@ -21,14 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-
-import static christophershae.budgettracker.R.id.deleteAnItem;
-import static christophershae.budgettracker.R.id.signout;
-
-
 import com.google.firebase.auth.FirebaseAuth;
-
-
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,8 +30,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,16 +37,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
-
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
@@ -66,7 +54,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public WeekLongBudget currentWeeksBudget;
     Map<String, WeekLongBudget> usersBudgets = new HashMap<>();
-
 
     private Button buttonSignOut;
     private FirebaseAuth firebaseAuth;
@@ -102,6 +89,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         userId = currentUser.getUid();
 
+        //Gets current week data from firebase and puts it onto the perferences screen
         mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -115,14 +103,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 else {
                     System.out.println("There is no existing week in Firebase!");
                 }
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
 
+        //sets up preferences buttons
         Preference goalPref = (Preference) findPreference("changeGoal");
         goalPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
@@ -159,26 +146,26 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 about();
-                System.out.print("ABOUTTTTT");
                 return true;
             }
         });
     }
 
-
-
+    //sign out of firebase user
     public void signOut(){
         System.out.println("You did it");
         firebaseAuth.signOut();
         changeToLoginScreen();
     }
 
+    //helper function to go to login screen
     private void changeToLoginScreen(){
         Intent login = new Intent(getApplicationContext(), LoginActivity.class);
         login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(login);
     }
 
+    //brings up dialog alert for changing goal budget
     private String newGoalBudget;
     public void changeWeeklyGoal()
     {
@@ -218,6 +205,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         alertDialog.show();
     }
 
+    //brings up dialog alert for changing income
     private String newIncome;
     public void changeIncome()
     {
@@ -258,8 +246,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         alertDialog.show();
     }
 
+    //brings up dialog alert for deleting an item
     int deletedItemIndex;
-
     public void deleteItemFromBudget()
     {
 
@@ -297,6 +285,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         alertDialog.show();
     }
 
+    //launches about activity
     public void about()
     {
         Intent about = new Intent(getApplicationContext(), About.class);
