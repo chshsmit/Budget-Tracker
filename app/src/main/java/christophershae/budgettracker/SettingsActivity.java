@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.MenuItem;
@@ -177,6 +178,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         final EditText goalInput = new EditText(this);
         goalInput.setHint("Weekly Goal");
+        goalInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         alertDialogBuilder.setView(goalInput);
 
         alertDialogBuilder.setTitle("Set this week's goal!");
@@ -208,6 +210,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         final EditText incomeInput = new EditText(this);
         incomeInput.setHint("Weekly Income");
+        incomeInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         alertDialogBuilder.setView(incomeInput);
 
         alertDialogBuilder.setTitle("Set this week's income!");
