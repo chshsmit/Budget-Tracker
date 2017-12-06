@@ -19,6 +19,14 @@
         android:persistent="false"
         android:selectable="false"
         android:title="@string/app_name" />
+        <Preference
+            android:id="@+id/Preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:key="netIncome"
+            android:persistent="false"
+            android:selectable="false"
+            android:title="@string/app_name" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Settings" >

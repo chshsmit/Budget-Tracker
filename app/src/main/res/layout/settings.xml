@@ -25,6 +25,13 @@
         android:textSize="20sp"
         />
 
+    <TextView
+        android:id="@+id/weekNetIncome"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:textSize="20sp"
+        />
+
     <ListView
         android:id="@+id/list"
         android:layout_height="wrap_content"
