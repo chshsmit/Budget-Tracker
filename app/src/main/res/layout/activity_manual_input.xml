@@ -23,7 +23,7 @@
         android:layout_width="193dp"
         android:layout_height="45dp"
 
-        android:layout_marginLeft="44dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="92dp"
         android:ems="10"
         android:hint="Item Name"
@@ -55,12 +55,13 @@
         android:id="@+id/itemPriceEntry"
         android:layout_width="83dp"
         android:layout_height="45dp"
+        android:layout_marginEnd="16dp"
+
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
 
         android:ems="10"
         android:hint="@string/zero_dollars"
-
         android:inputType="numberDecimal|textAutoComplete"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/itemNameEntry"
@@ -132,14 +133,10 @@
         style="@android:style/Widget.Holo.Light.EditText"
         android:layout_width="182dp"
         android:layout_height="44dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="date"
         android:text="@string/set_date"
-        app:layout_constraintEnd_toEndOf="@+id/itemNameEntry"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/itemNameEntry"
         app:layout_constraintTop_toBottomOf="@+id/itemNameEntry"
         tools:text="@string/set_date" />
@@ -148,44 +145,53 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="88dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="      Item Information"
+        android:text="Item Information"
         android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/itemNameEntry"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/itemNameEntry"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:layout_editor_absoluteX="31dp"
-        tools:text="Create Custom Category" />
+        tools:text="Item Information" />
 
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginTop="12dp"
         android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/itemsAddedToBudgetAlready"
         app:layout_constraintTop_toBottomOf="@+id/Menu_C"
-        tools:layout_editor_absoluteX="143dp"
-        tools:text="Recently Added" />
+        android:text="Recently Added" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="      Choose from Category List"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="112dp"
+        android:text="Choose from Category List"
         android:textColor="@color/colorAccent"
-        app:layout_constraintTop_toBottomOf="@+id/setDate"
-        tools:layout_editor_absoluteX="31dp"
+        app:layout_constraintEnd_toEndOf="@+id/Menu_C"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
         tools:text="Choose from Category List" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="39dp"
         android:layout_height="42dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="12dp"
+        android:text="$"
+        android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/itemNameEntry"
-        tools:layout_editor_absoluteY="95dp"
-        tools:text="$" />
+        app:layout_constraintTop_toTopOf="@+id/itemPriceEntry" />
 
 
 </android.support.constraint.ConstraintLayout>
