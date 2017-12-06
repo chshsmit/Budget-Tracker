@@ -1,12 +1,7 @@
 package christophershae.budgettracker;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -23,15 +18,12 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import com.github.mikephil.charting.utils.ViewPortHandler;
@@ -43,8 +35,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -68,37 +58,6 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
     private ArrayList<String> allWeeks = new ArrayList<String>();   //for x-axis values
     BarChart barGraph;
 
-    // Compiles all the colors available from MPAndroidChart's ColorTemplate
-    private static final int[] STACK_COLORS = {
-            rgb("#2ecc71"), rgb("#f1c40f"), rgb("#e74c3c"), rgb("#3498db"),
-            Color.rgb(207, 248, 246), Color.rgb(148, 212, 212),
-            Color.rgb(136, 180, 187), Color.rgb(118, 174, 175),
-            Color.rgb(42, 109, 130), Color.rgb(217, 80, 138),
-            Color.rgb(254, 149, 7), Color.rgb(254, 247, 120),
-            Color.rgb(106, 167, 134), Color.rgb(53, 194, 209),
-            Color.rgb(193, 37, 82), Color.rgb(255, 102, 0),
-            Color.rgb(245, 199, 0), Color.rgb(106, 150, 31),
-            Color.rgb(179, 100, 53), Color.rgb(64, 89, 128),
-            Color.rgb(149, 165, 124), Color.rgb(217, 184, 162),
-            Color.rgb(191, 134, 134), Color.rgb(179, 48, 80),
-            Color.rgb(192, 255, 140), Color.rgb(255, 247, 140),
-            Color.rgb(255, 208, 140), Color.rgb(140, 234, 255),
-            Color.rgb(255, 140, 157)
-    };
-
-    // Set as many colors as stack-values per week entry (not properly working yet)
-    // (borrows colors from MPAndroidChart's ColorTemplate)
-    private int[] getColors(int stackSize)
-    {
-
-        int[] colors = new int[stackSize];
-        for (int i = 0; i < colors.length; i++) {
-            colors[i] = STACK_COLORS[i];
-            System.out.println("We are now at color: " + i);
-        }
-        return colors;
-    }
-
     // Reinitialize data arrays when new data is appended, since arrays are immutable
     // (defunct, only meant for testing now)
     public float[] addStackedData(float[] barData, float newData)
@@ -112,6 +71,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         return newBarData;
     }
 
+    // Reformats display of expenses on top of each stacked bar
     public class StackedValueFormatter implements IValueFormatter
     {
         private boolean mDrawWholeStack;
@@ -145,8 +105,10 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
                     if (vals[vals.length - 1] == value)
                     {
                         // return the "sum" across all stack values
-                        return  mAppendix + mFormat.format(value) + " (TOTAL: " +
-                                mAppendix + mFormat.format(barEntry.getY()) + ")";
+//                        return  mAppendix + mFormat.format(value) + " (TOTAL: " +
+//                                mAppendix + mFormat.format(barEntry.getY()) + ")";
+                        return  mAppendix + mFormat.format(value) + " [" +
+                                mAppendix + mFormat.format(barEntry.getY()) + "]";
                     } else {
                         return ""; // return empty
                     }
@@ -155,6 +117,37 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
             // return the "proposed" value
             return mAppendix + mFormat.format(value);
         }
+    }
+
+    // Reformats y-axis value display
+    public class MyYAxisValueFormatter implements IAxisValueFormatter
+    {
+        private DecimalFormat mFormat;
+
+        public MyYAxisValueFormatter() {
+            // format values to 1 decimal digit
+            mFormat = new DecimalFormat("###,###,##0.0");
+        }
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            // "value" represents the position of the label on the axis (x or y)
+            return "$" + mFormat.format(value);
+        }
+        /** this is only needed if numbers are returned, else return 0 */
+//        @Override
+//        public int getDecimalDigits() { return 1; }
+    }
+
+    // Reformats date strings to mm/dd/yyyy
+    public String formatDateLabel(String date)
+    {
+        String month = new StringBuilder().append(date.charAt(0)).append(date.charAt(1)).toString();
+        String day = new StringBuilder().append(date.charAt(2)).append(date.charAt(3)).toString();
+        String year = new StringBuilder().append(date.charAt(4)).append(date.charAt(5))
+                                          .append(date.charAt(6)).append(date.charAt(7)).toString();
+
+//        return month + "/" + day + "/" + year;
+        return month + "/" + day;
     }
 
     @Override
@@ -179,7 +172,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
 
                 // Instantiates current week's budget
                 currentWeeksDate = Utils.decrementDate(new Date()); //get the current week's index
-                allWeeks.add(currentWeeksDate);
+                allWeeks.add(formatDateLabel(currentWeeksDate));
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);
                 allWeekBudgets.add(currentWeeksBudget);
                 System.out.println("The current week is: ");
@@ -193,7 +186,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
                 // Does the previous week exist?
                 if (dataSnapshot.child(userId).child(prevWeeksDate).getValue(WeekLongBudget.class) != null) {
                     System.out.println("The week of " + prevWeeksDate + " actually exists!");
-                    allWeeks.add(prevWeeksDate);
+                    allWeeks.add(formatDateLabel(prevWeeksDate));
                 }
                 else {
                     System.out.println("The week of " + prevWeeksDate + " does not exist!");
@@ -213,7 +206,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
                      //What about the next previous?
                     if (dataSnapshot.child(userId).child(prevWeeksDate).getValue(WeekLongBudget.class) != null) {
                         System.out.println("The week of " + prevWeeksDate + " actually exists!");
-                        allWeeks.add(prevWeeksDate);
+                        allWeeks.add(formatDateLabel(prevWeeksDate));
                     }
                     else {
                         System.out.println("The week of " + prevWeeksDate + " does not exist!");
@@ -257,10 +250,6 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         List<BarEntry> barEntries = new ArrayList<>();
         List<LegendEntry> legendLabels = new ArrayList<>();
 
-        int l = 0;    //for stack color
-//        double weeklyTotal = currentWeeksBudget.getTotalAmountSpent();
-        int categoryCount = 0;
-
         float pos = 0f;    //determines bar positioning for each week (in correct order)
         for (int i = allWeekBudgets.size() - 1; i >= 0; i--) {
 //            float[] barData = new float[]{}; //create new bar for each week checked
@@ -270,7 +259,6 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
             // Really important that you check if the currently checked week has null entries later!
             if(allWeekBudgets.get(i).costOfAllCategories == null) return;
             for (Map.Entry<String, Double> entry : allWeekBudgets.get(i).costOfAllCategories.entrySet()) {
-                categoryCount++;
                 BigDecimal number = new BigDecimal(entry.getValue());
                 float myFloat = number.floatValue();
                 if (myFloat != 0.00) {
@@ -281,7 +269,6 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
 //                    stackData.add(24f);
 //                    legendLabels.add(new LegendEntry(entry.getKey(), Legend.LegendForm.DEFAULT, NaN, NaN,
 //                            null, ColorTemplate.COLORFUL_COLORS[l]));
-                    l++;
                 }
                 /* Convert Arraylist to float array */
                 float[] barData = new float[stackData.size()];
@@ -311,7 +298,6 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         BarDataSet dataSet = new BarDataSet(barEntries, "BarDataSet");
 
         // Sets a different color for each category stack
-//        dataSet.setColors(getColors(categoryCount));
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
         // Creates the legend
@@ -337,6 +323,12 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         xAxis.setValueFormatter(new IndexAxisValueFormatter(allWeeksArray));
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
+
+        // Reformats y-axis
+        YAxis yLeft = barGraph.getAxisLeft();
+        YAxis yRight = barGraph.getAxisRight();
+        yLeft.setValueFormatter(new MyYAxisValueFormatter());
+        yRight.setValueFormatter(new MyYAxisValueFormatter());
 
         // Defines budget cap limit line (for perhaps each week?) [defunct until further work]
 //        YAxis leftAxis = barGraph.getAxisLeft();
