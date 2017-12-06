@@ -168,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
     //helper function to transition to mainbudgetscreen
     public void changeToMainBudgetScreen(){
         //Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
-        Intent next_activity = new Intent(LoginActivity.this, SplashLogin.class);
+        Intent next_activity = new Intent(LoginActivity.this, Splash.class);
         startActivity(next_activity);
         finish();
     }
