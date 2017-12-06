@@ -74,7 +74,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".About"></activity>
+
+        <activity android:name=".AboutPage"></activity>
+
     </application>
 
 </manifest>

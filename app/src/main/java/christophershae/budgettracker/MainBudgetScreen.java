@@ -108,6 +108,7 @@ public class MainBudgetScreen extends AppCompatActivity {
 
                     case R.id.Recent_Purchases:
                         //transition to recent purchases activity
+                        //must pass firebase info
                         Intent intent = new Intent(MainBudgetScreen.this, RecentPurchases.class);
                         Bundle args = new Bundle();
                         args.putSerializable("ARRAYLIST", (Serializable) currentWeeksBudget.getAllItems());
@@ -207,11 +208,8 @@ public class MainBudgetScreen extends AppCompatActivity {
         pieChart.setDescription(description);
 
         pieChart.setRotationEnabled(true);
-        //pieChart.setUsePercentValues(true);
         pieChart.setHoleRadius(0f);
         pieChart.setTransparentCircleRadius(0);
-        //pieChart.setCenterText("Maybe a button");
-        //pieChart.setCenterTextSize(10);
         addDataSet();
     }
 

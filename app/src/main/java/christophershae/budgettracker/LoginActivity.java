@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 registerUser();
-                Toast.makeText(LoginActivity.this, "Account Created", Toast.LENGTH_LONG).show();
+                Utils.toastMessage("Account Created", LoginActivity.this);
             }
         });
 
@@ -97,10 +97,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 resetPassword();
-                Toast.makeText(LoginActivity.this, "Forgot Password", Toast.LENGTH_LONG).show();
+                Utils.toastMessage("Forgot Password", LoginActivity.this);
             }
         });
 
+        //checks if user must sign in
         if(firebaseAuth.getCurrentUser() == null){
             System.out.println("You are not signed in");
         } else {
@@ -111,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onResume(){
+        //checks if user must sign in
         super.onResume();
         if(firebaseAuth.getCurrentUser() == null){
             System.out.println("You are not signed in");
@@ -139,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             // there was an error
-                            Toast.makeText(LoginActivity.this, "Incorrect Email/Password", Toast.LENGTH_LONG).show();
+                            Utils.toastMessage("Incorrect Email/Password", LoginActivity.this);
 
                         }
                         else {
@@ -178,11 +180,11 @@ public class LoginActivity extends AppCompatActivity {
     {
         //checks if fields are empty
         if(TextUtils.isEmpty(email)){
-            Toast.makeText(this,"Please enter email",Toast.LENGTH_LONG).show();
+            Utils.toastMessage("Please enter email", this);
             return false;
         }
         if(TextUtils.isEmpty(password)){
-            Toast.makeText(this,"Please enter password",Toast.LENGTH_LONG).show();
+            Utils.toastMessage("Please enter password", this);
             return false;
         }
         //check if there is internet connection
@@ -198,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
         if(!isConnected){
-            Toast.makeText(this,"Check Internet Connection",Toast.LENGTH_LONG).show();
+            Utils.toastMessage("Check Internet Connection", this);
             return false;
         }
         else
@@ -207,11 +209,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    // function to reset the users password if forgotten
     private String userEmail;
     public void resetPassword(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        //LayoutInflater inflater = this.getLayoutInflater();
-        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
         final EditText inputEmail = new EditText(this);
         inputEmail.setHint("example@example.com");
         alertDialogBuilder.setView(inputEmail);
@@ -224,6 +225,7 @@ public class LoginActivity extends AppCompatActivity {
                     {
                         userEmail = inputEmail.getText().toString().trim();
 
+                        //send email to user
                         firebaseAuth = FirebaseAuth.getInstance();
                         firebaseAuth.sendPasswordResetEmail(userEmail)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -231,9 +233,9 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             System.out.println("Email Sent");
-                                            Toast.makeText(LoginActivity.this, "Sent Password Reset Email", Toast.LENGTH_LONG).show();
+                                            Utils.toastMessage("Sent Password Reset Email", LoginActivity.this);
                                         }else{
-                                            Toast.makeText(LoginActivity.this, "No Account With That Email.", Toast.LENGTH_LONG).show();
+                                            Utils.toastMessage("No Account With That Email.", LoginActivity.this);
                                             System.out.println("You failed");
                                         }
                                     }
@@ -243,6 +245,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
+        //cancel button and alert
         alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1)
