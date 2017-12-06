@@ -101,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //checks if user must sign in
         if(firebaseAuth.getCurrentUser() == null){
             System.out.println("You are not signed in");
         } else {
@@ -111,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onResume(){
+        //checks if user must sign in
         super.onResume();
         if(firebaseAuth.getCurrentUser() == null){
             System.out.println("You are not signed in");
@@ -207,11 +209,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    // function to reset the users password if forgotten
     private String userEmail;
     public void resetPassword(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        //LayoutInflater inflater = this.getLayoutInflater();
-        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
         final EditText inputEmail = new EditText(this);
         inputEmail.setHint("example@example.com");
         alertDialogBuilder.setView(inputEmail);
@@ -224,6 +225,7 @@ public class LoginActivity extends AppCompatActivity {
                     {
                         userEmail = inputEmail.getText().toString().trim();
 
+                        //send email to user
                         firebaseAuth = FirebaseAuth.getInstance();
                         firebaseAuth.sendPasswordResetEmail(userEmail)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -243,6 +245,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
+        //cancel button and alert
         alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1)

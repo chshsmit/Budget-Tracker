@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class AboutPage extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
