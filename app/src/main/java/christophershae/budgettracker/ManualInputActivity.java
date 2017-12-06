@@ -101,7 +101,15 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         //toolbar setup
         Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
+        topToolBar.setNavigationIcon(getResources().getDrawable(R.drawable.backbut));
         setSupportActionBar(topToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        topToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();

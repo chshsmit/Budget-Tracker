@@ -80,7 +80,16 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         //app bar stuff
         getLayoutInflater().inflate(R.layout.toolbar, (ViewGroup)findViewById(android.R.id.content));
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.backbut));
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         int horizontalMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
         int verticalMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
         int topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (int) getResources().getDimension(R.dimen.activity_vertical_margin) , getResources().getDisplayMetrics());
@@ -290,7 +299,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public void about()
     {
-        Intent about = new Intent(getApplicationContext(), about.class);
+        Intent about = new Intent(getApplicationContext(), About.class);
         startActivity(about);
     }
 
