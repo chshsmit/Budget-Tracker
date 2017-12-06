@@ -157,7 +157,13 @@ public class MainBudgetScreen extends AppCompatActivity {
 
                 //Instantiates this weeks budget and calculates the total spent
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);
-                currentWeeksBudget.calculateTotal();
+                if (currentWeeksBudget == null) {
+                    currentWeeksBudget = Utils.createNewWeek();
+                    mFireBaseDatabase.child(userId).child(currentWeeksDate).setValue(currentWeeksBudget);
+                }
+                else {
+                    currentWeeksBudget.calculateTotal();
+                }
 
                 //Setting Values in Progress Bar
                 progress1.setMax(currentWeeksBudget.getGoalTotal().floatValue());
