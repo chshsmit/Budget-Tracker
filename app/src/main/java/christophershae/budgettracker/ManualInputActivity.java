@@ -155,6 +155,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         nameEntry = (EditText) findViewById(R.id.itemNameEntry);
         dateEntry = (EditText) findViewById(R.id.setDate);
         dateEntry.setText(slashedDate.format(new Date()));
+
+
         //create drop down menu to view the categories of expenses
         //Define spinner from xml file
         spinner = (Spinner) findViewById(R.id.Menu_C);
