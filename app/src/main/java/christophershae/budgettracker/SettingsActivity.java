@@ -101,6 +101,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     findPreference("totalSpent").setTitle("Current Week Total Spent:" +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent()));
                     findPreference("goalBudget").setTitle("Current Week Goal Budget: "+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
                     findPreference("income").setTitle("Current Week Income: " +Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalIncomeAccumulated()));
+                    findPreference("netIncome").setTitle("Current Week Net Income: "+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getNetIncome()));
                 }
                 else {
                     System.out.println("There is no existing week in Firebase!");
