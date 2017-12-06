@@ -1,5 +1,8 @@
 package christophershae.budgettracker;
 
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+
 import com.github.mikephil.charting.data.BarEntry;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -193,5 +196,6 @@ public class Utils {
         String prevWeeksDate = sdf.format(date);
         return prevWeeksDate;
     }
+
 
 }
