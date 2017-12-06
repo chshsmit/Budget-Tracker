@@ -241,7 +241,6 @@ public class MainBudgetScreen extends AppCompatActivity {
         pieChart.setData(pieData);
 
         pieChart.invalidate();
-
     }
 
     //Retrieve the data from the current weeks budget
