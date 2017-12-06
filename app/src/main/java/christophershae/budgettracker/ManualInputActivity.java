@@ -188,6 +188,11 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 //set selectem items
                 //int spinnerPosition= spinner.getSelectedItemPosition();
 
+                if(spinner.getSelectedItem().toString().equals("Add a Category....."))
+                {
+                    createCat();
+                }
+
 
             }
 
@@ -606,6 +611,37 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
     private void toastMessage(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+
+    public void createCat()
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        final EditText incomeInput = new EditText(this);
+        incomeInput.setHint("New Category");
+        alertDialogBuilder.setView(incomeInput);
+
+        alertDialogBuilder.setTitle("Create New Category");
+        alertDialogBuilder.setPositiveButton("Create",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                        String newCat = incomeInput.getText().toString();
+                        addCategory(newCat);
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+        //lets the user know their category was added
+        Toast.makeText(ManualInputActivity.this, "Category Added", Toast.LENGTH_LONG).show();
     }
 
 }
