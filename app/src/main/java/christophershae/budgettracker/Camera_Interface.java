@@ -267,13 +267,13 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             // Get a URL to the uploaded content
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                            Utils.toastMessage("Upload Success", this);
+                            Utils.toastMessage("Upload Success", Camera_Interface.this);
                             //mProgressDialog.dismiss();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Utils.toastMessage("Upload Failed", this);
+                            Utils.toastMessage("Upload Failed", Camera_Interface.this);
                             //mProgressDialog.dismiss();
                         }
                     });
@@ -464,5 +464,5 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
 }

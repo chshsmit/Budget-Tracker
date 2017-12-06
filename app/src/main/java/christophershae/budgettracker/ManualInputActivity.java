@@ -260,7 +260,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         }
         else
         {
-            Toast.makeText(ManualInputActivity.this, "No Category To Add", Toast.LENGTH_LONG).show();
+            Utils.toastMessage("No Category To Add", this);
         }
     }
     //method to delete
@@ -274,14 +274,14 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         if(pos > -1)
         {
             adapter.remove(EditMyList.get(pos));
-            Toast.makeText(ManualInputActivity.this, "Category Deleted", Toast.LENGTH_LONG).show();
+            Utils.toastMessage("Category Deleted", this);
             adapter.notifyDataSetChanged();
   //          edit_list.setText("");
             SavePreferences("List", deleteVal, true);
         }
         else
         {
-            Toast.makeText(ManualInputActivity.this, "Nothing to Delete", Toast.LENGTH_LONG).show();
+            Utils.toastMessage("Nothing to Delete", this);
         }
     }
 
@@ -418,9 +418,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 @Override
                 public void onClick(View v) {
                     String s = v.getTag().toString();
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(context, s, duration);
-                    toast.show();
+                    Utils.toastMessage(s, context);
                 }
             });
 
@@ -456,7 +454,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //Getting the user input from the edit texts
         if(priceEntry.getText().toString().equals("") || nameEntry.getText().toString().equals(""))
         {
-            toastMessage("Must Input Price and Name");
+            Utils.toastMessage("Must Input Price and Name", this);
             return;
         }
 
@@ -476,7 +474,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         try{
             newItem.setPrice(Double.valueOf(newItemPrice));
         } catch(NumberFormatException e){
-            toastMessage("Input Valid Price");
+            Utils.toastMessage("Input Valid Price", this);
             return;
         }
 
@@ -566,7 +564,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         WeekLongBudget currentWeeksBudget = getWeek(date);
         if(currentWeeksBudget.getTotalAmountSpent() > currentWeeksBudget.getGoalTotal())
         {
-            Toast.makeText(ManualInputActivity.this, "You are over Goal Budget!", Toast.LENGTH_LONG).show();
+            Utils.toastMessage("You are over Goal Budget!", this);
 
         }
     }
@@ -628,7 +626,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         alertDialog.show();
 
         //lets the user know their category was added
-        Toast.makeText(ManualInputActivity.this, "Category Added", Toast.LENGTH_LONG).show();
+        Utils.toastMessage("Category Added", this);
     }
 
 }
