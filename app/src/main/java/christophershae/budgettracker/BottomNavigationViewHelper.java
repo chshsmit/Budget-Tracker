@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.lang.reflect.Field;
 
+//helper class as a workaround to get bottom nav to stop shifting when icon is clicked
 class BottomNavigationViewHelper {
 
     static void removeShiftMode(BottomNavigationView view) {
