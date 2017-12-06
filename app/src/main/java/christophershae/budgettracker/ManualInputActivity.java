@@ -593,11 +593,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void toastMessage(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-    }
-
     public void createCat()
     {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
