@@ -23,6 +23,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="24dp"
-        android:text="Budget-Tracker Version 1.0 \n \n Development Team \n Christopher Smith(Product Owner) \n Nathan Hutchinson Mchone \n Darwin Li \n Jonathon Molima \n Zechariah Neak" />
+        android:text="Budget-Tracker Version 1.0 \n \n Development Team \n Christopher Smith(Product Owner) \n Nathan Hutchinson Mchone \n Darwin Li \n Jonathon Molina \n Zechariah Neak" />
 
 </LinearLayout>
