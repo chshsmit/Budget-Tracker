@@ -98,11 +98,13 @@ public class LoginActivity extends AppCompatActivity {
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
 
+        // user creates account
         TextView signupLink = (TextView) findViewById(R.id.signUp);;
         signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 registerUser();
+                Toast.makeText(LoginActivity.this, "Account Created", Toast.LENGTH_LONG).show();
             }
         });
 
