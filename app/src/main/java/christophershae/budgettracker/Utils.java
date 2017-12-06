@@ -28,7 +28,8 @@ public class Utils {
 
     private static String userId;
 
-    public static FirebaseDatabase getDatabase() {
+    public static FirebaseDatabase getDatabase()
+    {
         if (mDataBase == null) {
             mDataBase = FirebaseDatabase.getInstance();
             mDataBase.setPersistenceEnabled(true);

@@ -58,7 +58,4 @@ public class ExampleUnitTest {
         newItem.setStoreName("Trader Joe's");
         assertEquals("Trader Joe's", newItem.getStoreName());
     }
-
-
-
 }

@@ -38,11 +38,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import static android.R.id.input;
-//import static christophershae.budgettracker.R.id.goalInput;
-//import static christophershae.budgettracker.R.id.signout;
-//import static christophershae.budgettracker.R.id.textView;
-
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,7 +56,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import static christophershae.budgettracker.R.id.signout;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
@@ -161,7 +155,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         });
     }
 
+
+
     public void signOut(){
+        System.out.println("You did it");
         firebaseAuth.signOut();
         changeToLoginScreen();
     }
@@ -252,9 +249,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     int deletedItemIndex;
-    public void deleteItemFromBudget(){
+
+    public void deleteItemFromBudget()
+    {
+
         ArrayList<String> itemNames = new ArrayList<>();
-        for(Item item: currentWeeksBudget.allItems){
+
+        for(Item item: currentWeeksBudget.allItems)
+        {
             itemNames.add(item.name);
         }
 
