@@ -23,12 +23,12 @@
         android:layout_width="193dp"
         android:layout_height="45dp"
 
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="92dp"
         android:ems="10"
         android:hint="Item Name"
-        android:inputType="textCapSentences|textAutoCorrect"
         android:imeOptions="actionDone"
+        android:inputType="textCapSentences|textAutoCorrect"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,30 +55,30 @@
         android:id="@+id/itemPriceEntry"
         android:layout_width="83dp"
         android:layout_height="45dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
+
         android:ems="10"
-
         android:hint="@string/zero_dollars"
-        android:inputType="numberDecimal|textAutoComplete"
 
+        android:inputType="numberDecimal|textAutoComplete"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/itemNameEntry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/itemNameEntry"
-        app:layout_constraintTop_toTopOf="@+id/itemNameEntry" />
+        app:layout_constraintTop_toTopOf="@+id/itemNameEntry"
+        app:layout_constraintVertical_bias="1.0" />
 
 
     <Spinner
         android:id="@+id/Menu_C"
-        android:layout_width="321dp"
+        android:layout_width="222dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="100dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:dropDownWidth="match_parent"
         android:prompt="@string/titleSpinner"
         android:spinnerMode="dialog"
@@ -86,31 +86,14 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setDate" />
 
-    <Button
-        android:id="@+id/Edit_List"
-        style="@android:style/Widget.Button"
-        android:layout_width="102dp"
-        android:layout_height="54dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Create Category"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.Button"
-        app:layout_constraintBottom_toTopOf="@+id/itemsAddedToBudgetAlready"
-        app:layout_constraintEnd_toStartOf="@+id/DeleteB"
-        app:layout_constraintHorizontal_bias="0.528"
-        app:layout_constraintStart_toStartOf="@+id/Menu_C"
-        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
-        app:layout_constraintVertical_bias="0.961" />
-
     <ListView
         android:id="@+id/itemsAddedToBudgetAlready"
         android:layout_width="291dp"
-        android:layout_height="173dp"
+        android:layout_height="205dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Menu_C" />
@@ -120,14 +103,12 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="102dp"
         android:layout_height="54dp"
-        android:layout_marginBottom="36dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="8dp"
         android:text="Delete Category"
         app:layout_constraintBottom_toTopOf="@+id/itemsAddedToBudgetAlready"
-        app:layout_constraintEnd_toEndOf="@+id/Menu_C"
-        app:layout_constraintTop_toTopOf="@+id/Edit_List"
-        tools:text="@string/DeteB" />
+        app:layout_constraintStart_toEndOf="@+id/Menu_C"
+        tools:text="Delete Category" />
 
     <Button
         android:id="@+id/finishAddingItemsToBudget"
@@ -153,12 +134,12 @@
         android:layout_height="44dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="date"
         android:text="@string/set_date"
         app:layout_constraintEnd_toEndOf="@+id/itemNameEntry"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/itemNameEntry"
         app:layout_constraintTop_toBottomOf="@+id/itemNameEntry"
         tools:text="@string/set_date" />
@@ -167,11 +148,11 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_marginTop="16dp"
         android:text="      Item Information"
         android:textColor="@color/colorAccent"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="237dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:layout_editor_absoluteX="31dp"
         tools:text="Create Custom Category" />
 
 
@@ -179,23 +160,33 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
+        android:layout_marginTop="8dp"
         android:textColor="@color/colorAccent"
-        android:text="      Custom Category"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="237dp"
-        tools:text="Create Custom Category" />
+        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
+        tools:layout_editor_absoluteX="143dp"
+        tools:text="Recently Added" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/setDate"
-        android:textColor="@color/colorAccent"
+        android:layout_marginTop="4dp"
         android:text="      Choose from Category List"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="166dp"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintTop_toBottomOf="@+id/setDate"
+        tools:layout_editor_absoluteX="31dp"
         tools:text="Choose from Category List" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="39dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="32dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/itemNameEntry"
+        tools:layout_editor_absoluteY="92dp"
+        tools:text="$" />
 
 
 </android.support.constraint.ConstraintLayout>
