@@ -52,22 +52,11 @@ import static christophershae.budgettracker.R.id.Settings;
 
 
 
-public class MainBudgetScreen extends AppCompatActivity implements View.OnClickListener {
-
-    private FirebaseAuth firebaseAuth;
-    private DatabaseReference mFireBaseDatabase;
-    private FirebaseDatabase mFirebaseInstance;
-    private String userId;
-
-    SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");
-
-    //These are variables for the current weeks date, and the budget for the current week
-    private String currentWeeksDate;
-    private WeekLongBudget currentWeeksBudget;
-    PieChart pieChart;
+public class MainBudgetScreen extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_budget_screen);
         final TextView totalIncomeTextView = (TextView) findViewById(R.id.totalOutOfGoal);
@@ -76,72 +65,34 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
 
-
         //Initial progress bar setup
         final RoundCornerProgressBar progress1 = (RoundCornerProgressBar) findViewById(R.id.progress_1);
         progress1.setProgressColor(Color.parseColor("#79ff19"));
         progress1.setProgressBackgroundColor(Color.parseColor("#d8d8d8"));
 
-        //Firebase stuff
-        firebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseInstance = Utils.getDatabase();
-        mFireBaseDatabase = mFirebaseInstance.getReference("users");
-
-
+        //Firebase Instantiation
+        instantiateFirebaseVariables();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         userId = currentUser.getUid();
-
 
         //Getting the current weeks index
         currentWeeksDate = Utils.decrementDate(new Date());
 
-        mFireBaseDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("We are getting data from the database");
-
-
-                currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
-                if(currentWeeksBudget == null) {currentWeeksBudget = Utils.createNewWeek();}
-                currentWeeksBudget.calculateTotal();
-
-                progress1.setMax(currentWeeksBudget.getGoalTotal().floatValue());
-                progress1.setProgress(currentWeeksBudget.getTotalAmountSpent().floatValue());
-
-
-                totalIncomeTextView.setText("$"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent())+
-                        "/$"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
-
-                //pie chart layout setup
-                pieChart = (PieChart) findViewById(R.id.idPieChart);
-                Description description = new Description();
-                description.setTextColor(ColorTemplate.VORDIPLOM_COLORS[2]);
-                description.setText("Price per Category");
-                pieChart.setDescription(description);
-
-                pieChart.setRotationEnabled(true);
-                //pieChart.setUsePercentValues(true);
-                pieChart.setHoleRadius(0f);
-                pieChart.setTransparentCircleRadius(0);
-                //pieChart.setCenterText("Maybe a button");
-                //pieChart.setCenterTextSize(10);
-                addDataSet(pieChart);
-
-
-                System.out.println("This is the current weeks start date: ");
-                System.out.println(currentWeeksBudget.getStartDate());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("You arent reDING CORRECTLTY");
-            }
-        } );
-
-        System.out.println("The current user ID is: " +userId);
-
+        //Updating Information from Firebase
+        updateInformationFromFirebase(progress1, totalIncomeTextView);
 
         //sets activity transitions for the bottom nav menu
+        instantiateBottomNavigation();
+
+
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //Code for the bottom navigation
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+
+    public void instantiateBottomNavigation()
+    {
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.idBottomNav);
         BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -179,25 +130,126 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 return true;
             }
         });
-
-        //Firebase sign in checks
-        if(firebaseAuth.getCurrentUser() == null){
-            System.out.println("You are not signed in");
-        } else {
-            System.out.println("You are signed in on the main page: oncreate");
-        }
     }
 
-    private void addDataSet(PieChart chart){
+    //----------------------------------------------------------------------------------------------------------------------------------------
+    //Code for firebase integration
+    //----------------------------------------------------------------------------------------------------------------------------------------
+
+    //Global Variables for Firebase
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference mFireBaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+    private String userId;
+
+    private String currentWeeksDate;
+    private WeekLongBudget currentWeeksBudget;
+
+
+    public void updateInformationFromFirebase(final RoundCornerProgressBar progress1,final TextView totalIncomeTextView)
+    {
+        mFireBaseDatabase.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("We are getting data from the database");
+
+                //Instantiates this weeks budget and calculates the total spent
+                currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);
+                currentWeeksBudget.calculateTotal();
+
+                //Setting Values in Progress Bar
+                progress1.setMax(currentWeeksBudget.getGoalTotal().floatValue());
+                progress1.setProgress(currentWeeksBudget.getTotalAmountSpent().floatValue());
+                totalIncomeTextView.setText("$"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getTotalAmountSpent())+
+                        "/$"+Utils.getStringToTwoDecimalPlaces(currentWeeksBudget.getGoalTotal()));
+
+                //Set up the pie chart
+                setUpPieChartLayout();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("You arent reDING CORRECTLTY");
+            }
+        } );
+    }
+
+
+    public void instantiateFirebaseVariables()
+    {
+        //Firebase authentication and database references
+        firebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseInstance = Utils.getDatabase();
+        mFireBaseDatabase = mFirebaseInstance.getReference("users");
+    }
+
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //Code for the pie chart
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+
+    //Global Variables For PieChart
+    PieChart pieChart;
+    ArrayList<PieEntry> pieEntries = new ArrayList<PieEntry>();
+    ArrayList<String> labels = new ArrayList<String>();
+    PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
+    ArrayList<Integer> colors = new ArrayList<Integer>();
+
+
+    //Instantiate the Pie Chart
+    public void setUpPieChartLayout()
+    {
+        pieChart = (PieChart) findViewById(R.id.idPieChart);
+        Description description = new Description();
+        description.setTextColor(ColorTemplate.VORDIPLOM_COLORS[2]);
+        description.setText("Price per Category");
+        pieChart.setDescription(description);
+
+        pieChart.setRotationEnabled(true);
+        //pieChart.setUsePercentValues(true);
+        pieChart.setHoleRadius(0f);
+        pieChart.setTransparentCircleRadius(0);
+        //pieChart.setCenterText("Maybe a button");
+        //pieChart.setCenterTextSize(10);
+        addDataSet();
+    }
+
+    //Create a dataset for the Pie Chart
+    private void addDataSet()
+    {
         //checks to see if there's data to add
-
-        ArrayList<PieEntry> pieEntries = new ArrayList<PieEntry>();
-        ArrayList<String> labels = new ArrayList<String>();
-
-        int l = 0;
-
         if(currentWeeksBudget.getCostOfAllCategories() == null) System.out.println("NULL");
         if(currentWeeksBudget.getCostOfAllCategories() == null) return;
+        getDataForPieChart();
+
+        //create the dataset
+        dataSet.setSliceSpace(2);
+        dataSet.setValueTextSize(12);
+
+        //Add more colors
+        addColorsToPieChart(dataSet);
+
+        //custom data display MonetaryDisplay
+        dataSet.setValueFormatter(new MonetaryDisplay());
+
+        //make legend
+        createPieChartLegend();
+
+        //create pie data object
+        PieData pieData = new PieData(dataSet);
+        pieChart.setData(pieData);
+
+        pieChart.invalidate();
+
+    }
+
+    //Retrieve the data from the current weeks budget
+    public void getDataForPieChart()
+    {
+        int l = 0;
+        pieEntries.clear();
+        labels.clear();
         for (Map.Entry<String, Double> entry : currentWeeksBudget.costOfAllCategories.entrySet())
         {
             BigDecimal number = new BigDecimal(entry.getValue());
@@ -211,15 +263,12 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
                 l++;
             }
         }
+    }
 
-        //create the dataset
-        PieDataSet dataSet = new PieDataSet(pieEntries, "Category");
-        dataSet.setSliceSpace(2);
-        dataSet.setValueTextSize(12);
-
+    //Adding more colors to the Pie Chart
+    public void addColorsToPieChart(PieDataSet dataSet)
+    {
         //add colors
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-
         for (int c : ColorTemplate.COLORFUL_COLORS)
             colors.add(c);
 
@@ -238,15 +287,13 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         colors.add(ColorTemplate.getHoloBlue());
 
         dataSet.setColors(colors);
+    }
 
-
-        //custom data display MonetaryDisplay
-        dataSet.setValueFormatter(new MonetaryDisplay());
-
-        //make legend
+    //Creating the legend for the Pie Chart
+    public void createPieChartLegend()
+    {
         Legend legend = pieChart.getLegend();
         legend.setForm(Legend.LegendForm.CIRCLE);
-
 
         //prepare legend entries
         List<LegendEntry> entries = new ArrayList<>();
@@ -263,57 +310,45 @@ public class MainBudgetScreen extends AppCompatActivity implements View.OnClickL
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         legend.setOrientation(Legend.LegendOrientation.VERTICAL);
-
-
-        //create pie data object
-
-        PieData pieData = new PieData(dataSet);
-        pieChart.setData(pieData);
-
-        pieChart.invalidate();
-
     }
 
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //Code to change activities
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    //We want the code to do nothing when the back button is pressed
     @Override
     public void onBackPressed(){}
 
-    public void changeToSettings(View v)
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
     {
-        Intent setting = new Intent(MainBudgetScreen.this, SettingsActivity.class);
-        startActivity(setting);
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        switch(view.getId()) {
-            case Settings:
-                Intent setting = new Intent(MainBudgetScreen.this, SettingsActivity.class);
-                startActivity(setting);
-                break;
-        }
-    }
-
-    //ToolBar function to setup res/menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.toolbar, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.Settings) {
+        if (id == R.id.Settings)
+        {
             Intent setting = new Intent(MainBudgetScreen.this, SettingsActivity.class);
             startActivity(setting);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //Code for the toolbar up top
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+
+    //ToolBar function to setup res/menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
     }
 }
