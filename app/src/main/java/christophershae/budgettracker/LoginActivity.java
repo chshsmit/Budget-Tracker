@@ -1,10 +1,13 @@
 package christophershae.budgettracker;
 
 import com.google.firebase.auth.FirebaseAuth;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -25,6 +28,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -99,12 +103,23 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.password);
 
         // user creates account
-        TextView signupLink = (TextView) findViewById(R.id.signUp);;
+        TextView signupLink = (TextView) findViewById(R.id.signUp);
         signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 registerUser();
                 Toast.makeText(LoginActivity.this, "Account Created", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        //User forgot password
+        TextView forgotPassword = (TextView) findViewById(R.id.forgotPassword);
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetPassword();
+                Toast.makeText(LoginActivity.this, "Forgot Password", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -213,5 +228,54 @@ public class LoginActivity extends AppCompatActivity {
         {
             return true;
         }
+    }
+
+    private String userEmail;
+    public void resetPassword(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        //LayoutInflater inflater = this.getLayoutInflater();
+        //alertDialogBuilder.setView(inflater.inflate(R.layout.goal_budget_diag, null));
+        final EditText inputEmail = new EditText(this);
+        inputEmail.setHint("example@example.com");
+        alertDialogBuilder.setView(inputEmail);
+
+        alertDialogBuilder.setTitle("Send Password Reset Email");
+        alertDialogBuilder.setPositiveButton("Send",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                        userEmail = inputEmail.getText().toString().trim();
+
+                        firebaseAuth = FirebaseAuth.getInstance();
+                        firebaseAuth.sendPasswordResetEmail(userEmail)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            System.out.println("Email Sent");
+                                            Toast.makeText(LoginActivity.this, "Sent Password Reset Email", Toast.LENGTH_LONG).show();
+                                        }else{
+                                            Toast.makeText(LoginActivity.this, "No Account With That Email.", Toast.LENGTH_LONG).show();
+                                            System.out.println("You failed");
+                                        }
+                                    }
+                                });
+
+
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+
+            }
+        });
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
