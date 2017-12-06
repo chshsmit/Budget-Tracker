@@ -462,7 +462,14 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         //Creating a new Item object and setting the price and name
         Item newItem = new Item(newItemName);
-        newItem.setPrice(Double.valueOf(newItemPrice));
+
+        try{
+            newItem.setPrice(Double.valueOf(newItemPrice));
+        } catch(NumberFormatException e){
+            toastMessage("Input Valid Price");
+            return;
+        }
+
         System.out.println("This item costs: "+newItem.getPrice());
 
         //Getting the category from the spinner
