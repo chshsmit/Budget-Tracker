@@ -134,8 +134,8 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
 
-                Toast.makeText(getBaseContext(),"Receipt" +" "+ (position + 1) + " Selected",
-                        Toast.LENGTH_SHORT).show();
+
+                Utils.toastMessage("Receipt" +" "+ (position + 1) + " Selected", getBaseContext());
 
 
                 BitmapFactory.Options myOptions = new BitmapFactory.Options();
@@ -212,9 +212,8 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                 // we will handle the returned data in onActivityResult
                 startActivityForResult(takePhoto, CAMERA_CAPTURE);
             } catch (ActivityNotFoundException anfe) {
-                Toast toast = Toast.makeText(this, "YOUR PHONE DOESN'T SUPPORT CAMERA FUNCTIONALITY",
-                        Toast.LENGTH_SHORT);
-                toast.show();
+
+                Utils.toastMessage("YOUR PHONE DOESN'T SUPPORT CAMERA FUNCTIONALITY", this);
             }
         }
     }
@@ -268,13 +267,13 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             // Get a URL to the uploaded content
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                            toastMessage("Upload Success");
+                            Utils.toastMessage("Upload Success", this);
                             //mProgressDialog.dismiss();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            toastMessage("Upload Failed");
+                            Utils.toastMessage("Upload Failed", this);
                             //mProgressDialog.dismiss();
                         }
                     });
@@ -439,9 +438,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
         // respond to users whose devices do not support the crop action
         catch (ActivityNotFoundException anfe)
         {
-            Toast toast = Toast
-                    .makeText(this, "This device doesn't support the crop action!", Toast.LENGTH_SHORT);
-            toast.show();
+            Utils.toastMessage("This device doesn't support the crop action!", this);
         }
     }
 
@@ -467,15 +464,5 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
-    /**
-     * customizable toast
-     * @param message
-     */
-    private void toastMessage(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-    }
-
+    
 }

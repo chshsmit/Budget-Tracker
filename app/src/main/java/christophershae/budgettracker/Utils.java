@@ -1,7 +1,9 @@
 package christophershae.budgettracker;
 
+import android.content.Context;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.data.BarEntry;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +41,11 @@ public class Utils {
         }
         return mDataBase;
     }
+
+    public static void toastMessage(String message, Context currentActivity){
+        Toast.makeText(currentActivity,message,Toast.LENGTH_SHORT).show();
+    }
+
 
     public String newDate;
 

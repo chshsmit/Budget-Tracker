@@ -321,7 +321,7 @@ public class MainBudgetScreen extends AppCompatActivity {
     @Override
     public void onBackPressed(){}
 
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
