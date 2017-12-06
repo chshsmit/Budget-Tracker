@@ -299,7 +299,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public void about()
     {
-        Intent about = new Intent(getApplicationContext(), about.class);
+        Intent about = new Intent(getApplicationContext(), About.class);
         startActivity(about);
     }
 
