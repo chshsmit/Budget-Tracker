@@ -26,6 +26,17 @@ import java.util.Map;
 
 public class Utils {
 
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //THIS FILE CONTAINS UTILITY FUNCTIONS THAT WERE USED OFTEN ACROSS MULTIPLE ACITIVTIES
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //Code for instantiation of Firebase
+    //---------------------------------------------------------------------------------------------------------------------------------------------
     private static FirebaseDatabase mDataBase;
     private static DatabaseReference mFireBaseDatabase;
     private static FirebaseDatabase mFirebaseInstance;
@@ -42,47 +53,50 @@ public class Utils {
         return mDataBase;
     }
 
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //Utility function to make a toast message
+    //---------------------------------------------------------------------------------------------------------------------------------------------
     public static void toastMessage(String message, Context currentActivity){
         Toast.makeText(currentActivity,message,Toast.LENGTH_SHORT).show();
     }
 
-
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //Utility function to create a new weeklong budget when the current one is null
+    //---------------------------------------------------------------------------------------------------------------------------------------------
     public String newDate;
-
     //Retrieving the correct weeklong budget object to store the new item in
     public static WeekLongBudget createNewWeek()
     {
-        //DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
-        //Decrement the date to be the most recent sunday
+
         Date currentDate = new Date();
         String newWeekIndex = decrementDate(currentDate);
-        WeekLongBudget newWeek = new WeekLongBudget(newWeekIndex);
+        WeekLongBudget newWeek = new WeekLongBudget(newWeekIndex);      //Create a new weeklong budget with the most recent sunday as the start date
 
+        //This gets the reference to our database
         firebaseAuth = FirebaseAuth.getInstance();
         userId = firebaseAuth.getUid();
         mFirebaseInstance = getDatabase();
         mFireBaseDatabase = mFirebaseInstance.getReference("users");
 
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        userId = currentUser.getUid();
-
+        //Set this new weeklong budget to be the value in our database
         mFireBaseDatabase.child(userId).child(newWeekIndex).setValue(newWeek);
-
-
 
         return newWeek;
 
     }
 
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //Code to format numbers for the text views
+    //---------------------------------------------------------------------------------------------------------------------------------------------
     private static DecimalFormat twoDecimalPlaces = new DecimalFormat("#.00");
     public static String getStringToTwoDecimalPlaces(double myNumber)
     {
         return twoDecimalPlaces.format(myNumber);
     }
 
-
-
-
+    //---------------------------------------------------------------------------------------------------------------------------------------------
+    //Code to handle the decrementing of dates
+    //---------------------------------------------------------------------------------------------------------------------------------------------
     static SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");    //This is the format we want our date string to be in
 
     //This function decrements the date so it adds it to the correct weeklong budget
