@@ -4,34 +4,26 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,31 +34,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-import static christophershae.budgettracker.R.id.Settings;
-//import static christophershae.budgettracker.R.id.textView;
-
-
-
-public class MainBudgetScreen extends AppCompatActivity {
+public class MainBudgetScreen extends AppCompatActivity
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_budget_screen);
-        final TextView totalIncomeTextView = (TextView) findViewById(R.id.totalOutOfGoal);
+        final TextView totalIncomeTextView = findViewById(R.id.totalOutOfGoal);
 
         //toolbar setup
-        Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar topToolBar = findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
 
         //Initial progress bar setup
-        final RoundCornerProgressBar progress1 = (RoundCornerProgressBar) findViewById(R.id.progress_1);
+        final RoundCornerProgressBar progress1 = findViewById(R.id.progress_1);
         progress1.setProgressColor(Color.parseColor("#79ff19"));
         progress1.setProgressBackgroundColor(Color.parseColor("#d8d8d8"));
 
@@ -93,7 +79,7 @@ public class MainBudgetScreen extends AppCompatActivity {
 
     public void instantiateBottomNavigation()
     {
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.idBottomNav);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.idBottomNav);
         BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -176,7 +162,8 @@ public class MainBudgetScreen extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError)
+            {
                 System.out.println("You arent reDING CORRECTLTY");
             }
         } );
@@ -207,7 +194,7 @@ public class MainBudgetScreen extends AppCompatActivity {
     //Instantiate the Pie Chart
     public void setUpPieChartLayout()
     {
-        pieChart = (PieChart) findViewById(R.id.idPieChart);
+        pieChart = findViewById(R.id.idPieChart);
         Description description = new Description();
         description.setTextColor(ColorTemplate.VORDIPLOM_COLORS[2]);
         description.setText("Price per Category");
@@ -257,9 +244,9 @@ public class MainBudgetScreen extends AppCompatActivity {
         {
             BigDecimal number = new BigDecimal(entry.getValue());
 
-            int myInt = number.intValue();
             float myFloat = number.floatValue();
-            if(myFloat != 0.00) {
+            if(myFloat != 0.00)
+            {
                 pieEntries.add(new PieEntry(myFloat, l));
                 labels.add(entry.getKey());
                 System.out.println(entry.getKey());
@@ -301,7 +288,8 @@ public class MainBudgetScreen extends AppCompatActivity {
         //prepare legend entries
         List<LegendEntry> entries = new ArrayList<>();
 
-        for (int i = 0; i < pieEntries.size(); i++) {
+        for (int i = 0; i < pieEntries.size(); i++)
+        {
             LegendEntry entry = new LegendEntry();
             entry.formColor = colors.get(i);
             entry.label = labels.get(i);

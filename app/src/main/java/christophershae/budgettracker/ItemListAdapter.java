@@ -16,7 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ItemListAdapter extends ArrayAdapter<Item> {
+public class ItemListAdapter extends ArrayAdapter<Item>
+{
     private Context mContext;
     private int mResource;
 
@@ -24,7 +25,8 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
     private int lastPosition = -1;
 
     // Holds variables in a view
-    private static class ViewHolder {
+    private static class ViewHolder
+    {
         TextView name;
         TextView date;
         TextView price;
@@ -33,7 +35,8 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
     //----------------------------------------------------------------------------------------------------------------------------------------
     // Extracts data from Firebase and formats them for RecentPurchases activity
     //----------------------------------------------------------------------------------------------------------------------------------------
-    public ItemListAdapter(Context context, int resource, ArrayList<Item> objects) {
+    public ItemListAdapter(Context context, int resource, ArrayList<Item> objects)
+    {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -43,15 +46,14 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         // Gets item information
         String name = getItem(position).getName();
         String date = getItem(position).getDate();
         double price = Math.round(getItem(position).getPrice() * 100.00) / 100.00;
 
-        try
-        {
+        try {
             // Adding the WeekLongBudget to all of the users budgets
             Date itemDate = startingVersion.parse(date);
             date = slashedDate.format(itemDate);
