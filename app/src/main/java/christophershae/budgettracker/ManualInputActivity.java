@@ -87,7 +87,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     String get_text;
     //make an array
     public String [] Categories_list = {"Food" ,"Rent", "Gas", "Personal Items", "Household Items",
-            "Groceries", "Entertainment"};
+            "Groceries", "Entertainment", "Add a Category....."};
     //----------------------------------------------------------------------------------------
     //This code has all the functions that need to be overridden
     //----------------------------------------------------------------------------------------
@@ -231,7 +231,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     protected void LoadPreferences(){
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
         String dataSet = data.getString("List","Add a Category....." );
-            adapter.remove("Add a Category.....");
 
         if(dataSet.contains("!")){ //to check if previous items are there or not
 
@@ -248,6 +247,12 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     }
     //method to add a category
     public void addCategory(String cat){
+
+        if(cat.equals("Add a Category....."))
+        {
+            return;
+        }
+
         //check if input is empty or contains strings
         if(!cat.isEmpty() && cat.length() > 0)
         {
