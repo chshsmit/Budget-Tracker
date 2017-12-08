@@ -1,4 +1,7 @@
-//overrides PieChart Display
+
+//----------------------------------------------------------------------------------------------------------------------------------------
+// Overrides PieChart Display
+//----------------------------------------------------------------------------------------------------------------------------------------
 
 package christophershae.budgettracker;
 
@@ -21,5 +24,4 @@ public class MonetaryDisplay implements IValueFormatter {
 
         return "$" + mFormat.format(value); // e.g. append a dollar-sign
     }
-
 }

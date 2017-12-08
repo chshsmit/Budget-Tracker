@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 
 public class AboutPage extends AppCompatActivity {
     @Override
@@ -12,8 +11,8 @@ public class AboutPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        //toolbar setup
-        Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
+        // Toolbar setup
+        Toolbar topToolBar = findViewById(R.id.toolbar);
         topToolBar.setNavigationIcon(getResources().getDrawable(R.drawable.backbut));
         setSupportActionBar(topToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

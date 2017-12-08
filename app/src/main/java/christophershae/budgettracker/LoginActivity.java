@@ -3,86 +3,54 @@ package christophershae.budgettracker;
 import com.google.firebase.auth.FirebaseAuth;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
 
-import static android.Manifest.permission.READ_CONTACTS;
+//----------------------------------------------------------------------------------------------------------------------------------------
+//  A login screen that offers login via email/password. Uses Firebase Authentication.
+//----------------------------------------------------------------------------------------------------------------------------------------
+public class LoginActivity extends AppCompatActivity
+{
 
-/**
- * A login screen that offers login via email/password. Uses Firebase Authentication
- */
-public class LoginActivity extends AppCompatActivity {
-
-    private static final int REQUEST_READ_CONTACTS = 0;
     private EditText editTextEmail;
     private EditText editTextPassword;
-    private Button buttonSignup;
-    private FirebaseAuth firebaseAuth;
-    private Button buttonSignIn;
 
-    // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mLoginFormView;
+    // Accesses Firebase
+    private FirebaseAuth firebaseAuth;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //toolbar setup
-        Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
+        // Toolbar setup
+        Toolbar topToolBar = findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
 
-        //reads input from edittext fields on the layout
+        // Reads input from edittext fields on the layout
         firebaseAuth = FirebaseAuth.getInstance();
-        editTextEmail = (EditText) findViewById(R.id.email);
-        editTextPassword = (EditText) findViewById(R.id.password);
+        editTextEmail = findViewById(R.id.email);
+        editTextPassword = findViewById(R.id.password);
 
-        // user creates account
-        TextView signupLink = (TextView) findViewById(R.id.signUp);
+        // User account creation
+        TextView signupLink = findViewById(R.id.signUp);
         signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,8 +59,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //User forgot password
-        TextView forgotPassword = (TextView) findViewById(R.id.forgotPassword);
+        // If user forgets password
+        TextView forgotPassword = findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,8 +69,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //checks if user must sign in
-        if(firebaseAuth.getCurrentUser() == null){
+        // Checks if user must sign in
+        if(firebaseAuth.getCurrentUser() == null)
+        {
             System.out.println("You are not signed in");
         } else {
             System.out.println("You are signed in");
@@ -111,23 +80,26 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
-        //checks if user must sign in
+    protected void onResume()
+    {
+        // Checks if user must sign in
         super.onResume();
-        if(firebaseAuth.getCurrentUser() == null){
+        if(firebaseAuth.getCurrentUser() == null)
+        {
             System.out.println("You are not signed in");
         } else {
             System.out.println("You are signed in");
         }
     }
 
-    //Checks credentials and internet connection
-    //if both are valid go to mainbudgetscreen
-    public void Simple_Nav(View view){
+    // Checks credentials and internet connection
+    // If both are valid go to MainBudgetScreen
+    public void Simple_Nav(View view)
+    {
         String email = editTextEmail.getText().toString().trim();
         String password  = editTextPassword.getText().toString().trim();
 
-        //returns out of function if no credentials or connection
+        // Returns out of function if no credentials or connection
         if(checkConnectionAndInput(email,password)==false)
         {
             return;
@@ -139,10 +111,10 @@ public class LoginActivity extends AppCompatActivity {
                         // If sign in fails, Log a message to the LogCat. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            // there was an error
+                        if (!task.isSuccessful())
+                        {
+                            // There was an error
                             Utils.toastMessage("Incorrect Email/Password", LoginActivity.this);
-
                         }
                         else {
                             changeToMainBudgetScreen();
@@ -151,48 +123,49 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    //creates a new user from the edittext fields
+    // Creates a new user from the edittext fields
     private void registerUser()
     {
-        //getting email and password from edit texts
+        // Getting email and password from edittexts
         String email = editTextEmail.getText().toString().trim();
         String password  = editTextPassword.getText().toString().trim();
 
-        //returns out of function if no credentials or connection
+        // Returns out of function if no credentials or connection
         if(checkConnectionAndInput(email,password)==false)
         {
             return;
         }
-        //creating a new user
+        // Creating a new user
         firebaseAuth.createUserWithEmailAndPassword(email, password);
     }
 
-    //helper function to transition to mainbudgetscreen
-    public void changeToMainBudgetScreen(){
-        //Intent next_activity = new Intent(LoginActivity.this, MainBudgetScreen.class);
+    // Helper function to transition to MainBudgetScreen
+    public void changeToMainBudgetScreen()
+    {
         Intent next_activity = new Intent(LoginActivity.this, Splash.class);
         startActivity(next_activity);
         finish();
     }
 
-    //checks both both input and connection and returns a boolean
+    // Checks0 both input and connection and returns a boolean
     private boolean checkConnectionAndInput(String email, String password)
     {
-        //checks if fields are empty
-        if(TextUtils.isEmpty(email)){
+        // Checks if fields are empty
+        if(TextUtils.isEmpty(email))
+        {
             Utils.toastMessage("Please enter email", this);
             return false;
         }
-        if(TextUtils.isEmpty(password)){
+        if(TextUtils.isEmpty(password))
+        {
             Utils.toastMessage("Please enter password", this);
             return false;
         }
-        //check if there is internet connection
-
+        // Check if there is internet connection
         return checkConnection();
     }
 
-    //checks internet connection and returns a bool depending on result
+    // Checks internet connection and returns a bool depending on result
     public boolean checkConnection()
     {
         ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -209,9 +182,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    // function to reset the users password if forgotten
+    // Function to reset the users password if forgotten
     private String userEmail;
-    public void resetPassword(){
+    public void resetPassword()
+    {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         final EditText inputEmail = new EditText(this);
         inputEmail.setHint("example@example.com");
@@ -225,7 +199,7 @@ public class LoginActivity extends AppCompatActivity {
                     {
                         userEmail = inputEmail.getText().toString().trim();
 
-                        //send email to user
+                        // Send emails to user
                         firebaseAuth = FirebaseAuth.getInstance();
                         firebaseAuth.sendPasswordResetEmail(userEmail)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -240,18 +214,14 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     }
                                 });
-
-
                     }
                 });
 
-        //cancel button and alert
-        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+        // Cancels button and alert
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener()
+        {
             @Override
-            public void onClick(DialogInterface arg0, int arg1)
-            {
-
-            }
+            public void onClick(DialogInterface arg0, int arg1) {}
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
