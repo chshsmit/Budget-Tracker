@@ -68,7 +68,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mFireBaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
-
     private String userId;
 
 

@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 /**
  * Created by chrissmith on 11/16/17.
  */
@@ -63,7 +64,6 @@ public class Utils {
     //---------------------------------------------------------------------------------------------------------------------------------------------
     //Utility function to create a new weeklong budget when the current one is null
     //---------------------------------------------------------------------------------------------------------------------------------------------
-    public String newDate;
     //Retrieving the correct weeklong budget object to store the new item in
     public static WeekLongBudget createNewWeek()
     {
