@@ -155,8 +155,6 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
 
                     if (images != null)
                     {
-
-
                         myView = BitmapFactory.decodeFileDescriptor(images.getFD(), null, myOptions);
 
                         imageView.setVisibility(View.VISIBLE);
@@ -257,22 +255,6 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                     out.close();
 
                     uploadImage(path, imageInformation);
-//                    Uri imageUri = Uri.fromFile(new File(path));
-//                    System.out.println(mStorageRef == null);
-//                    StorageReference storageReference = mStorageRef.child("images/users/" + userId +"/"+imageInformation);
-//                    storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            // Get a URL to the uploaded content
-//                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
-//                            Utils.toastMessage("Upload Success", Camera_Interface.this);
-//                        }
-//                    }).addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Utils.toastMessage("Upload Failed", Camera_Interface.this);
-//                        }
-//                    });
 
                 } catch (FileNotFoundException e) {
                     e.getMessage();
@@ -284,9 +266,6 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                 if(receiptImages!=null) {
 
                     display.setAdapter(new ImageAdapter(this, receiptImages));
-
-
-
                 }
             }
         }
