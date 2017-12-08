@@ -84,6 +84,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
     List<String> receiptImages;
 
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    //name of our Path to store images
     public static final String Gallery_ImagePath = Environment.getExternalStorageDirectory()
             .getAbsolutePath() + "/Budget-Tracker/";
     @Override
@@ -120,15 +121,16 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
             captureButton.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
+        //Declare and Initializa an customized adapter to display images
         final ImageAdapter myAdapter = new ImageAdapter(this, receiptImages);
-
         imageView =(ImageView)findViewById(R.id.imageview);
         TypedArray a =obtainStyledAttributes(R.styleable.MyGallery);
         int itemBackground = a.getResourceId(R.styleable.
                 MyGallery_android_galleryItemBackground, 0);
         imageView.setBackgroundResource(itemBackground);
-
+        //set out adapter to hold ur gallery view
         display.setAdapter(myAdapter);
+        //make a clicklistner so when the user taps a photo the ImageView shows the image the user clicked
         display.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -137,7 +139,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(getBaseContext(),"Receipt" +" "+ (position + 1) + " Selected",
                         Toast.LENGTH_SHORT).show();
 
-
+                myAdapter.getView(position,view, null);
                 BitmapFactory.Options myOptions = new BitmapFactory.Options();
                 //disable dithering mode
                 myOptions.inDither = false;
@@ -162,7 +164,6 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                         imageView.setVisibility(View.VISIBLE);
                         imageView.setImageBitmap(myView);
                         imageView.setId(position);
-                        //sets backgropund to gray
 
                     }
                 }
@@ -171,7 +172,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                     e.printStackTrace();
                 }
 
-                
+
             }
         });
         if(receiptImages != null)
@@ -190,14 +191,10 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                 System.out.println("We are getting data from the database");
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);  //This instantiates this weeks budget
                 currentWeeksBudget.calculateTotal();
-
-                System.out.println("This is the current weeks start date: ");
-                System.out.println(currentWeeksBudget.getStartDate());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("You arent reDING CORRECTLTY");
             }
         } );
     }
@@ -218,7 +215,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
             }
         }
     }
-
+    //FireBase variables to upload our images
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mFireBaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
@@ -227,9 +224,11 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
     private String currentWeeksDate;
     private WeekLongBudget currentWeeksBudget;
 
-
+    //when the user clicks the camera button
+    //this code handles the way the image is take and proccessed
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        //Check is user accessed the and then check cropping function
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_CAPTURE)
             {
@@ -296,8 +295,10 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
             }
         }
     }
+    //Retrives images from the gallerypath
     private List<String> RetriveCapturedImagePath()
     {
+        //make a file to store pics from gallery path
         List <String> myImages = new ArrayList<String>();
         File myShots = new File(Gallery_ImagePath);
         if (myShots.exists()) {
@@ -305,7 +306,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
             Arrays.sort(files);
 
 
-            //currentWeeksBudget.clearImages();
+            //add images to the List of images
             for(int i=0; i<files.length; i++){
 
                 File file = files[i];
@@ -324,6 +325,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
         Context context;
         private List<String> galleryPhotos;
         int itemBackground;
+        //constructor for our customized adapter
         public ImageAdapter(Context c, List<String>Pictures)
         {
             context = c;
@@ -335,6 +337,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
             a.recycle();
 
         }
+        //methods generated which are part of the customizable adapter
         @Override
         public int getCount()
         {
@@ -357,8 +360,9 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
         }
 
         @Override
+        //thismethod sets our images in the gallery view and style
         public View getView(int position, View convertView, ViewGroup parent)
-        {
+        {   //options to use in order to set our bitmap to display images
             ImageView tView;
             BitmapFactory.Options myOptions = new BitmapFactory.Options();
             //disable dithering mode
@@ -367,6 +371,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
             myOptions.inPurgeable = true;
             myOptions.inInputShareable = true;
             myOptions.inTempStorage=new byte[32 * 1024];
+
             if (convertView == null)
             {
                 tView = new ImageView(context);
@@ -388,7 +393,7 @@ public class Camera_Interface extends AppCompatActivity implements View.OnClickL
                     myView = BitmapFactory.decodeFileDescriptor(images.getFD(), null, myOptions);
                     tView.setImageBitmap(myView);
                     tView.setId(position);
-                    tView.setLayoutParams(new Gallery.LayoutParams(500, 500));
+                    tView.setLayoutParams(new Gallery.LayoutParams(300, 300));
 
                     tView.setBackgroundResource(itemBackground);
                 }

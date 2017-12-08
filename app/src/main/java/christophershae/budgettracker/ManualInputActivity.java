@@ -1,5 +1,6 @@
 package christophershae.budgettracker;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -80,12 +81,12 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     Button Finish;
     Button deleteCategory;
     EditText edit_list;
-
+    String MyPREFERENCES;
     //ArrayAdapter to fill in spinner
     ArrayAdapter<CharSequence> adapter;
     List<CharSequence> EditMyList;
     Spinner spinner;
-    String get_text;
+    static String list = "Add a Category.....";
     //make an array
     public String [] Categories_list = {"Food" ,"Rent", "Gas", "Personal Items", "Household Items",
             "Groceries", "Entertainment"};
@@ -133,7 +134,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("You arent reDING CORRECTLTY");
+
             }
         });
 
@@ -182,17 +183,20 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                //set selectem items
-                //int spinnerPosition= spinner.getSelectedItemPosition();
 
-                if(spinner.getSelectedItem().toString().equals("Add a Category....."))
+                //Add item to the list only when this holds
+
+
+
+                if(spinner.getLastVisiblePosition() == spinner.getSelectedItemPosition())
                 {
                     createCat();
+
                 }
 
 
             }
-
+            //Do nothing here
             @Override
             public void onNothingSelected(AdapterView<?> parent)
             {
@@ -201,52 +205,67 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         });
 
     }
+/*-------------------------------------------------------------/
+    This Section of the Code Handles our ListView Methods
+--------------------------------------------------------------*/
+
     //save listview data
-    protected void SavePreferences(String key, String value, boolean x) {
-        //
+    protected void SavePreferences(String key, String value, boolean whichAction) {
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
 
         String s=data.getString(key,""); //to fetch previous stored values
 
-        s=s+"!"+value;   //to add new value to previous one
-        if(!x) {
-            data.edit().putString(key, s).commit();
+        s=s+"!"+value;//to add new value to previous one
+        if(whichAction == false) {
+            data.edit().putString(key, s).apply();
         }
-        if(x){
-            data.edit().remove(key).commit();
+        if(whichAction == true){
+            data.edit().remove(key).apply();
         }
-    }
 
+    }
 
     //load listview data
     protected void LoadPreferences(){
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-        String dataSet = data.getString("List","Add a Category....." );
-            adapter.remove("Add a Category.....");
+        String dataSet = data.getString("List", list );
+
+
 
         if(dataSet.contains("!")){ //to check if previous items are there or not
 
             String rows[]=dataSet.split("!"); //to get individual rows of list
 
-            for(int i=1;i<rows.length;i++){
-                adapter.add(rows[i]);   //to add each value to the list
+            for(int i=1;i<rows.length;i++) {
+
+
+                adapter.add(rows[i]);//to add each value to the list
                 adapter.notifyDataSetChanged();
             }
+                if(spinner.getSelectedItem().toString().equals(list))
+                {
+                    //adapter.remove(list);
+                    adapter.notifyDataSetChanged();
+
+
+
+                }
+
         } else{
             adapter.add(dataSet);
             adapter.notifyDataSetChanged();
         }
     }
     //method to add a category
-    public void addCategory(String cat){
+    public void addCategory( String cat){
         //check if input is empty or contains strings
         if(!cat.isEmpty() && cat.length() > 0)
         {
            adapter.add(cat);
-           //refresh data
-           adapter.notifyDataSetChanged();
-//           edit_list.setText("");
-           SavePreferences("List", cat, false);
+
+            //refresh data
+            adapter.notifyDataSetChanged();
+            SavePreferences("List", cat, false);
         }
         else
         {
@@ -254,20 +273,19 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         }
     }
     //method to delete
-    public void delete(int pos, String deleteVal )
+    public void delete(int pos)
     {
-        //cat = edit_list.getText().toString();
-
-        //get the postion selected
-        //pos = spinner.getSelectedItemPosition();
-        //user has selected a category if >-1
+        //if something is choosen then delete
         if(pos > -1)
         {
             adapter.remove(EditMyList.get(pos));
             Toast.makeText(ManualInputActivity.this, "Category Deleted", Toast.LENGTH_LONG).show();
             adapter.notifyDataSetChanged();
-  //          edit_list.setText("");
-            SavePreferences("List", deleteVal, true);
+            SavePreferences("List",String.valueOf(pos) , true);
+
+
+
+
         }
         else
         {
@@ -275,38 +293,62 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    //This Code handles the creation of the alert dialog to add a new category
+    public void createCat()
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        final EditText incomeInput = new EditText(this);
+        incomeInput.setHint("New Category");
+        alertDialogBuilder.setView(incomeInput);
+
+        alertDialogBuilder.setTitle("Create New Category");
+        alertDialogBuilder.setPositiveButton("Create",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1)
+                    {
+                        String newCat = incomeInput.getText().toString();
+                        addCategory(newCat);
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1)
+            {
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+
+    }
 
     @Override
+    //create onClick method to make changes when user clicks buttons
     public void onClick(View v)
     {
         switch (v.getId())
         {
             case finishAddingItemsToBudget:
-                //testUser.getMap().get("10292017").getAmountForEachCategory();
-                //System.out.println(testUser.getMap().get("10292017").getTotalAmountOfMoneySpent());
-     //           load();
+
                 finish();
                 break;
             case DeleteB:
 
-                /*ArrayList<String> itemNames = new ArrayList<>();
-                for(String item: EditMyList){
-                    itemNames.add(item);
-                }*/
 
+               //Declare and initialize Alert Dialog
                 final AlertDialog.Builder deleteAlert = new AlertDialog.Builder(this);
-                deleteAlert.setTitle("Select an Category to delete:");
+                deleteAlert.setTitle("Select A Category To Delete");
                 deleteAlert.setSingleChoiceItems(EditMyList.toArray(new CharSequence[EditMyList.size()]),0, null);
                 deleteAlert.setPositiveButton("Delete",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1)
                             {
-
                                 int deletedCat = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
                                 //insert delete code
-                                String deleteCat = String.valueOf(deletedCat);
-                                delete(deletedCat, deleteCat);
+                                delete(deletedCat);
                             }
                         });
 
@@ -341,7 +383,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //Creating a class for a single list element
     private class ListElement
     {
-        ListElement() {};
 
         //Constructor for the list element
         ListElement(String nl, String pl, String cat) {
@@ -458,17 +499,16 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         newItemDate = dateEntry.getText().toString();
         newItemDate = newItemDate.replace("/","");
 
-        System.out.println("The user inputted the price as: "+newItemPrice);
 
         //Creating a new Item object and setting the price and name
         Item newItem = new Item(newItemName);
         newItem.setPrice(Double.valueOf(newItemPrice));
-        System.out.println("This item costs: "+newItem.getPrice());
+
 
         //Getting the category from the spinner
         newItemCategory = spinner.getSelectedItem().toString();
         newItem.setCategory(newItemCategory);
-        System.out.println(newItemCategory);   //debugging function
+
 
         //Setting the date the object was purchased to the current date
         //newItemDate = sdf.format(new Date());
@@ -510,7 +550,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         //If the budget week for the current item is null, then we create a new WeekLongbudget
         if(usersBudgets.get(date) == null){
-            System.out.println("Creating new week");
             WeekLongBudget newWeek = new WeekLongBudget(date);
             return newWeek;
         } else{
@@ -578,37 +617,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
     private void toastMessage(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-    }
-
-    public void createCat()
-    {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        final EditText incomeInput = new EditText(this);
-        incomeInput.setHint("New Category");
-        alertDialogBuilder.setView(incomeInput);
-
-        alertDialogBuilder.setTitle("Create New Category");
-        alertDialogBuilder.setPositiveButton("Create",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1)
-                    {
-                        String newCat = incomeInput.getText().toString();
-                        addCategory(newCat);
-                    }
-                });
-
-        alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1)
-            {
-            }
-        });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-
-        //lets the user know their category was added
-        Toast.makeText(ManualInputActivity.this, "Category Added", Toast.LENGTH_LONG).show();
     }
 
 }
