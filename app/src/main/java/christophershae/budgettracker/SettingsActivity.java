@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.renderscript.ScriptGroup;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -212,7 +213,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         final EditText incomeInput = new EditText(this);
         incomeInput.setHint("Weekly Income");
-        incomeInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        incomeInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL |
+                                    InputType.TYPE_NUMBER_FLAG_SIGNED);
         alertDialogBuilder.setView(incomeInput);
 
         alertDialogBuilder.setTitle("Set this week's income!");
