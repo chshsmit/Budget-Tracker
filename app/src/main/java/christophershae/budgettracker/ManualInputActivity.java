@@ -525,6 +525,9 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         currentItemsAddedToList.add(new ListElement(newItemName, newItemPrice, newItemCategory));
         aa.notifyDataSetChanged();
 
+        nameEntry.getText().clear();
+        priceEntry.getText().clear();
+
     }
 
 
