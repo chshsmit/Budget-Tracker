@@ -108,12 +108,14 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
     {
         private DecimalFormat mFormat;
 
-        public MyYAxisValueFormatter() {
+        public MyYAxisValueFormatter()
+        {
             // Formats values to 1 decimal digit
             mFormat = new DecimalFormat("###,###,##0.0");
         }
         @Override
-        public String getFormattedValue(float value, AxisBase axis) {
+        public String getFormattedValue(float value, AxisBase axis)
+        {
             // "value" represents the position of the label on the axis (x or y)
             return "$" + mFormat.format(value);
         }
@@ -266,7 +268,10 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
 
         // Disables the legend
         Legend legend = barGraph.getLegend();
-        legend.setEnabled(false);
+//        legend.setEnabled(false);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
 
         // Sets and formats the data set prepared for the bar graph
         BarData data = new BarData(dataSet);
