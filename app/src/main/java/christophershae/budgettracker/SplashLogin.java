@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 
 public class SplashLogin extends AppCompatActivity
 {
+//splash for coldstart without logged in
+public class SplashLogin extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)

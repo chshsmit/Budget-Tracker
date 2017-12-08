@@ -39,7 +39,6 @@ import java.util.Map;
 
 public class MainBudgetScreen extends AppCompatActivity
 {
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
