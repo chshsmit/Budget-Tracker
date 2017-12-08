@@ -88,9 +88,25 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //make an array
     public String [] Categories_list = {"Food" ,"Rent", "Gas", "Personal Items", "Household Items",
             "Groceries", "Entertainment"};
+
+    public ArrayList<String> myCategories = new ArrayList<>();
     //----------------------------------------------------------------------------------------
     //This code has all the functions that need to be overridden
     //----------------------------------------------------------------------------------------
+
+    public void addInitialCategories(){
+
+
+        myCategories.add("Food");
+        myCategories.add("Rent");
+        myCategories.add("Gas");
+        myCategories.add("Personal Items");
+        myCategories.add("Household Items");
+        myCategories.add("Groceries");
+        myCategories.add("Entertainment");
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -109,6 +125,9 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 onBackPressed();
             }
         });
+
+        addInitialCategories();
+
 
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
@@ -176,12 +195,14 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         deleteCategory.setOnClickListener(this);
         //define edittext
         //edit_list = (EditText) findViewById(R.id.text_editlist);
+
         //define list
-        EditMyList = new ArrayList<CharSequence>(Arrays.<CharSequence>asList(Categories_list));
+        CharSequence[] myCatsCharSequence = myCategories.toArray(new CharSequence[myCategories.size()]);
 
-
+        EditMyList = new ArrayList<CharSequence>(Arrays.<CharSequence>asList(myCatsCharSequence));
         adapter =  new ArrayAdapter<CharSequence>(ManualInputActivity.this,R.layout.dropdown_editlist,
                 EditMyList);
+
         //specify layout for now basic later on design it better
         adapter.setDropDownViewResource(R.layout.dropdown_editlist);
         //apply the adapter create list to the Spinner(drop down list)
@@ -622,5 +643,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //lets the user know their category was added
         Utils.toastMessage("Category Added", this);
     }
+
 
 }
