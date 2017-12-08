@@ -14,22 +14,24 @@ import static christophershae.budgettracker.R.string.finish;
 
 public class WeekLongBudget {
 
+
+    //---------------------------------------------------------------------------------------------
+    // Global Variables
+    //---------------------------------------------------------------------------------------------
+
     public ArrayList<Item> allItems = new ArrayList<>();
     public Map<String, Double> costOfAllCategories;
-
-    public List<Bitmap> myImages = new ArrayList<>();
-    //public Map<String, Double> amountForEachCategory;
-    //public double totalAmountOfMoneySpent;
-
     public double totalAmountSpent;
     public double goalTotal;
     public double totalIncomeAccumulated;
-
     public int photoCounter;
-
     public double netIncome;
-
     public String startDate;
+
+
+    //---------------------------------------------------------------------------------------------
+    // Constructors
+    //---------------------------------------------------------------------------------------------
 
     public WeekLongBudget(){}
 
@@ -41,6 +43,10 @@ public class WeekLongBudget {
         this.photoCounter = 0;
         this.costOfAllCategories = new HashMap<>();
     }
+
+    //---------------------------------------------------------------------------------------------
+    //Functions that deal with adding and removing items to the budget
+    //---------------------------------------------------------------------------------------------
 
 
     public void addItem(Item item)
@@ -58,15 +64,11 @@ public class WeekLongBudget {
         this.allItems.remove(index);
 
 
-
         calculateTotal();
     }
 
-    public void addImageToList(Bitmap image)
-    {
-        myImages.add(image);
-    }
 
+    //This calculates the total amount of money spent
     public void calculateTotal()
     {
         this.totalAmountSpent = 0;
@@ -99,11 +101,6 @@ public class WeekLongBudget {
         this.netIncome = Math.round((this.totalIncomeAccumulated - this.totalAmountSpent) * 100.00) / 100.00;
     }
 
-    public void clearImages()
-    {
-        this.myImages.clear();
-    }
-
     public void increasePhotoCount()
     {
         this.photoCounter += 1;
@@ -128,33 +125,39 @@ public class WeekLongBudget {
 
     public int getPhotoCounter(){ return this.photoCounter;}
 
-    public Map<String, Double> getCostOfAllCategories()
-    {
-
-        if(this.costOfAllCategories == null) {this.costOfAllCategories = new HashMap<>();}
-
-        this.costOfAllCategories.clear();
-        //System.out.println(this.costOfAllCategories.containsKey("Food"));
-        double newPrice;
-        for(Item item: allItems){
-            if(item == null) break;
-            newPrice = 0.00;
-            if(this.costOfAllCategories.containsKey(item.category)){
-                newPrice = Math.round((item.getPrice() + this.costOfAllCategories.get(item.category)) * 100.00) / 100.00;
-                this.costOfAllCategories.put(item.category, newPrice);
-                //System.out.println("You have a total of $"+newPrice+" spent in the category "+item.category);
-            } else {
-                this.costOfAllCategories.put(item.category, item.getPrice());
-                //System.out.println("You have a total of $"+item.getPrice()+" spent in the category "+item.category);
-            }
-        }
-
-        return this.costOfAllCategories;
-    }
-
     public String getStartDate(){return this.startDate;}
 
     public ArrayList<Item> getAllItems(){return this.allItems;}
+
+
+    public Map<String, Double> getCostOfAllCategories()
+    {
+
+        //If the current cost of all categories is null then create a new hashmap
+        if(this.costOfAllCategories == null) {this.costOfAllCategories = new HashMap<>();}
+
+        //Clear the hashmap to recalculate totals
+        this.costOfAllCategories.clear();
+
+        //New variable for new price to be inserted into map
+        double newPrice;
+
+        //Loop through all items that have been added to the budget
+        for(Item item: allItems){
+            if(item == null) break;  //When we reach a null item when can end the loop
+            newPrice = 0.00;
+            if(this.costOfAllCategories.containsKey(item.category))    //If the category aready exists, then add the price to the current price
+            {
+                newPrice = Math.round((item.getPrice() + this.costOfAllCategories.get(item.category)) * 100.00) / 100.00;
+                this.costOfAllCategories.put(item.category, newPrice);
+            } else {
+                this.costOfAllCategories.put(item.category, item.getPrice());   //Else the price for that category is the price of that item
+            }
+        }
+
+        return this.costOfAllCategories;     //Return the hashmap
+    }
+
 
 
 
