@@ -7,8 +7,6 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LegendEntry;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -38,12 +36,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Date;
 import java.util.Map;
 
-import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
-import static java.lang.Boolean.FALSE;
-import static java.lang.Float.NaN;
-
 public class BudgetDetailsBarGraph extends AppCompatActivity
 {
+    //----------------------------------------------------------------------------------------------------------------------------------------
+    // Initialization of global variables
+    //----------------------------------------------------------------------------------------------------------------------------------------
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mFireBaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
@@ -54,22 +51,13 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
     private String prevWeeksDate;
     private Date prevDate;
     private WeekLongBudget currentWeeksBudget;
-    private ArrayList<WeekLongBudget> allWeekBudgets = new ArrayList<WeekLongBudget>();
-    private ArrayList<String> allWeeks = new ArrayList<String>();   //for x-axis values
+    private ArrayList<WeekLongBudget> allWeekBudgets = new ArrayList<>();
+    private ArrayList<String> allWeeks = new ArrayList<>();   //for x-axis values
     BarChart barGraph;
 
-    // Reinitialize data arrays when new data is appended, since arrays are immutable
-    // (defunct, only meant for testing now)
-    public float[] addStackedData(float[] barData, float newData)
-    {
-        float[] newBarData = new float[barData.length + 1];
-
-        for (int i = 0; i < barData.length; i++) {
-            newBarData[i] = barData[i];
-        }
-        newBarData[barData.length] = newData;
-        return newBarData;
-    }
+    //----------------------------------------------------------------------------------------------------------------------------------------
+    // Utility functions for bar graph
+    //----------------------------------------------------------------------------------------------------------------------------------------
 
     // Reformats display of expenses on top of each stacked bar
     public class StackedValueFormatter implements IValueFormatter
@@ -79,7 +67,6 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         private DecimalFormat mFormat;
 
         public StackedValueFormatter(boolean drawWholeStack, String appendix, int decimals)
-//        public StackedValueFormatter(boolean drawWholeStack, String appendix, int decimals, String[] labels)
         {
             this.mDrawWholeStack = drawWholeStack;
             this.mAppendix = appendix;
@@ -101,12 +88,9 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
                 float[] vals = barEntry.getYVals();
                 if (vals != null) {
 
-                    // find out if we are on top of the stack
+                    // Find out if we are on top of the stack
                     if (vals[vals.length - 1] == value)
                     {
-                        // return the "sum" across all stack values
-//                        return  mAppendix + mFormat.format(value) + " (TOTAL: " +
-//                                mAppendix + mFormat.format(barEntry.getY()) + ")";
                         return  mAppendix + mFormat.format(value) + " [" +
                                 mAppendix + mFormat.format(barEntry.getY()) + "]";
                     } else {
@@ -114,7 +98,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
                     }
                 }
             }
-            // return the "proposed" value
+            // Return the "proposed" value
             return mAppendix + mFormat.format(value);
         }
     }
@@ -125,7 +109,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         private DecimalFormat mFormat;
 
         public MyYAxisValueFormatter() {
-            // format values to 1 decimal digit
+            // Formats values to 1 decimal digit
             mFormat = new DecimalFormat("###,###,##0.0");
         }
         @Override
@@ -133,30 +117,25 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
             // "value" represents the position of the label on the axis (x or y)
             return "$" + mFormat.format(value);
         }
-        /** this is only needed if numbers are returned, else return 0 */
-//        @Override
-//        public int getDecimalDigits() { return 1; }
     }
 
-    // Reformats date strings to mm/dd/yyyy
+    // Reformats date strings to mm/dd to save space on x-axis
     public String formatDateLabel(String date)
     {
         String month = new StringBuilder().append(date.charAt(0)).append(date.charAt(1)).toString();
         String day = new StringBuilder().append(date.charAt(2)).append(date.charAt(3)).toString();
-        String year = new StringBuilder().append(date.charAt(4)).append(date.charAt(5))
-                                          .append(date.charAt(6)).append(date.charAt(7)).toString();
-
-//        return month + "/" + day + "/" + year;
         return month + "/" + day;
     }
 
+    //----------------------------------------------------------------------------------------------------------------------------------------
+    // Firebase integration to link data to bar graph in real-time
+    //----------------------------------------------------------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget_details_bar_graph);
 
-        // Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = Utils.getDatabase();
         mFireBaseDatabase = mFirebaseInstance.getReference("users");
@@ -168,18 +147,20 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("We are getting data from the database");
+                System.out.println("We are getting data from the database.");
 
                 // Instantiates current week's budget
                 currentWeeksDate = Utils.decrementDate(new Date()); //get the current week's index
-                allWeeks.add(formatDateLabel(currentWeeksDate));
+                allWeeks.add(formatDateLabel(currentWeeksDate));    //get the week as a string for x-axis labels
+
+                // Attain Firebase data for current week
                 currentWeeksBudget = dataSnapshot.child(userId).child(currentWeeksDate).getValue(WeekLongBudget.class);
-                allWeekBudgets.add(currentWeeksBudget);
+                allWeekBudgets.add(currentWeeksBudget);       //keep track of this week's data for use
                 System.out.println("The current week is: ");
                 System.out.println(allWeekBudgets.get(0).getStartDate());
                 System.out.println("--------------------------------------------------------");
 
-                // Instantiates all previous weeks' budgets as recorded on Firebase
+                // Instantiates the previous week's budget as recorded on Firebase
                 prevDate = Utils.prevDate(new Date());
                 prevWeeksDate = Utils.convertDate(prevDate);
 
@@ -192,6 +173,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
                     System.out.println("The week of " + prevWeeksDate + " does not exist!");
                 }
 
+                // Instantiates the all other previous weeks' budgets up until the first recorded week
                 int i = 1;
                 while (dataSnapshot.child(userId).child(prevWeeksDate).getValue(WeekLongBudget.class) != null)
                 {
@@ -203,7 +185,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
                     prevWeeksDate = Utils.convertDate(prevDate);
                     i++;
 
-                     //What about the next previous?
+                    //What about the next previous?
                     if (dataSnapshot.child(userId).child(prevWeeksDate).getValue(WeekLongBudget.class) != null) {
                         System.out.println("The week of " + prevWeeksDate + " actually exists!");
                         allWeeks.add(formatDateLabel(prevWeeksDate));
@@ -213,11 +195,8 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
                     }
                 }
 
-                for(int x = 0; x < allWeeks.size(); x++) {
-                    System.out.println(allWeeks.get(x));
-                }
-
-                barGraph = (BarChart) findViewById(R.id.barGraph);
+                // Start setting up the bar graph itself
+                barGraph = findViewById(R.id.barGraph);
 
                 Description description = new Description();
                 description.setText("Expenses per week");
@@ -225,7 +204,7 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
                 description.setTextSize(16);
                 description.setPosition(970,50);
 
-                addDataSet(barGraph); //create actual bar graph
+                addDataSet(barGraph); //create actual bar graph with data attained from Firebase
             }
 
             @Override
@@ -244,55 +223,40 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         }
     }
 
-    // If there exists (category) data from a week, add it to bar graph
+    //----------------------------------------------------------------------------------------------------------------------------------------
+    // Attains all data stored in every week on Firebase and creates the whole bar graph
+    //----------------------------------------------------------------------------------------------------------------------------------------
     private void addDataSet(BarChart barGraph)
     {
         List<BarEntry> barEntries = new ArrayList<>();
-        List<LegendEntry> legendLabels = new ArrayList<>();
 
         float pos = 0f;    //determines bar positioning for each week (in correct order)
         for (int i = allWeekBudgets.size() - 1; i >= 0; i--) {
-//            float[] barData = new float[]{}; //create new bar for each week checked
-            ArrayList<Float> stackData = new ArrayList<Float>();   // convert to array when fully populated with stacked bars
-            ArrayList<String> stackLabels = new ArrayList<String>(); //holds each category's name
+            ArrayList<Float> stackData = new ArrayList<>();   //convert to array when fully populated with stacked bars
+            ArrayList<String> stackLabels = new ArrayList<>(); //holds each category's name
 
-            // Really important that you check if the currently checked week has null entries later!
+            // Checks if the currently checked week has null entries
             if(allWeekBudgets.get(i).costOfAllCategories == null) return;
+
+            // Extract specific data from each category from each recorded week
             for (Map.Entry<String, Double> entry : allWeekBudgets.get(i).costOfAllCategories.entrySet()) {
                 BigDecimal number = new BigDecimal(entry.getValue());
-                float myFloat = number.floatValue();
+                float myFloat = number.floatValue();                   //get total category expenses
                 if (myFloat != 0.00) {
-//                    barData = addStackedData(barData, myFloat); //add new data (for testing only)
-//                    barEntries.add(new BarEntry(pos, barData));
-                    stackData.add(myFloat);
-                    stackLabels.add(entry.getKey());
-//                    stackData.add(24f);
-//                    legendLabels.add(new LegendEntry(entry.getKey(), Legend.LegendForm.DEFAULT, NaN, NaN,
-//                            null, ColorTemplate.COLORFUL_COLORS[l]));
+                    stackData.add(myFloat);                            //prepare a new stacked bar for the week
+                    stackLabels.add(entry.getKey());                   //get category name
                 }
-                /* Convert Arraylist to float array */
+                // Convert Arraylist to float array for API requirements
                 float[] barData = new float[stackData.size()];
                 int j = 0;
                 for (Float f : stackData) {
                     barData[j] = (f != null ? f : stackData.get(j));
                     j++;
                 }
-                barEntries.add(new BarEntry(pos, barData));
+                barEntries.add(new BarEntry(pos, barData));  //prepare entire bar with all categories accounted for
             }
-            System.out.println(stackLabels);
-            pos++;
+            pos++;      //iterate through positions of all week bars
         }
-        // Creates example bars
-//        ArrayList<Float> floatList = new ArrayList<Float>();
-//        floatList.add(24f);
-//        floatList.add(156f);
-//        float[] barData = new float[floatList.size()];
-//        for (int j = 0; j < floatList.size(); j++) {
-//            barData[j] = floatList.get(j);
-//        }
-//        System.out.println(floatList);
-//        barEntries.add(new BarEntry(0F, barData));
-//        barEntries.add(new BarEntry(1F, new float[]{57f, 145f, 230f}));
 
         // Creates the data set for the bar graph
         BarDataSet dataSet = new BarDataSet(barEntries, "BarDataSet");
@@ -300,13 +264,11 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         // Sets a different color for each category stack
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
-        // Creates the legend
+        // Disables the legend
         Legend legend = barGraph.getLegend();
-        legend.setCustom(legendLabels);
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        legend.setEnabled(false);
 
+        // Sets and formats the data set prepared for the bar graph
         BarData data = new BarData(dataSet);
         data.setValueFormatter(new StackedValueFormatter(false, "$", 2)); //reformat bar data
         data.setBarWidth(0.9f); //set custom bar width
@@ -329,14 +291,5 @@ public class BudgetDetailsBarGraph extends AppCompatActivity
         YAxis yRight = barGraph.getAxisRight();
         yLeft.setValueFormatter(new MyYAxisValueFormatter());
         yRight.setValueFormatter(new MyYAxisValueFormatter());
-
-        // Defines budget cap limit line (for perhaps each week?) [defunct until further work]
-//        YAxis leftAxis = barGraph.getAxisLeft();
-//        LimitLine ll = new LimitLine(230f, "WEEKLY BUDGET CAP EXCEEDED!");
-//        ll.setLineColor(Color.RED);
-//        ll.setLineWidth(4f);
-//        ll.setTextColor(Color.BLACK);
-//        ll.setTextSize(12f);
-//        leftAxis.addLimitLine(ll);
     }
 }

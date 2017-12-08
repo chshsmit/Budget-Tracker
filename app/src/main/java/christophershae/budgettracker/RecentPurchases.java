@@ -12,20 +12,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
+//----------------------------------------------------------------------------------------------------------------------------------------
+// Creates a listview display of all recently added items without exiting MainBudgetScreen
+//----------------------------------------------------------------------------------------------------------------------------------------
 public class RecentPurchases extends AppCompatActivity {
-
-//-------------------------------------------------------------------------
-
-
-    //Global variables for the item price, name, and date
-    public String newItemName;
-    public String newItemPrice;
-    public String newItemDate;
-    public String newItemCategory;
-    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy, EEEE");
-//-------------------------------------------------------------------------
-
-
     private static final String TAG = "*** Popup Debugger ***";
 
     @Override
@@ -33,6 +23,7 @@ public class RecentPurchases extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_window);
 
+        // Formats popup window display
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
@@ -46,13 +37,10 @@ public class RecentPurchases extends AppCompatActivity {
         ArrayList<Item> recentItemList = (ArrayList<Item>) recentItemBundle.getSerializable("ARRAYLIST");
 
         Log.d(TAG, "onCreate: Started.");
-        ListView mListView = (ListView) findViewById(R.id.listView);
+        ListView mListView = findViewById(R.id.listView);
 
-
-
-
+        // Sets extracted Firebase data for all items added into the current week
         ItemListAdapter adapter = new ItemListAdapter(this, R.layout.adapter_view_layout, recentItemList);
         mListView.setAdapter(adapter);
-
     }
 }
