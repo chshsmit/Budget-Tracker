@@ -60,6 +60,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
 
     public void addInitialCategories(){
+        myCategories.add("Add a Category.....");
         myCategories.add("Rent");
         myCategories.add("Food");
         myCategories.add("Gas");
@@ -67,7 +68,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         myCategories.add("Household Items");
         myCategories.add("Groceries");
         myCategories.add("Entertainment");
-        myCategories.add("Add a Category.....");
     }
 
 
@@ -222,6 +222,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         adapter.setDropDownViewResource(R.layout.dropdown_editlist);
         //apply the adapter create list to the Spinner(drop down list)
         spinner.setAdapter(adapter);
+        spinner.setSelection(2);
         //LoadPreferences();
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -267,6 +268,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
                         mFireBaseDatabase.child(userId).child("categories").setValue(myCategories);
                         System.out.println("created New");
+                        //lets the user know their category was added
+                        Utils.toastMessage("Category Added", ManualInputActivity.this);
                         //addCategory(newCat);
                     }
                 });
@@ -280,8 +283,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
 
-        //lets the user know their category was added
-        Utils.toastMessage("Category Added", this);
+
     }
 
     //----------------------------------------------------------------------------------------
