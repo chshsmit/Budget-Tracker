@@ -122,12 +122,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 System.out.println("You arent reDING CORRECTLTY");
             }
         });
-
-
-
-        System.out.println("The current user ID is: " +userId);
-
-
         //Instantiating the adapter for the listview
         currentItemsAddedToList = new ArrayList<ListElement>();
         aa = new MyAdapter(this, R.layout.manually_input_list_element, currentItemsAddedToList);
@@ -252,8 +246,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             Toast.makeText(ManualInputActivity.this, "Nothing to Delete", Toast.LENGTH_LONG).show();
         }
     }
-
-
     @Override
     public void onClick(View v)
     {
@@ -265,9 +257,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 Toast.makeText(ManualInputActivity.this, "Category Added", Toast.LENGTH_LONG).show();
                 break;
             case finishAddingItemsToBudget:
-                //testUser.getMap().get("10292017").getAmountForEachCategory();
-                //System.out.println(testUser.getMap().get("10292017").getTotalAmountOfMoneySpent());
-     //           load();
+
                 finish();
                 break;
             case DeleteB:
@@ -432,10 +422,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-
-
-
-
     //Retrieving the correct weeklong budget object to store the new item in
     public WeekLongBudget getWeek(String date)
     {
@@ -449,9 +435,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         {
             e.printStackTrace();
         }
-
-
-        System.out.println("The list is indexed by "+date);
 
         //If the budget week for the current item is null, then we create a new WeekLongbudget
         if(usersBudgets.get(date) == null){
