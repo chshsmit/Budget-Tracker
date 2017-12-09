@@ -1,5 +1,5 @@
 package christophershae.budgettracker;
-
+//imports of all neccessary utilities and libraries
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,35 +15,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-
-import static android.R.attr.category;
 import static christophershae.budgettracker.R.id.DeleteB;
-import static christophershae.budgettracker.R.id.addItemToBudget;
-//import static christophershae.budgettracker.R.id.item;
 import static christophershae.budgettracker.R.id.itemNameView;
-import static christophershae.budgettracker.R.id.snap;
-import static java.security.AccessController.getContext;
 import android.content.Intent;
 import android.widget.Spinner;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -52,40 +38,41 @@ import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
-
 
 import static christophershae.budgettracker.R.id.finishAddingItemsToBudget;
-
-
 public class ManualInputActivity extends AppCompatActivity implements View.OnClickListener {
-
-
+    //set up fire base private variables to get user information
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mFireBaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private String userId;
 
-
+    //Global variables for the item price, name, date, and category
+    //Global variables for the item price, name, date, adnd category
+    public String newItemName;
+    public String newItemPrice;
+    public String newItemDate;
+    public String newItemCategory;
+    //public String newDate;
+    SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");    //This is the format we want our date string to be in
+    SimpleDateFormat slashedDate = new SimpleDateFormat("MM/dd/yyyy");
+    //Instantiating the edit text views
+    EditText nameEntry;
+    EditText priceEntry;
+    EditText dateEntry;
+    //users budget
     Map<String, WeekLongBudget> usersBudgets = new HashMap<>();
-
-
     //Buttons for the interface
-    Button Add;
     Button Finish;
     Button deleteCategory;
-    EditText edit_list;
 
     //ArrayAdapter to fill in spinner
     ArrayAdapter<CharSequence> adapter;
     List<CharSequence> EditMyList;
     Spinner spinner;
-    String get_text;
-    //make an array
+    //make an array to store our categories
     public String [] Categories_list = {"Food" ,"Rent", "Gas", "Personal Items", "Household Items",
 
             "Groceries", "Entertainment"};
@@ -96,9 +83,8 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //This code has all the functions that need to be overridden
     //----------------------------------------------------------------------------------------
 
-
-
     @Override
+    //set up firebase and set up input fields
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -140,7 +126,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                     try{
                         usersBudgets.put(snapshot.getKey(),snapshot.getValue(WeekLongBudget.class));
                     }catch(DatabaseException e){
-                        System.out.println("This is where the photocount is");
                         continue;
                     }
 
@@ -153,17 +138,12 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-
-
-        System.out.println("The current user ID is: " +userId);
-        System.out.println(usersBudgets.isEmpty());
-
-
         //Instantiating the adapter for the listview
         currentItemsAddedToList = new ArrayList<ListElement>();
         aa = new MyAdapter(this, R.layout.manually_input_list_element, currentItemsAddedToList);
         ListView myListView = (ListView) findViewById(R.id.itemsAddedToBudgetAlready);
         myListView.setAdapter(aa);
+        //refresh the data in the listview
         aa.notifyDataSetChanged();
 
         //Edit texts for the price and name entry
@@ -171,7 +151,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         nameEntry = (EditText) findViewById(R.id.itemNameEntry);
         dateEntry = (EditText) findViewById(R.id.setDate);
         dateEntry.setText(slashedDate.format(new Date()));
-
 
         //create drop down menu to view the categories of expenses
         //Define spinner from xml file
@@ -188,6 +167,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         //define list
         EditMyList = new ArrayList<CharSequence>(Arrays.<CharSequence>asList(Categories_list));
+
         adapter =  new ArrayAdapter<CharSequence>(ManualInputActivity.this,R.layout.dropdown_editlist,
                 EditMyList);
 
@@ -195,33 +175,29 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         adapter.setDropDownViewResource(R.layout.dropdown_editlist);
         //apply the adapter create list to the Spinner(drop down list)
         spinner.setAdapter(adapter);
+        //this method load our data from the spinner when onCreate happens
         LoadPreferences();
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
+            //set up the click listener for the spinner
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                //set selectem items
-                //int spinnerPosition= spinner.getSelectedItemPosition();
-
+            {//set selectem items
                 if(spinner.getSelectedItem().toString().equals("Add a Category....."))
                 {
                     createCat();
                 }
-
-
             }
-
+            //do nothing here
             @Override
             public void onNothingSelected(AdapterView<?> parent)
             {
-
+                //this function does nothing
             }
         });
-
     }
     //save listview data
     protected void SavePreferences(String key, String value, boolean x) {
-        //
+
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
 
         String s=data.getString(key,""); //to fetch previous stored values
@@ -234,8 +210,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             data.edit().remove(key).commit();
         }
     }
-
-
     //load listview data
     protected void LoadPreferences(){
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
@@ -256,7 +230,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     }
     //method to add a category
     public void addCategory(String cat){
-
+        //check if user picks the Add Category choice is so just return
         if(cat.equals("Add a Category....."))
         {
             return;
@@ -268,7 +242,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
            adapter.add(cat);
            //refresh data
            adapter.notifyDataSetChanged();
-//           edit_list.setText("");
            SavePreferences("List", cat, false);
         }
         else
@@ -279,17 +252,11 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //method to delete
     public void delete(int pos, String deleteVal )
     {
-        //cat = edit_list.getText().toString();
-
-        //get the postion selected
-        //pos = spinner.getSelectedItemPosition();
-        //user has selected a category if >-1
         if(pos > -1)
         {
             adapter.remove(EditMyList.get(pos));
             Utils.toastMessage("Category Deleted", this);
             adapter.notifyDataSetChanged();
-  //          edit_list.setText("");
             SavePreferences("List", deleteVal, true);
         }
         else
@@ -297,27 +264,21 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             Utils.toastMessage("Nothing to Delete", this);
         }
     }
-
-
+   
+    //set up response to click on buttons
     @Override
     public void onClick(View v)
     {
         switch (v.getId())
-        {
+        {//when this happens user is returned to mainbudget screen
             case finishAddingItemsToBudget:
-                //testUser.getMap().get("10292017").getAmountForEachCategory();
-                //System.out.println(testUser.getMap().get("10292017").getTotalAmountOfMoneySpent());
-     //           load();
                 finish();
                 break;
+             //deletes a cetegory from the list
             case DeleteB:
-
-                /*ArrayList<String> itemNames = new ArrayList<>();
-                for(String item: EditMyList){
-                    itemNames.add(item);
-                }*/
-
+                //create a dialog box to delete items from category list
                 final AlertDialog.Builder deleteAlert = new AlertDialog.Builder(this);
+                //set title, contents and delete option in alert dialog box
                 deleteAlert.setTitle("Select an Category to delete:");
                 deleteAlert.setSingleChoiceItems(EditMyList.toArray(new CharSequence[EditMyList.size()]),0, null);
                 deleteAlert.setPositiveButton("Delete",
@@ -325,38 +286,26 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                             @Override
                             public void onClick(DialogInterface arg0, int arg1)
                             {
-
                                 int deletedCat = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
-                                //insert delete code
                                 String deleteCat = String.valueOf(deletedCat);
                                 delete(deletedCat, deleteCat);
                             }
                         });
-
+                //set the cancel option in the dialog box
                 deleteAlert.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1)
                     {
                     }
                 });
-
                 AlertDialog deleteAlertDiag = deleteAlert.create();
                 deleteAlertDiag.show();
-
-
-
-
-
-                 break;
+                break;
         }
-
     }
-
-
     //----------------------------------------------------------------------------------------
     //This code handles the generation of the list view
     //----------------------------------------------------------------------------------------
-
     //Instantiating the list and its adapter
     ArrayList<ListElement> currentItemsAddedToList;
     private MyAdapter aa;
@@ -364,7 +313,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //Creating a class for a single list element
     private class ListElement
     {
-        ListElement() {};
 
         //Constructor for the list element
         ListElement(String nl, String pl, String cat) {
@@ -373,21 +321,16 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             category = cat;
 
         }
-
         //Variables that the list element needs to generate itself
         public String nameLabel;
         public String priceLabel;
         public String category;
     }
-
-
     //Private adapter class to adapt the listview to the arraylist
     private class MyAdapter extends ArrayAdapter<ListElement>
     {
-
         int resource;
         Context context;
-
         //Constructor
         public MyAdapter(Context _context, int _resource, List<ListElement> items)
         {
@@ -438,48 +381,23 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             return newView;
         }
     }
-
-
     //----------------------------------------------------------------------------------------
     //This code creates a new item object and adds it to a user's current weeklong budget object
     //----------------------------------------------------------------------------------------
-
-
-    //Global variables for the item price, name, date, and category
-    //Global variables for the item price, name, date, adnd category
-    public String newItemName;
-    public String newItemPrice;
-    public String newItemDate;
-    public String newItemCategory;
-    //public String newDate;
-    SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy");    //This is the format we want our date string to be in
-    SimpleDateFormat slashedDate = new SimpleDateFormat("MM/dd/yyyy");
-
-    //Instantiating the edit text views
-    EditText nameEntry;
-    EditText priceEntry;
-    EditText dateEntry;
-
     //This function executes when the user presses the add button
     public void createNewItem(View v)
     {
-
         //Getting the user input from the edit texts
         if(priceEntry.getText().toString().equals("") || nameEntry.getText().toString().equals(""))
         {
             Utils.toastMessage("Must Input Price and Name", this);
             return;
         }
-
-
-
-
+        //setting up the editext to pass our data into fire base
         newItemPrice = priceEntry.getText().toString();
         newItemName = nameEntry.getText().toString();
         newItemDate = dateEntry.getText().toString();
         newItemDate = newItemDate.replace("/","");
-
-        System.out.println("The user inputted the price as: "+newItemPrice);
 
         //Creating a new Item object and setting the price and name
         Item newItem = new Item(newItemName);
@@ -490,9 +408,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             Utils.toastMessage("Input Valid Price", this);
             return;
         }
-
-        System.out.println("This item costs: "+newItem.getPrice());
-
         //Getting the category from the spinner
         newItemCategory = spinner.getSelectedItem().toString();
         newItem.setCategory(newItemCategory);
@@ -501,13 +416,9 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //Setting the date the object was purchased to the current date
         //newItemDate = sdf.format(new Date());
         newItem.setDate(newItemDate);
-        System.out.println("The current date is:" +newItem.getDate());    //debugging function
-
 
         //Add the item to the correct weeks budget
         addItemToWeek(newItem);
-
-
 
         //This adds the item to the list view
         currentItemsAddedToList.add(new ListElement(newItemName, newItemPrice, newItemCategory));
@@ -515,17 +426,10 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         nameEntry.getText().clear();
         priceEntry.getText().clear();
-
     }
-
-
-
-
-
     //Retrieving the correct weeklong budget object to store the new item in
     public WeekLongBudget getWeek(String date)
     {
-        //DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
         //Decrement the date to be the most recent sunday
 
         try
@@ -536,9 +440,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             e.printStackTrace();
         }
 
-
-        System.out.println("The list is indexed by "+date);
-
         //If the budget week for the current item is null, then we create a new WeekLongbudget
         if(usersBudgets.get(date) == null){
             System.out.println("Creating new week");
@@ -548,15 +449,11 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             return usersBudgets.get(date);        //Return the WeekLongBudget for the date if it isn't null
         }
     }
-
-
-
     //inputs item into right arraylist using the items week. Feature works if for example user
     // wants to add item to past or future
     public void addItemToWeek(Item item)
     {
         String date = item.getDate();                   //Get the date of the item
-        System.out.println("the date is:" +date);
         WeekLongBudget inputWeek = getWeek(date);       //Get the current weeks budget or the budget for the corresponding date
         inputWeek.addItem(item);
 
@@ -571,8 +468,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         }
 
         mFireBaseDatabase.child(userId).setValue(usersBudgets);
-
-
         //checks that you are over budget!
         WeekLongBudget currentWeeksBudget = getWeek(date);
         if(currentWeeksBudget.getTotalAmountSpent() > currentWeeksBudget.getGoalTotal())
@@ -581,8 +476,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         }
     }
-
-
     //ToolBar function to setup res/menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -590,7 +483,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -605,6 +497,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     public void createCat()
     {

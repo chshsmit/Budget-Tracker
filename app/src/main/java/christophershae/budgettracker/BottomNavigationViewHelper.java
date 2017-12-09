@@ -7,17 +7,20 @@ import android.util.Log;
 
 import java.lang.reflect.Field;
 
-//helper class as a workaround to get bottom nav to stop shifting when icon is clicked
-class BottomNavigationViewHelper {
+// Helper class as a workaround to get bottom nav to stop shifting when icon is clicked
+class BottomNavigationViewHelper
+{
 
-    static void removeShiftMode(BottomNavigationView view) {
+    static void removeShiftMode(BottomNavigationView view)
+    {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
         try {
             Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
             shiftingMode.setAccessible(true);
             shiftingMode.setBoolean(menuView, false);
             shiftingMode.setAccessible(false);
-            for (int i = 0; i < menuView.getChildCount(); i++) {
+            for (int i = 0; i < menuView.getChildCount(); i++)
+            {
                 BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
                 item.setShiftingMode(false);
                 // set once again checked value, so view will be updated

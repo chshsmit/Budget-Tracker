@@ -1,19 +1,10 @@
 package christophershae.budgettracker;
 
-import android.graphics.Bitmap;
-
-import com.google.firebase.database.IgnoreExtraProperties;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static christophershae.budgettracker.R.string.finish;
-
-
 public class WeekLongBudget {
-
 
     //---------------------------------------------------------------------------------------------
     // Global Variables
@@ -35,7 +26,8 @@ public class WeekLongBudget {
 
     public WeekLongBudget(){}
 
-    public WeekLongBudget(String date){
+    public WeekLongBudget(String date)
+    {
         this.startDate = date;
         this.totalAmountSpent = 0.00;
         this.totalIncomeAccumulated = 0.00;
@@ -47,8 +39,6 @@ public class WeekLongBudget {
     //---------------------------------------------------------------------------------------------
     //Functions that deal with adding and removing items to the budget
     //---------------------------------------------------------------------------------------------
-
-
     public void addItem(Item item)
     {
         this.allItems.add(item);
@@ -63,7 +53,6 @@ public class WeekLongBudget {
         setNetIncome();
         this.allItems.remove(index);
 
-
         calculateTotal();
     }
 
@@ -72,7 +61,8 @@ public class WeekLongBudget {
     public void calculateTotal()
     {
         this.totalAmountSpent = 0;
-        for(Item eachItem: allItems){
+        for(Item eachItem: allItems)
+        {
             this.totalAmountSpent += eachItem.getPrice();
         }
     }
@@ -90,10 +80,8 @@ public class WeekLongBudget {
 
     public void addMoneyToIncome(double income)
     {
-
         this.totalIncomeAccumulated += Math.round(income * 100.00) / 100.00;
         setNetIncome();
-
     }
 
     public void setNetIncome()
@@ -110,7 +98,8 @@ public class WeekLongBudget {
     //---------------------------------------------------------------------------------------------
     // Getter functions
     //---------------------------------------------------------------------------------------------
-    public Double getNetIncome(){
+    public Double getNetIncome()
+    {
         return Math.round(this.netIncome * 100.00) / 100.00;
     }
 
@@ -145,8 +134,7 @@ public class WeekLongBudget {
         //Loop through all items that have been added to the budget
         for(Item item: allItems){
             if(item == null) break;  //When we reach a null item when can end the loop
-            newPrice = 0.00;
-            if(this.costOfAllCategories.containsKey(item.category))    //If the category aready exists, then add the price to the current price
+            if(this.costOfAllCategories.containsKey(item.category))    //If the category already exists, then add the price to the current price
             {
                 newPrice = Math.round((item.getPrice() + this.costOfAllCategories.get(item.category)) * 100.00) / 100.00;
                 this.costOfAllCategories.put(item.category, newPrice);
@@ -154,7 +142,6 @@ public class WeekLongBudget {
                 this.costOfAllCategories.put(item.category, item.getPrice());   //Else the price for that category is the price of that item
             }
         }
-
         return this.costOfAllCategories;     //Return the hashmap
     }
 

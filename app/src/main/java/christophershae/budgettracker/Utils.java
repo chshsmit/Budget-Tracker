@@ -1,39 +1,27 @@
 package christophershae.budgettracker;
 
 import android.content.Context;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.data.BarEntry;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by chrissmith on 11/16/17.
  */
-
-
 public class Utils {
 
     //---------------------------------------------------------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------------------------------------------------
-    //THIS FILE CONTAINS UTILITY FUNCTIONS THAT WERE USED OFTEN ACROSS MULTIPLE ACITIVTIES
+    // THIS FILE CONTAINS UTILITY FUNCTIONS THAT WERE USED OFTEN ACROSS MULTIPLE ACTIVITIES
     //---------------------------------------------------------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------------------------------------------------
-
-
 
     //---------------------------------------------------------------------------------------------------------------------------------------------
     //Code for instantiation of Firebase
@@ -47,7 +35,8 @@ public class Utils {
 
     public static FirebaseDatabase getDatabase()
     {
-        if (mDataBase == null) {
+        if (mDataBase == null)
+        {
             mDataBase = FirebaseDatabase.getInstance();
             mDataBase.setPersistenceEnabled(true);
         }
@@ -57,7 +46,8 @@ public class Utils {
     //---------------------------------------------------------------------------------------------------------------------------------------------
     //Utility function to make a toast message
     //---------------------------------------------------------------------------------------------------------------------------------------------
-    public static void toastMessage(String message, Context currentActivity){
+    public static void toastMessage(String message, Context currentActivity)
+    {
         Toast.makeText(currentActivity,message,Toast.LENGTH_SHORT).show();
     }
 
@@ -82,7 +72,6 @@ public class Utils {
         mFireBaseDatabase.child(userId).child(newWeekIndex).setValue(newWeek);
 
         return newWeek;
-
     }
 
     //---------------------------------------------------------------------------------------------------------------------------------------------
@@ -110,7 +99,8 @@ public class Utils {
 
         //Depending on what day it is, decrement the date to be the most recent sunday
         //If it is Sunday, then it won't change the date at all
-        switch(day){
+        switch(day)
+        {
             case Calendar.MONDAY:
                 calendar.setTime(date);
                 calendar.add(Calendar.DATE, -1);
@@ -154,8 +144,8 @@ public class Utils {
     }
 
     //This function attains the week previous to the current date (for bar graph)
-    public static Date prevDate(Date date) {
-
+    public static Date prevDate(Date date)
+    {
         // Get an instance of the calendar and get the current day of the week
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -217,6 +207,4 @@ public class Utils {
         String prevWeeksDate = sdf.format(date);
         return prevWeeksDate;
     }
-
-
 }

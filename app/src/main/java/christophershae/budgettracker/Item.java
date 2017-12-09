@@ -6,7 +6,8 @@ import java.io.Serializable;
  * Created by chrissmith on 10/26/17.
  */
 
-public class Item implements Serializable {
+public class Item implements Serializable
+{
 
     //---------------------------------------------------------------------------------------------
     //All of our global variables
@@ -21,7 +22,8 @@ public class Item implements Serializable {
     //These are all of our constructors
     //---------------------------------------------------------------------------------------------
     //Here is our constructed method
-    public Item(String name){
+    public Item(String name)
+    {
         this.name = name;
     }
 
