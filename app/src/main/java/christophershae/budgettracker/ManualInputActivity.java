@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import static android.R.attr.category;
-import static christophershae.budgettracker.R.id.DeleteB;
+//import static christophershae.budgettracker.R.id.DeleteB;
 import static christophershae.budgettracker.R.id.addItemToBudget;
 //import static christophershae.budgettracker.R.id.item;
 import static christophershae.budgettracker.R.id.itemNameView;
@@ -51,6 +52,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
@@ -81,7 +83,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     EditText edit_list;
 
     //ArrayAdapter to fill in spinner
-    ArrayAdapter<CharSequence> adapter;
+    ArrayAdapter<String> adapter;
     List<CharSequence> EditMyList;
     Spinner spinner;
     String get_text;
@@ -91,11 +93,24 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             "Groceries", "Entertainment"};
 
 
+    public ArrayList<String> myCategories = new ArrayList<>();
+
 
     //----------------------------------------------------------------------------------------
     //This code has all the functions that need to be overridden
     //----------------------------------------------------------------------------------------
 
+
+    public void addInitialCategories(){
+        myCategories.add("Rent");
+        myCategories.add("Food");
+        myCategories.add("Gas");
+        myCategories.add("Personal Items");
+        myCategories.add("Household Items");
+        myCategories.add("Groceries");
+        myCategories.add("Entertainment");
+        myCategories.add("Add a Category.....");
+    }
 
 
     @Override
@@ -116,9 +131,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-
-
-
         //Firebase stuff
         firebaseAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = Utils.getDatabase();
@@ -133,6 +145,36 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                 //Clearing the current user budgets
                 usersBudgets.clear();
 
+                GenericTypeIndicator<List<String>> myList = new GenericTypeIndicator<List<String>>() {};
+
+                if(dataSnapshot.child(userId).child("categories").getValue(myList) == null){
+                    System.out.println("Setting Value In Database");
+                    addInitialCategories();
+                    mFireBaseDatabase.child(userId).child("categories").setValue(myCategories);
+                    setUpAdapterForSpinner();
+                }else{
+                    System.out.println("Retrieving info from firebase");
+                    myCategories.clear();
+                    System.out.println(myCategories.isEmpty());
+
+                    myCategories.addAll((ArrayList<String>) dataSnapshot.child(userId).child("categories").getValue(myList));
+                   Set<String> newSet = new HashSet<>();
+                   newSet.addAll(myCategories);
+                   myCategories.clear();
+                   myCategories.addAll(newSet);
+
+
+                    System.out.println(myCategories.size());
+
+
+                    if(adapter == null){
+                        setUpAdapterForSpinner();
+                    }else{
+                        adapter.notifyDataSetChanged();
+                    }
+
+                }
+
                 //Looping through all children within the users node and adding each child
                 //to the users budgets
                 for(DataSnapshot snapshot: dataSnapshot.child(userId).getChildren()){
@@ -143,7 +185,6 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                         System.out.println("This is where the photocount is");
                         continue;
                     }
-
                 }
             }
 
@@ -154,18 +195,18 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         });
 
 
-
-        System.out.println("The current user ID is: " +userId);
-        System.out.println(usersBudgets.isEmpty());
-
-
         //Instantiating the adapter for the listview
-        currentItemsAddedToList = new ArrayList<ListElement>();
-        aa = new MyAdapter(this, R.layout.manually_input_list_element, currentItemsAddedToList);
-        ListView myListView = (ListView) findViewById(R.id.itemsAddedToBudgetAlready);
-        myListView.setAdapter(aa);
-        aa.notifyDataSetChanged();
+        instantiateListView();
 
+        instantiateGlobalButtonsAndViews();
+
+        //define edittext
+        //edit_list = (EditText) findViewById(R.id.text_editlist);
+
+
+    }
+
+    public void instantiateGlobalButtonsAndViews(){
         //Edit texts for the price and name entry
         priceEntry = (EditText) findViewById(R.id.itemPriceEntry);
         nameEntry = (EditText) findViewById(R.id.itemNameEntry);
@@ -176,26 +217,27 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         //create drop down menu to view the categories of expenses
         //Define spinner from xml file
         spinner = (Spinner) findViewById(R.id.Menu_C);
-        //define button from xml file
-        //define button for Finish
+
         Finish =(Button) findViewById(finishAddingItemsToBudget);
         Finish.setOnClickListener(this);
         //delete button
-        deleteCategory = (Button) findViewById(R.id.DeleteB);
-        deleteCategory.setOnClickListener(this);
-        //define edittext
-        //edit_list = (EditText) findViewById(R.id.text_editlist);
+//        deleteCategory = (Button) findViewById(R.id.DeleteB);
+//        deleteCategory.setOnClickListener(this);
+    }
 
+
+    public void setUpAdapterForSpinner()
+    {
         //define list
-        EditMyList = new ArrayList<CharSequence>(Arrays.<CharSequence>asList(Categories_list));
-        adapter =  new ArrayAdapter<CharSequence>(ManualInputActivity.this,R.layout.dropdown_editlist,
-                EditMyList);
+
+        adapter =  new ArrayAdapter<String>(ManualInputActivity.this,R.layout.dropdown_editlist,
+                myCategories);
 
         //specify layout for now basic later on design it better
         adapter.setDropDownViewResource(R.layout.dropdown_editlist);
         //apply the adapter create list to the Spinner(drop down list)
         spinner.setAdapter(adapter);
-        LoadPreferences();
+        //LoadPreferences();
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
@@ -217,85 +259,7 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
             }
         });
-
-    }
-    //save listview data
-    protected void SavePreferences(String key, String value, boolean x) {
-        //
-        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-
-        String s=data.getString(key,""); //to fetch previous stored values
-
-        s=s+"!"+value;   //to add new value to previous one
-        if(!x) {
-            data.edit().putString(key, s).commit();
-        }
-        if(x){
-            data.edit().remove(key).commit();
-        }
-    }
-
-
-    //load listview data
-    protected void LoadPreferences(){
-        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-        String dataSet = data.getString("List","Add a Category....." );
-
-        if(dataSet.contains("!")){ //to check if previous items are there or not
-
-            String rows[]=dataSet.split("!"); //to get individual rows of list
-
-            for(int i=1;i<rows.length;i++){
-                adapter.add(rows[i]);   //to add each value to the list
-                adapter.notifyDataSetChanged();
-            }
-        } else{
-            adapter.add(dataSet);
-            adapter.notifyDataSetChanged();
-        }
-    }
-    //method to add a category
-    public void addCategory(String cat){
-
-        if(cat.equals("Add a Category....."))
-        {
-            return;
-        }
-
-        //check if input is empty or contains strings
-        if(!cat.isEmpty() && cat.length() > 0)
-        {
-           adapter.add(cat);
-           //refresh data
-           adapter.notifyDataSetChanged();
-//           edit_list.setText("");
-           SavePreferences("List", cat, false);
-        }
-        else
-        {
-            Utils.toastMessage("No Category To Add", this);
-        }
-    }
-    //method to delete
-    public void delete(int pos, String deleteVal )
-    {
-        //cat = edit_list.getText().toString();
-
-        //get the postion selected
-        //pos = spinner.getSelectedItemPosition();
-        //user has selected a category if >-1
-        if(pos > -1)
-        {
-            adapter.remove(EditMyList.get(pos));
-            Utils.toastMessage("Category Deleted", this);
-            adapter.notifyDataSetChanged();
-  //          edit_list.setText("");
-            SavePreferences("List", deleteVal, true);
-        }
-        else
-        {
-            Utils.toastMessage("Nothing to Delete", this);
-        }
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -310,44 +274,73 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
      //           load();
                 finish();
                 break;
-            case DeleteB:
-
-                /*ArrayList<String> itemNames = new ArrayList<>();
-                for(String item: EditMyList){
-                    itemNames.add(item);
-                }*/
-
-                final AlertDialog.Builder deleteAlert = new AlertDialog.Builder(this);
-                deleteAlert.setTitle("Select an Category to delete:");
-                deleteAlert.setSingleChoiceItems(EditMyList.toArray(new CharSequence[EditMyList.size()]),0, null);
-                deleteAlert.setPositiveButton("Delete",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1)
-                            {
-
-                                int deletedCat = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
-                                //insert delete code
-                                String deleteCat = String.valueOf(deletedCat);
-                                delete(deletedCat, deleteCat);
-                            }
-                        });
-
-                deleteAlert.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1)
-                    {
-                    }
-                });
-
-                AlertDialog deleteAlertDiag = deleteAlert.create();
-                deleteAlertDiag.show();
-
-
-
-
-
-                 break;
+//            case DeleteB:
+//                /*ArrayList<String> itemNames = new ArrayList<>();
+//                for(String item: EditMyList){
+//                    itemNames.add(item);
+//                }*/
+//
+//                Set<String> newSet = new HashSet<>();
+//                newSet.addAll(myCategories);
+//                myCategories.clear();
+//                myCategories.addAll(newSet);
+//
+//                CharSequence[] myCategoriesChars = myCategories.toArray(new CharSequence[myCategories.size()]);
+//                EditMyList = new ArrayList<CharSequence>(Arrays.<CharSequence>asList(myCategoriesChars));
+//
+//
+//
+//
+//                Set<CharSequence> mySet = new HashSet<>();
+//                mySet.addAll(EditMyList);
+//                EditMyList.clear();
+//                EditMyList.addAll(mySet);
+//
+//                final AlertDialog.Builder deleteAlert = new AlertDialog.Builder(this);
+//                deleteAlert.setTitle("Select an Category to delete:");
+//                deleteAlert.setSingleChoiceItems(EditMyList.toArray(new CharSequence[EditMyList.size()]),0, null);
+//                deleteAlert.setPositiveButton("Delete",
+//                        new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface arg0, int arg1)
+//                            {
+//
+//                                int deletedCat = ((AlertDialog)arg0).getListView().getCheckedItemPosition();
+//
+//                                if(myCategories.get(deletedCat).equals("Add a Category.....")){
+//                                    Utils.toastMessage("Can't Delete This Category", ManualInputActivity.this);
+//                                    return;
+//                                }
+//
+//                                //insert delete code
+//                                String deleteCat = String.valueOf(deletedCat);
+//                                System.out.println(deleteCat);
+//                                System.out.println(myCategories.get(deletedCat));
+//                                myCategories.removeAll(Collections.singleton(myCategories.get(deletedCat)));
+//
+//                                System.out.println("this is everything in my categories");
+//                                for(String key:myCategories){
+//                                    System.out.println(key);
+//                                }
+//
+//                                adapter.notifyDataSetChanged();
+//
+//                                mFireBaseDatabase.child(userId).child("categories").setValue(myCategories);
+//                                //delete(deletedCat, deleteCat);
+//                            }
+//                        });
+//
+//                deleteAlert.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface arg0, int arg1)
+//                    {
+//                    }
+//                });
+//
+//                AlertDialog deleteAlertDiag = deleteAlert.create();
+//                deleteAlertDiag.show();
+//
+//                 break;
         }
 
     }
@@ -360,6 +353,16 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
     //Instantiating the list and its adapter
     ArrayList<ListElement> currentItemsAddedToList;
     private MyAdapter aa;
+
+
+    public void instantiateListView()
+    {
+        currentItemsAddedToList = new ArrayList<ListElement>();
+        aa = new MyAdapter(this, R.layout.manually_input_list_element, currentItemsAddedToList);
+        ListView myListView = (ListView) findViewById(R.id.itemsAddedToBudgetAlready);
+        myListView.setAdapter(aa);
+        aa.notifyDataSetChanged();
+    }
 
     //Creating a class for a single list element
     private class ListElement
@@ -495,6 +498,12 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
 
         //Getting the category from the spinner
         newItemCategory = spinner.getSelectedItem().toString();
+
+        if(newItemCategory.equals("Add a Category.....")){
+            Utils.toastMessage("Please Choose a Valid Category", ManualInputActivity.this);
+            return;
+        }
+
         newItem.setCategory(newItemCategory);
         System.out.println(newItemCategory);   //debugging function
 
@@ -516,6 +525,12 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
         nameEntry.getText().clear();
         priceEntry.getText().clear();
 
+        System.out.println("All my categories");
+        for(String key: myCategories){
+            System.out.println(key);
+        }
+
+        mFireBaseDatabase.child(userId).child("categories").setValue(myCategories);
     }
 
 
@@ -620,7 +635,12 @@ public class ManualInputActivity extends AppCompatActivity implements View.OnCli
                     public void onClick(DialogInterface arg0, int arg1)
                     {
                         String newCat = incomeInput.getText().toString();
-                        addCategory(newCat);
+                        myCategories.add(newCat);
+                        adapter.notifyDataSetChanged();
+
+                        mFireBaseDatabase.child(userId).child("categories").setValue(myCategories);
+                        System.out.println("created New");
+                        //addCategory(newCat);
                     }
                 });
 
