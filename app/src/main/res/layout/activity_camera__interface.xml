@@ -19,19 +19,19 @@
     <Gallery
         android:id="@+id/gallery1"
         android:layout_width="fill_parent"
-        android:layout_height="170dp"
+        android:layout_height="80dp"
+        android:layout_above="@+id/Photo_B"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/toolbar"
-        android:layout_marginTop="11dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:id="@+id/imageview"
         android:layout_width="350dp"
-        android:layout_height="250dp"
-        android:layout_alignBottom="@+id/Photo_B"
+        android:layout_height="380dp"
+        android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="26dp"
         android:visibility="invisible" />
 
 
@@ -43,9 +43,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/imageview"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginRight="13dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginRight="11dp"
         android:src="@android:drawable/ic_menu_camera"
         app:fabSize="normal" />
 
