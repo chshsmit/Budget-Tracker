@@ -4,9 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/light_wood_desk"
     tools:context="christophershae.budgettracker.ManualInputActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        app:title="Budget-Tracker"
+        android:background="?attr/colorPrimary">
+    </android.support.v7.widget.Toolbar>
 
     <EditText
 
@@ -14,30 +22,29 @@
         style="@android:style/Widget.Holo.Light.EditText"
         android:layout_width="193dp"
         android:layout_height="45dp"
-
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="92dp"
         android:ems="10"
         android:hint="Item Name"
-        android:inputType="textPersonName"
-
+        android:imeOptions="actionNext"
+        android:inputType="textCapSentences|textAutoCorrect"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
         android:id="@+id/addItemToBudget"
+        style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginLeft="72dp"
+        android:layout_marginLeft="44dp"
         android:layout_marginTop="8dp"
         android:onClick="createNewItem"
-        android:text="@string/add"
+        android:text="Add Item"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/finishAddingItemsToBudget"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemsAddedToBudgetAlready"
         app:layout_constraintVertical_bias="0.0" />
@@ -47,112 +54,72 @@
         android:id="@+id/itemPriceEntry"
         android:layout_width="83dp"
         android:layout_height="45dp"
-
-
-
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
-
-
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-
         android:hint="@string/zero_dollars"
-        android:inputType="textPersonName"
-
+        android:inputType="numberDecimal|textAutoComplete"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/text_editlist"
+        app:layout_constraintBottom_toBottomOf="@+id/itemNameEntry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/itemNameEntry"
-        app:layout_constraintTop_toTopOf="@+id/itemNameEntry" />
+        app:layout_constraintTop_toTopOf="@+id/itemNameEntry"
+        app:layout_constraintVertical_bias="1.0" />
 
 
     <Spinner
         android:id="@+id/Menu_C"
-        android:layout_width="321dp"
+        android:layout_width="222dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="100dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:dropDownWidth="match_parent"
         android:prompt="@string/titleSpinner"
         android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_editlist" />
-
-    <Button
-        android:id="@+id/Edit_List"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="106dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/Edit_List"
-        app:layout_constraintBottom_toTopOf="@+id/Menu_C"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_editlist"
-        app:layout_constraintTop_toBottomOf="@+id/itemPriceEntry"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/text_editlist"
-        style="@android:style/Widget.Holo.Light.EditText"
-        android:layout_width="182dp"
-        android:layout_height="43dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Create Category"
-        android:inputType="textPersonName"
-
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemNameEntry" />
+        app:layout_constraintTop_toBottomOf="@+id/setDate" />
 
     <ListView
         android:id="@+id/itemsAddedToBudgetAlready"
         android:layout_width="291dp"
-        android:layout_height="173dp"
+        android:layout_height="205dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Menu_C" />
 
     <Button
         android:id="@+id/DeleteB"
-        android:layout_width="106dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/DeteB"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="102dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="8dp"
+        android:text="Delete Category"
         app:layout_constraintBottom_toTopOf="@+id/itemsAddedToBudgetAlready"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
-        app:layout_constraintStart_toEndOf="@+id/setDate"
-        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="@string/DeteB" />
+        app:layout_constraintStart_toEndOf="@+id/Menu_C"
+        tools:text="Delete Category" />
 
     <Button
         android:id="@+id/finishAddingItemsToBudget"
+        style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="72dp"
+        android:layout_marginEnd="44dp"
         android:layout_marginTop="8dp"
         android:onClick="Finish"
         android:text="@string/finish"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemsAddedToBudgetAlready"
@@ -163,18 +130,65 @@
         style="@android:style/Widget.Holo.Light.EditText"
         android:layout_width="182dp"
         android:layout_height="44dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="24dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="date"
         android:text="@string/set_date"
-        app:layout_constraintBottom_toTopOf="@+id/itemsAddedToBudgetAlready"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/itemNameEntry"
+        app:layout_constraintTop_toBottomOf="@+id/itemNameEntry"
         tools:text="@string/set_date" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="88dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Item Information"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/itemNameEntry"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/itemNameEntry"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:text="Item Information" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/itemsAddedToBudgetAlready"
+        app:layout_constraintTop_toBottomOf="@+id/Menu_C"
+        android:text="Recently Added" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="112dp"
+        android:text="Choose from Category List"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/Menu_C"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        tools:text="Choose from Category List" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="39dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="12dp"
+        android:text="$"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/itemNameEntry"
+        app:layout_constraintTop_toTopOf="@+id/itemPriceEntry" />
 
 
 </android.support.constraint.ConstraintLayout>

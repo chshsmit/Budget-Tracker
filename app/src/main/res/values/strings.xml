@@ -1,10 +1,10 @@
 <resources>
-<!--Dummy String for dummy button only for simple navigation purposes erase when we have login-->
+    <!--Dummy String for dummy button only for simple navigation purposes erase when we have login-->
     <string name="Enter">Enter</string>
-<!-- Strings related to camera activity-->
+    <!-- Strings related to camera activity-->
     <string name="app_name">Budget Tracker</string>
 
-    <string name ="set_date">Enter date MM/DD/YYYY</string>
+    <string name="set_date">Enter date MM/DD/YYYY</string>
     <string name="Edit_button">Edit/Crop</string>
     <string name="Take_Photo">Photo</string>
 
@@ -13,16 +13,21 @@
     <string name="finish">Finish</string>
 
 
-
     <string name="zero">0.00</string>
 
     <string name="zero_dollars">0.00</string>
 
+    <!-- Strings related to bottom navigation activity-->
     <string name="plus_sign">+</string>
     <string name="settings">Settings</string>
     <string name="picture">Scan</string>
+    <string name="recent_purchases">Recent Purchases</string>
+    <string name="budget_details">Budget Details</string>
+
 
     <string name="DeteB">Delete</string>
+
+    <string name="delete_item">Delete Item</string>
 
     <!-- <string name="app_name">main screen + settings</string> -->
 
@@ -32,6 +37,7 @@
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="new_account">Create New Account</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -40,7 +46,8 @@
         completions."
     </string>
     <string name="title_activity_settings">Settings</string>
-    <string name ="Edit_List">Edit</string>
+    <string name="Edit_List">Edit</string>
+    <string name="forgot_password">Forgot Password?</string>
 
     <!-- Strings related to Settings -->
 

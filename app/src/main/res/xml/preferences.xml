@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Current Week Information" >
+    <Preference
+        android:key="totalSpent"
+        android:persistent="false"
+        android:selectable="false"
+        android:title="@string/app_name" />
+
+    <Preference
+        android:key="goalBudget"
+        android:persistent="false"
+        android:selectable="false"
+        android:title="@string/app_name" />
+
+    <Preference
+        android:key="income"
+        android:persistent="false"
+        android:selectable="false"
+        android:title="@string/app_name" />
+        <Preference
+            android:id="@+id/Preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:key="netIncome"
+            android:persistent="false"
+            android:selectable="false"
+            android:title="@string/app_name" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Settings" >
+        <Preference
+            android:title="Set Current Goal Budget"
+            android:summary="Change the Goal Budget for Current Week"
+            android:key="changeGoal"/>
+
+        <Preference
+            android:title="Set Current Income"
+            android:summary="Add or Reduce Income from Current Week"
+            android:key="changeIncome"/>
+
+        <Preference
+            android:title="Delete Item"
+            android:summary="Select an Item to Delete from Current Week"
+            android:key="deleteItem"/>
+
+        <Preference
+            android:title="Sign Out"
+            android:key="signout"/>
+
+        <Preference
+            android:title="About"
+            android:key="about"/>
+    </PreferenceCategory>
+</PreferenceScreen>
